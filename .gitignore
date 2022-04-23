@@ -1,0 +1,7 @@
+**/api/venv
+**/api/.venv
+
+.vscode
+vscode
+/vscode
+/.vscode
