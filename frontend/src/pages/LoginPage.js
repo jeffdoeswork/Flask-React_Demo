@@ -13,7 +13,7 @@ const LoginPage = () => {
         email,
         password,
       });
-      fetch(url, {
+      fetch(resp, {
         credentials: 'include'
         })
       window.location.href = "/test";
