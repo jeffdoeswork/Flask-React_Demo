@@ -2,38 +2,32 @@ import React, {useState} from 'react'
 import httpClient from '../httpClient';
 
 
-const LoginPage = () => {
+const RegisterPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("")
 
-  const logInUser = async () => {
+  const registerUser = async () => {
     console.log(email, password)
 
     try {
-      const resp = await httpClient.post(`http://127.0.0.1:5000/login`, {
+      const resp = await httpClient.post(`http://127.0.0.1:5000/register`, {
         email,
         password,
-      }, {withCredentials: true})
-      .then((response) => {
-        if (response.data.accessToken) {
-          localStorage.setItem("user", JSON.stringify(response.data));
-        }
-        return response.data;
       });
-      fetch(resp, {
-        credentials: 'include'
-        });
-      window.location.href = "/test";
+      
+      window.location.href = "/login";
     } catch (error) {
      if (error.response.status === 400) {
-      alert("Invalid credentials");
+      alert("Maybe this email is already in use?");
+      setMessage("Maybe this email is already in use?");
     }
   }
   };
 
   return (
     <div>
-      <h1>Login to Your Account</h1>
+      <h1>Register</h1>
       <form>
         <div>
           <lable>Email:</lable>
@@ -51,10 +45,11 @@ const LoginPage = () => {
             onChange={(e) => setPassword(e.target.value)} 
             id="" />
         </div>
-        <button type="button" onClick={() => logInUser()}>Submit</button>
+        <button type="button" onClick={() => registerUser()}>Submit</button>
       </form>
+      { message }
     </div>
   )
 }
 
-export default LoginPage;
+export default RegisterPage;
