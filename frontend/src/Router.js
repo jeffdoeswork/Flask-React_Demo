@@ -1,6 +1,5 @@
 import React from 'react'
-import { Route } from 'react-router-dom';
-import { BrowserRouter, Routes } from "react-router-dom"
+import { BrowserRouter, Routes, Route } from "react-router-dom"
 import LandingPage from './pages/LandingPage';
 import NotFound from './pages/NotFound';
 import LoginPage from './pages/LoginPage';

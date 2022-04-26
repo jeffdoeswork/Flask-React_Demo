@@ -1,53 +1,65 @@
-import React, {useState} from 'react'
-import httpClient from '../httpClient';
+import { useState } from 'react';
+
 
 const LoginPage = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const logInUser = async () => {
-    console.log(email, password)
-
-    try {
-      const resp = await httpClient.post(`http://127.0.0.1:5000/login`, {
-        email,
-        password,
-      });
-      fetch(resp, {
-        credentials: 'include'
+    const [email, setemail] = useState('')
+    const [password, setPassword] = useState('')
+  
+    const onSubmitClick = (e)=>{
+      e.preventDefault()
+      console.log("You pressed login")
+      let opts = {
+        'email': email,
+        'password': password
+      }
+      console.log(opts)
+      fetch('http://127.0.0.1:5000/login', {
+        method: 'post',
+        body: JSON.stringify(opts)
+      }).then(r => r.json())
+        .then(token => {
+          if (token.access_token){
+            console.log(token)          
+          }
+          else {
+            console.log("Please type in correct email/password")
+          }
         })
-      window.location.href = "/test";
-    } catch (error) {
-     if (error.response.status === 401) {
-      alert("Invalid credentials");
     }
-  }
+  
+    const handleemailChange = (e) => {
+      setemail(e.target.value)
+    }
+  
+    const handlePasswordChange = (e) => {
+      setPassword(e.target.value)
+    }
+  
+    return (
+      <div>
+        <h2>Login</h2>
+        <form action="#">
+          <div>
+            <input type="text" 
+              placeholder="email" 
+              onChange={handleemailChange}
+              value={email} 
+            />
+          </div>
+          <div>
+            <input
+              type="password"
+              placeholder="Password"
+              onChange={handlePasswordChange}
+              value={password}
+            />
+          </div>
+          <button onClick={onSubmitClick} type="submit">
+            Login Now
+          </button>
+        </form>
+      </div>
+    )
   };
-
-  return (
-    <div>
-      <h1>Login to Your Account</h1>
-      <form>
-        <div>
-          <lable>Email:</lable>
-          <input 
-            type="text" 
-            value={email} 
-            onChange={(e) => setEmail(e.target.value)} 
-            id="" />
-        </div>
-        <div>
-          <lable>Password:</lable>
-          <input 
-            type="password" 
-            value={password} 
-            onChange={(e) => setPassword(e.target.value)} 
-            id="" />
-        </div>
-        <button type="button" onClick={() => logInUser()}>Submit</button>
-      </form>
-    </div>
-  )
-}
 
 export default LoginPage;
