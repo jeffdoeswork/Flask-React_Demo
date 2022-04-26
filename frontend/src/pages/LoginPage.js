@@ -15,15 +15,15 @@ const LoginPage = () => {
         password,
       }, {withCredentials: true})
       .then((response) => {
-        if (response.data.username) {
+        if (response.data.accessToken) {
           localStorage.setItem("user", JSON.stringify(response.data));
         }
         return response.data;
       });
       fetch(resp, {
         credentials: 'include'
-        })
-      //window.location.href = "/test";
+        });
+      window.location.href = "/test";
     } catch (error) {
      if (error.response.status === 401) {
       alert("Invalid credentials");

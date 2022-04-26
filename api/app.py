@@ -31,9 +31,9 @@ db.init_app(app)
 # If true this will only allow the cookies that contain your JWTs to be sent
 # over https. In production, this should always be set to True
 app.config['JWT_TOKEN_LOCATION'] = ["headers", "cookies"]
-app.config['JWT_COOKIE_CSRF_PROTECT'] = False
-app.config['JWT_COOKIE_SECURE'] = False
-app.config['JWT_CSRF_CHECK_FORM'] = False
+app.config['JWT_COOKIE_CSRF_PROTECT'] = True
+app.config['JWT_COOKIE_SECURE'] = True
+app.config['JWT_CSRF_CHECK_FORM'] = True
 app.config['JWT_SECRET_KEY'] = "change this"
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
 #app.config['JWT_COOKIE_DOMAIN'] = ["localhost"]
@@ -54,7 +54,7 @@ def refresh_expiring_jwts(response):
         now = datetime.now(timezone.utc)
         target_timestamp = datetime.timestamp(now + timedelta(minutes=1))
 
-        response.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')
+        response.headers.add('Access-Control-Allow-Origin', 'http://127.0.0.1:4000')
         response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
         response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
         response.headers.add('Access-Control-Allow-Credentials', 'true')
@@ -158,5 +158,5 @@ def test():
 
 
 if __name__ == '__main__':
-    #app.run()
-    app.run(host="localhost", debug=True)
+    app.run(debug=True)
+    #app.run(host="localhost", debug=True)
