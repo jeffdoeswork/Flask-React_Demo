@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 #import bcrypt
 from flask_bcrypt import Bcrypt
-from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity, set_access_cookies, unset_jwt_cookies, get_jwt
+from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity, set_access_cookies, unset_jwt_cookies, get_jwt, create_refresh_token, set_refresh_cookies
 # Expetions for sqlaclemy
 from sqlalchemy.exc import IntegrityError
 #from flask_jwt_extended import get_jwt
@@ -15,12 +15,12 @@ from db import db
 app = Flask(__name__)
 # SQLAlchemy config. Read more: https://flask-sqlalchemy.palletsprojects.com/en/2.x/
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:catdog123@localhost:5433/postgres'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:catdog123@localhost:5432/postgres'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:catdog123@localhost:5432/postgres'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:gelaw01@localhost/postgres'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 #CORS(app, withCredentials = True)
 app.config["CORS_SUPPORTS_CREDENTIALS"]=True
-CORS(app)
 
 
 flask_bcrypt = Bcrypt(app)
@@ -30,16 +30,24 @@ db.init_app(app)
 
 # If true this will only allow the cookies that contain your JWTs to be sent
 # over https. In production, this should always be set to True
-#app.config["JWT_COOKIE_SECURE"] = False
-#app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
-app.config["JWT_SECRET_KEY"] = "super-secret"  # Change this in your code!
-#app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
+app.config['JWT_TOKEN_LOCATION'] = ["headers", "cookies"]
+app.config['JWT_COOKIE_CSRF_PROTECT'] = False
+app.config['JWT_COOKIE_SECURE'] = False
+app.config['JWT_CSRF_CHECK_FORM'] = False
+app.config['JWT_SECRET_KEY'] = "change this"
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
+#app.config['JWT_COOKIE_DOMAIN'] = ["localhost"]
+#app.config["JWT_COOKIE_SAMESITE"] = ["None"]
+#app.config['JWT_COOKIE_DOMAIN'] = ["localhost:5000"]
+
+
+CORS(app, supports_credentials=True)
 jwt = JWTManager(app)
 
 with app.app_context():
     db.create_all()
 
-'''@app.after_request
+@app.after_request
 def refresh_expiring_jwts(response):
     try:
         exp_timestamp = get_jwt()["exp"]
@@ -57,7 +65,7 @@ def refresh_expiring_jwts(response):
         return response
     except (RuntimeError, KeyError):
         # Case where there is not a valid JWT. Just return the original respone
-        return response'''
+        return response
 
 @app.route("/")
 def home():
@@ -110,10 +118,17 @@ def login():
         if flask_bcrypt.check_password_hash(user.hash, password):
         #if bcrypt.check_password_hash(password, user.hash):
             response = jsonify({"msg": "login successful"})
-            access_token = create_access_token(identity={"email": email})
+            #access_token = create_access_token(identity={"email": email})
             #set_access_cookies(response, access_token)
-            return {"access_token": access_token}, 200
+            #return {"access_token": access_token}, 200
             #return response
+
+            access_token = create_access_token(identity={"email": email})
+            refresh_token = create_refresh_token(identity={"email": email})
+
+            set_access_cookies(response, access_token)
+            set_refresh_cookies(response, refresh_token)
+            return response
         else:
             return 'Invalid Login Info!', 400
     except AttributeError:
@@ -143,4 +158,5 @@ def test():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    #app.run()
+    app.run(host="localhost", debug=True)
