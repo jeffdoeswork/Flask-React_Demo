@@ -15,7 +15,7 @@ const RegisterPage = () => {
         email,
         password,
       });
-      
+      setMessage("User is Made! Go to the Login page");
       window.location.href = "/login";
     } catch (error) {
      if (error.response.status === 400) {

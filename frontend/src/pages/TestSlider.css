@@ -1,0 +1,65 @@
+
+
+.slider_border {
+  margin: auto;
+  text-align: center;
+  background-color: none;
+  color: #0c30fa;
+  padding: 25px 0;
+  height: 130px;
+  width: 500px;
+  border: 3px solid #0c30fa;
+  border-radius: 20px;
+  font-size: 1.25em;
+}
+
+.slider_section {
+  margin: auto;
+  padding: 10px;
+  width: 600px;
+  height: 160px;
+}
+
+.borrow_button {
+  padding: 4px;
+}
+
+.btnStyle_padding {
+  padding: 4px;
+}
+
+.btnSelected:hover {
+  background-color: #e6d814;
+  cursor: pointer;
+}
+
+.btnSelected {
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: block;
+  float: center;
+  border: 2px solid #0c30fa;
+  color: #0c30fa;
+  text-align: center;
+  margin-right: 4px;
+  background-color: #f8e91c;
+  }
+
+.btnNormal {
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: block;
+  float: center;
+  border: 2px solid #0c30fa;
+  color: #0c30fa;
+  text-align: center;
+  margin-right: 4px;
+  background-color: #b1bcf8;
+}
+
+.btnNormal:hover {
+  background-color: #5d74f7;
+  cursor: pointer;
+}

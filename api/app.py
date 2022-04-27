@@ -89,8 +89,9 @@ def register():
         db.session.add(user)
         db.session.commit()
 
-        access_token = create_access_token(identity={"email": email})
-        return {"access_token": access_token}, 200
+        #access_token = create_access_token(identity={"email": email})
+        #return {"access_token": access_token}, 200
+        return "Thanks for making an account", 200
     except IntegrityError:
         # the rollback func reverts the changes made to the db ( so if an error happens after we commited changes they will be reverted )
         db.session.rollback()
