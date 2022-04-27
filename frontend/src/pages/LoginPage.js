@@ -26,7 +26,9 @@ const LoginPage = () => {
       window.location.href = "/test";
     } catch (error) {
      if (error.response.status === 400) {
-      alert("Invalid credentials");
+      alert("Invalid credentials, might be a bad password");
+    } else {
+      alert("Invalid credentials, probably not the right email");
     }
   }
   };

@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import "antd/dist/antd.css";
 import { Menu } from 'antd';
 import {
@@ -14,8 +14,25 @@ import {
   MenuFoldOutlined
 } from '@ant-design/icons';
 import Router from './Router';
+import Test from './pages/Test';
+import axios from 'axios';
 
 export default function App() {
+
+  const [email, setEmail] = useState({
+    email : ""
+  });
+
+  const getUser = async () => {
+    const data = await axios.get(`http://127.0.0.1:5000/test`, { withCredentials: true })
+    console.log(data);
+    setEmail(data.data);
+  }
+  
+  useEffect(() => {
+    getUser(); 
+  }, [])
+
   return (
     <div>
           <div style={{
@@ -37,10 +54,11 @@ export default function App() {
           <Menu.Item key="3" icon={<LoginOutlined />}>
             <a href="http://127.0.0.1:4000/login"> Login</a>
           </Menu.Item>
+          { email.email ?
           <Menu.Item key="2" icon={<VideoCameraOutlined />}>
-            <a href="http://127.0.0.1:4000/test">Test</a>
+            <a href="http://127.0.0.1:4000/test">{ email.email }</a>
           </Menu.Item>
-          
+          : <></>}
       </Menu>
     </div>
 

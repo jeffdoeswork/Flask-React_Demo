@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react'
 import ReactDOM from "react-dom";
 import 'antd/dist/antd.css';
-
 import { Button, Carousel } from "antd";
-
 import { Link } from 'react-router-dom';
 import httpClient from '../httpClient';
 import "./TestSlider.css"
-//import Carousel from "react-elastic-carousel";
+import axios from 'axios';
+
+
+
 
 function onChange(a, b, c) {
   console.log(a, b, c);
@@ -41,6 +42,21 @@ const contentStyle = {
 };
 
 const TestSlider = () => {
+
+  const [email, setEmail] = useState({
+    email : ""
+  });
+  
+  const getUser = async () => {
+    const data = await axios.get(`http://127.0.0.1:5000/test`, { withCredentials: true })
+    console.log(data);
+    setEmail(data.data);
+  }
+  
+  useEffect(() => {
+    getUser(); 
+  }, [])
+
   const ref = useRef();
 
   const goTo = (slide) => {
@@ -48,6 +64,10 @@ const TestSlider = () => {
   };
 
   const [stylechange, setStylechange] = useState("");
+
+  if (email.email) {
+
+
 
 
   
@@ -85,6 +105,8 @@ const TestSlider = () => {
   })}
   </div>
 </div>
-  );
+  );} else {
+    return ( <h2>Register and Login with an account to use the Method Maker</h2>)
+  }
 };
 export default TestSlider;
