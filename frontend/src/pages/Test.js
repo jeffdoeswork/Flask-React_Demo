@@ -1,8 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
-import httpClient from '../httpClient';
-import authHeader from '../auth-header';
-
 
 const Test = () => {
 
