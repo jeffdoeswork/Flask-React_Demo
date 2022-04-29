@@ -14,6 +14,7 @@ function onChange(a, b, c) {
   console.log(a, b, c);
 }
 
+
 const testCarousel = [
   {
     id: 1,
@@ -42,7 +43,13 @@ const contentStyle = {
 };
 
 const TestSlider = () => {
-
+  const [dataList, setDataList] = useState([]);
+  const [dataId, setDataId] = useState(null);
+  const fetchData = async () => {
+    const data = await axios.get(`http://127.0.0.1:5000/datas`)
+    const { datas } = data.data
+    setDataList(datas);
+  }
   const [email, setEmail] = useState({
     email : ""
   });
@@ -55,6 +62,10 @@ const TestSlider = () => {
   
   useEffect(() => {
     getUser(); 
+  }, [])
+
+  useEffect(() => {
+    fetchData(); 
   }, [])
 
   const ref = useRef();
@@ -75,11 +86,11 @@ const TestSlider = () => {
   <div>
       <div>
           <Carousel ref={ref} afterChange={onChange} dots={false} slidesToShow={1}>
-              {testCarousel.map(image => {
+              {dataList.map(image => {
                   return (
                       <div className="slider_section">
                           <div className="slider_border">
-                              <h3 key={image.id}>{image.uri}</h3>
+                              <h3 key={image.id}>{image.datas}</h3>
                               <Button type="primary" onClick={() => setStylechange(image.id)}> Borrow Artifact </Button>
 
                           </div>
@@ -95,10 +106,10 @@ const TestSlider = () => {
       alignItems: "center"
     }}
   >
-  {testCarousel.map(image => {
+  {dataList.map(image => {
       return (
           <div>
-              <p className={`btnSelected ${image.id === stylechange ? "classname" : "btnNormal"}`} key={image.id} onClick={() => goTo(image.id -1 )}> {image.id}</p>
+              <p className={`btnSelected ${image.id == stylechange ? "classname" : "btnNormal"}`} key={image.id -1} onClick={() => goTo(image.id -2 )}> {image.id -1}</p>
           </div>
           
       )
