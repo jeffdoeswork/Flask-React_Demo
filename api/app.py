@@ -9,14 +9,14 @@ from datetime import datetime, timedelta, timezone
 from flask_cors import CORS, cross_origin
 #from flask_session import Session
 
-from models import User
+from models import User, Datas, format_json
 from db import db
 
 app = Flask(__name__)
 # SQLAlchemy config. Read more: https://flask-sqlalchemy.palletsprojects.com/en/2.x/
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:catdog123@localhost:5433/postgres'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:catdog123@localhost:5433/2postgres'
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:catdog123@localhost:5432/postgres'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:gelaw01@localhost/postgres'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:gelaw01@localhost/postgres'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 #CORS(app, withCredentials = True)
@@ -46,6 +46,71 @@ jwt = JWTManager(app)
 
 with app.app_context():
     db.create_all()
+
+@app.route('/datas', methods=['POST'])
+def make_datas():
+    email = request.json.get('email', None)
+    body = request.json.get('body', None)
+
+    datas = Datas(datas=body, email_datas=email)
+    db.session.add(datas)
+    db.session.commit()
+
+    #access_token = create_access_token(identity={"email": email})
+    #return {"access_token": access_token}, 200
+    return "You've created a Data", 200
+
+
+#create and datas
+#@app.route("/datass", methods=['POST'])
+#def create_datas():
+#    description = request.json['description']
+#    datas = datas(description)
+#    db.session.add(datas)
+#    db.session.commit()
+#    return format_datas(datas)
+
+#get all datass
+@app.route("/datas", methods=["GET"])
+def get_datas():
+    datas = Datas.query.order_by(Datas.created_at.asc()).all()
+    datas_list = []
+    for data in datas:
+        datas_list.append(format_json(data))
+    return {'datas': datas_list}
+
+#get stingle datas
+@app.route("/datas/<id>", methods=["GET"])
+def get_data(id):
+    data = Datas.query.filter_by(id=id).one()
+    formated_data = format_json(data)
+    return {'data' : formated_data}
+
+#delete and event
+#@app.route("/events/<id>", methods=["DELETE"])
+#def delete_event(id):
+#    event = Event.query.filter_by(id=id).one()
+#    db.session.delete(event)
+#    db.session.commit()
+#    return f'Event (id: {id} deleted!'
+
+#edit an event
+#@app.route("/events/<id>", methods=["PUT"])
+#def update_event(id):
+#    event = Event.query.filter_by(id=id)
+#    description = request.json['description']
+#    event.update(dict(description = description, created_at = datetime.utcnow()))
+#    db.session.commit()
+#    return {'event' : format_event(event.one())}
+
+
+
+
+
+
+
+
+
 
 @app.after_request
 def refresh_expiring_jwts(response):

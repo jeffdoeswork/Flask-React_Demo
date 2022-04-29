@@ -7,32 +7,9 @@ import httpClient from '../httpClient';
 import "./TestSlider.css"
 import axios from 'axios';
 
-
-
-
 function onChange(a, b, c) {
   console.log(a, b, c);
 }
-
-
-const testCarousel = [
-  {
-    id: 1,
-    uri: "Post #1"
-  },
-  {
-    id: 2,
-    uri: "Second post 2"
-  },
-  {
-    id: 3,
-    uri: "Third 3"
-  },
-  {
-    id: 4,
-    uri: "last 4"
-  }
-];
 
 const contentStyle = {
   height: '160px',
@@ -43,6 +20,7 @@ const contentStyle = {
 };
 
 const TestSlider = () => {
+  const [body, setBody] = useState("");
   const [dataList, setDataList] = useState([]);
   const [dataId, setDataId] = useState(null);
   const fetchData = async () => {
@@ -59,7 +37,11 @@ const TestSlider = () => {
     console.log(data);
     setEmail(data.data);
   }
-  
+  const handleChange = (e, field) => {
+    setBody(e.target.value);
+  }
+
+
   useEffect(() => {
     getUser(); 
   }, [])
@@ -76,6 +58,19 @@ const TestSlider = () => {
 
   const [stylechange, setStylechange] = useState("");
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const body_email = Object.entries(email)
+    try {
+      const data = await axios.post(`http://127.0.0.1:5000/datas`, {body, body_email})
+      setDataList([...dataList, data.data]);
+      setBody('');
+      fetchData();
+  } catch (err) {
+    console.error(err.message); 
+    }
+  }
+
   if (email.email) {
 
 
@@ -84,6 +79,18 @@ const TestSlider = () => {
   
   return (
   <div>
+        <form onSubmit={handleSubmit}>
+          <h2>Make a Data Artifact</h2>
+          <input
+            onChange={(e) => handleChange(e, "body")}
+            type="text"
+            name="body"
+            id="body"
+            value={body}
+          />
+          <br></br>
+          <button type="submit">Submit</button>
+        </form>
       <div>
           <Carousel ref={ref} afterChange={onChange} dots={false} slidesToShow={1}>
               {dataList.map(image => {
