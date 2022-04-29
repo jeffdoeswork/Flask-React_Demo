@@ -90,9 +90,9 @@ const TestSlider = () => {
                   return (
                       <div className="slider_section">
                           <div className="slider_border">
+                            <h3 className="email" key={image.id}>User: {image.email_datas}</h3>
                               <h3 key={image.id}>{image.datas}</h3>
                               <Button type="primary" onClick={() => setStylechange(image.id)}> Borrow Artifact </Button>
-
                           </div>
                       </div>
                   )
@@ -109,7 +109,7 @@ const TestSlider = () => {
   {dataList.map(image => {
       return (
           <div>
-              <p className={`btnSelected ${image.id == stylechange ? "classname" : "btnNormal"}`} key={image.id -1} onClick={() => goTo(image.id -2 )}> {image.id -1}</p>
+              <p className={`btnSelected ${image.id === stylechange ? "classname" : "btnNormal"}`} key={image.id -1} onClick={() => goTo(image.id -2 )}> {image.id -1}</p>
           </div>
           
       )
