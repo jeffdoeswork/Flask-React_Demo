@@ -12,10 +12,14 @@ const Test = () => {
   }
 
   const fetchData = async () => {
+    try {
     const data = await axios.get(`http://127.0.0.1:5000/dataz`);
     //console.log(data);
     //const { posts } = data.data
     setUserPost(data.data);
+    } catch (error) {
+      console.log(error)
+    }
 
 
   }
@@ -35,7 +39,7 @@ const Test = () => {
       <div>
       <h2> Hello { email.email }</h2>
       <ul>
-        {(userpost.data).map(artifact => {
+        {(userpost.data)?.map(artifact => {
           return (
             <li key={artifact.id}>
               {artifact.datas}
