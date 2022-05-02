@@ -14,9 +14,9 @@ from db import db
 
 app = Flask(__name__)
 # SQLAlchemy config. Read more: https://flask-sqlalchemy.palletsprojects.com/en/2.x/
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:catdog123@localhost:5433/2postgres'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:catdog123@localhost:5433/2postgres'
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:catdog123@localhost:5432/postgres'
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:gelaw01@localhost/postgres'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:gelaw01@localhost/postgres'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 #CORS(app, withCredentials = True)
