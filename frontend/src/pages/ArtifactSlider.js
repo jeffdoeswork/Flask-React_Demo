@@ -116,7 +116,7 @@ const TestSlider = () => {
   {dataList.map(image => {
       return (
           <div>
-              <p className={`btnSelected ${image.id === stylechange ? "classname" : "btnNormal"}`} key={image.id -1} onClick={() => goTo(image.id -2 )}> {image.id -1}</p>
+              <p className={`btnSelected ${image.id === stylechange ? "classname" : "btnNormal"}`} key={image.id} onClick={() => goTo(image.id -1 )}> {image.id}</p>
           </div>
           
       )
