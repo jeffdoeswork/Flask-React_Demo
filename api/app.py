@@ -47,18 +47,7 @@ jwt = JWTManager(app)
 with app.app_context():
     db.create_all()
 
-@app.route('/datas', methods=['POST'])
-def make_datas():
-    email = request.json.get('email', None)
-    body = request.json.get('body', None)
 
-    datas = Datas(datas=body, email_datas=email)
-    db.session.add(datas)
-    db.session.commit()
-
-    #access_token = create_access_token(identity={"email": email})
-    #return {"access_token": access_token}, 200
-    return "You've created a Data", 200
 
 
 #create and datas
@@ -71,20 +60,22 @@ def make_datas():
 #    return format_datas(datas)
 
 #get all datass
-@app.route("/datas", methods=["GET"])
+@app.route("/dataz", methods=["GET"])
 def get_datas():
     datas = Datas.query.order_by(Datas.created_at.asc()).all()
     datas_list = []
     for data in datas:
         datas_list.append(format_json(data))
-    return {'datas': datas_list}
+        #datas_list.append(data)
+    print(datas_list)
+    #return {'datas': datas_list}
+    return {"data" : datas_list}
 
 #get stingle datas
-@app.route("/datas/<id>", methods=["GET"])
-def get_data(id):
-    data = Datas.query.filter_by(id=id).one()
-    formated_data = format_json(data)
-    return {'data' : formated_data}
+#@app.route("/datas/<id>", methods=["GET"])
+#def get_data(id):
+#    formated_data = format_json(data)
+#    return {'data' : formated_data}
 
 #delete and event
 #@app.route("/events/<id>", methods=["DELETE"])
@@ -164,6 +155,18 @@ def register():
     except AttributeError:
         return 'Provide an Email and Password in JSON format in the request body', 400
 
+@app.route('/datas', methods=['POST'])
+def make_datas():
+    email = request.json.get('body_email', None)
+    body = request.json.get('body', None)
+
+    datas = Datas(datas=body, email_datas=email)
+    db.session.add(datas)
+    db.session.commit()
+
+    #access_token = create_access_token(identity={"email": email})
+    #return {"access_token": access_token}, 200
+    return "You've created a Data", 200
 
 @app.route('/login', methods=['POST'])
 def login():

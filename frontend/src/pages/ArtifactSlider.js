@@ -31,7 +31,13 @@ const TestSlider = () => {
   const [email, setEmail] = useState({
     email : ""
   });
-  
+
+const [isOpened, setIsOpened] = useState(false);
+
+function toggle() {
+  setIsOpened(wasOpened => !wasOpened);
+}
+
   const getUser = async () => {
     const data = await axios.get(`http://127.0.0.1:5000/test`, { withCredentials: true })
     console.log(data);
@@ -41,13 +47,9 @@ const TestSlider = () => {
     setBody(e.target.value);
   }
 
-
-  useEffect(() => {
-    getUser(); 
-  }, [])
-
   useEffect(() => {
     fetchData(); 
+    getUser(); 
   }, [])
 
   const ref = useRef();
@@ -60,8 +62,12 @@ const TestSlider = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const body_email = Object.entries(email)
+    getUser(); 
+    var body_email = email.email;
+    
     try {
+      
+      console.log(body_email)
       const data = await axios.post(`http://127.0.0.1:5000/datas`, {body, body_email})
       setDataList([...dataList, data.data]);
       setBody('');
@@ -73,13 +79,11 @@ const TestSlider = () => {
 
   if (email.email) {
 
-
-
-
-  
   return (
   <div>
+      <div className="directions">
         <form onSubmit={handleSubmit}>
+          <h1>Socialtific Method Maker</h1>
           <h2>Make a Data Artifact</h2>
           <input
             onChange={(e) => handleChange(e, "body")}
@@ -91,6 +95,7 @@ const TestSlider = () => {
           <br></br>
           <button type="submit">Submit</button>
         </form>
+      </div>
       <div>
           <Carousel ref={ref} afterChange={onChange} dots={false} slidesToShow={1}>
               {dataList.map(image => {
@@ -99,7 +104,32 @@ const TestSlider = () => {
                           <div className="slider_border">
                             <h3 className="email" key={image.id}>User: {image.email_datas}</h3>
                               <h3 key={image.id}>{image.datas}</h3>
-                              <Button type="primary" onClick={() => setStylechange(image.id)}> Borrow Artifact </Button>
+                              
+                              {isOpened && (
+                                <div className="boxContent">
+                                        <div className="directions">
+                                          <form onSubmit={handleSubmit}>
+                                            <h1>Socialtific Method Maker</h1>
+                                            <h2>Make a Data Artifact</h2>
+                                            <input
+                                              onChange={(e) => handleChange(e, "body")}
+                                              type="text"
+                                              name="body"
+                                              id="body"
+                                              value={body}
+                                            />
+                                            <br></br>
+                                            <button type="submit">Submit</button>
+                                          </form>
+                                        </div>
+                                </div>
+                              )}
+
+                              <div classname="borrow_button">
+                                <Button type="primary" onClick={() => setStylechange(image.id)}> Borrow Artifact </Button>
+                                <span></span>
+                                <Button type="primary" onClick={() => toggle()} style={{ background: "green", borderColor: "green" }}> New Artifact </Button>
+                              </div>
                           </div>
                       </div>
                   )

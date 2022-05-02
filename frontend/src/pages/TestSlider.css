@@ -13,6 +13,10 @@
   font-size: 1.25em;
 }
 
+.directions {
+text-align: center;
+}
+
 .email {
   padding-top: 10px;
   padding-left: 30px;
@@ -27,7 +31,9 @@
 }
 
 .borrow_button {
-  padding: 4px;
+  display: grid;
+  grid-auto-flow: column;
+  grid-column-gap: 10px;
 }
 
 .btnStyle_padding {
