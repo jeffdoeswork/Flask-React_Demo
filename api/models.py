@@ -14,10 +14,25 @@ class Datas(db.Model):
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     email_datas = db.Column(db.Text, db.ForeignKey('User.email'))
 
+class Hypos(db.Model):
+    __tablename__ = 'Hypos'
+    id = db.Column(db.Integer, primary_key=True)
+    hypos = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    email_hypos = db.Column(db.Text, db.ForeignKey('User.email'))
+
 def format_json(data):
     return {
         "datas" : data.datas,
         "id" : data.id,
         "created_at" : data.created_at,
         "email_datas" : data.email_datas
+    }
+
+def hypo_format_json(data):
+    return {
+        "hypos" : data.hypos,
+        "id" : data.id,
+        "created_at" : data.created_at,
+        "email_hypos" : data.email_hypos
     }

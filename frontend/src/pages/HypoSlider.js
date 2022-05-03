@@ -4,7 +4,7 @@ import 'antd/dist/antd.css';
 import { Button, Carousel } from "antd";
 import { Link } from 'react-router-dom';
 import httpClient from '../httpClient';
-import "./TestSlider.css"
+import "./HypoSlider.css"
 import axios from 'axios';
 
 const contentStyle = {
@@ -15,18 +15,18 @@ const contentStyle = {
   background: '#364d79',
 };
 
-const TestSlider = () => {
+const HypoSlider = () => {
   const [body, setBody] = useState("");
-  const [dataList, setDataList] = useState([]);
-  const [dataId, setDataId] = useState(null);
+  const [hypoList, setHypoList] = useState([]);
+  const [hypoId, setHypoId] = useState(null);
   const [toggle, setToggle] = useState(false);
   const ref = useRef();
 
   const fetchData = async () => {
-    const data = await axios.get(`http://127.0.0.1:5000/datas`)
-    const { datas } = data.data
-    setDataList(datas);
-    console.log(dataList);
+    const data = await axios.get(`http://127.0.0.1:5000/hypos`)
+    const { hypos } = data.data
+    setHypoList(hypos);
+    console.log(hypoList);
   }
   const [email, setEmail] = useState({
     email : ""
@@ -65,14 +65,14 @@ const TestSlider = () => {
   const handleSubmit = async () => {
     const body_email = email.email
     try {
-      const data = await axios.post(`http://127.0.0.1:5000/datas`, {body, body_email})
+      const data = await axios.post(`http://127.0.0.1:5000/hypos`, {body, body_email})
       // something is broken with the slider
-      //setDataList([...dataList, data.data]);
-      ///setDataList([data.data]);
+      //setHypoList([...hypoList, data.data]);
+      ///setHypoList([data.data]);
       setBody('');
       fetchData();
-      setStylechange(dataList.length + 1);
-      ref.current.goTo(dataList.length, false);
+      setStylechange(hypoList.length + 1);
+      ref.current.goTo(hypoList.length, false);
 
       toggler();
       
@@ -86,18 +86,19 @@ const TestSlider = () => {
 
   return (
   <div>
-    <h2>Borrow or Make a Data Artifact</h2>
+
+    <h2>Borrow or Make a Hypothesis Artifact</h2>
 
       <div>
           <Carousel ref={ref} dots={false} slidesToShow={1}>
-              {dataList.map(image => {
+              {hypoList.map(image => {
                   return (
                       <div className="slider_section">
 
-                              <div className="slider_border">
+                              <div className="hypo_slider_border">
                                 { toggle ? 
                                   <div>
-                                    <h2> Enter your new Data below: </h2>
+                                    <h2> Enter your new Hypothesis below: </h2>
                                     <form onSubmit={handleSubmit}>
                                   <div className='entry_box'>
                                     <input
@@ -117,12 +118,13 @@ const TestSlider = () => {
                                 :
                                 <div>
                                 <h3 class="">
-                                  <span className="left-text">User:{image.email_datas}</span>
+                                  <span className="left-text">User:{image.email_hypos}</span>
                                   <span className="text-left-righ">Artifact ID:{image.id}</span>
                                 </h3>
-                                  <h3>{image.datas}</h3>
+                                  <h3>{image.hypos}</h3>
                                   <Button type="primary" style={{ background: "#e9d900", borderColor: "#e9d900" }} onClick={() => setStylechange(image.id)}> Borrow Artifact </Button>
-                                  <Button type="primary" onClick={() => toggler()} >Make Artifact</Button>
+                                  <Button type="primary" style={{ background: "#cb0fb8", borderColor: "#cb0fb8" }}onClick={() => toggler()} >Make Artifact</Button>
+                                  
                               </div>
                               }
                               
@@ -140,7 +142,7 @@ const TestSlider = () => {
       alignItems: "center"
     }}
   >
-  {dataList.map(datanumber => {
+  {hypoList.map(datanumber => {
       return (
           <div>
               <p className={`btnSelected ${datanumber.id === stylechange ? "classname" : "btnNormal"}`} key={datanumber.id} onClick={() => goTo(datanumber.id  - 1)}> {datanumber.id }</p>
@@ -154,4 +156,4 @@ const TestSlider = () => {
     return ( <h2>Register and Login with an account to use the Method Maker</h2>)
   }
 };
-export default TestSlider;
+export default HypoSlider;
