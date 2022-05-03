@@ -23,7 +23,7 @@ const LoginPage = () => {
       fetch(resp, {
         credentials: 'include'
         });
-      window.location.href = "/test";
+      window.location.href = "/my_account";
     } catch (error) {
      if (error.response.status === 400) {
       alert("Invalid credentials, might be a bad password");

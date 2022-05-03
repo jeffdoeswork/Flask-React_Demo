@@ -76,15 +76,18 @@ const TestSlider = () => {
   <div>
         <form onSubmit={handleSubmit}>
           <h2>Make a Data Artifact</h2>
-          <input
-            onChange={(e) => handleChange(e, "body")}
-            type="text"
-            name="body"
-            id="body"
-            value={body}
-          />
-          <br></br>
-          <button type="submit">Submit</button>
+          <div className='entry_box'>
+            <input
+              onChange={(e) => handleChange(e, "body")}
+              type="text"
+              name="body"
+              id="body"
+              value={body}
+            />
+            
+            <br></br>
+            <button type="submit">Submit</button>
+          </div>
         </form>
       <div>
           <Carousel ref={ref} dots={false} slidesToShow={1}>

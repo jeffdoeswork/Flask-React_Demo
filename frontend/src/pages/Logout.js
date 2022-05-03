@@ -6,12 +6,11 @@ import axios from 'axios';
 
 const LandingPage = () => {
 
-    const logoutUser = async () => {
-        axios.post(`http://127.0.0.1:5000/logout`,{ withCredentials: true })
-        axios.delete(`http://127.0.0.1:5000/logout`,{ withCredentials: true })
-        window.location.href = "/";
-        }
+    const logoutUser = data => {
+        return axios.post(`http://127.0.0.1:5000/logout`)
 
+        window.location.href = "/";
+    }
         
     useEffect(() => {
         logoutUser(); 
@@ -19,6 +18,7 @@ const LandingPage = () => {
 
   return (
     <div>
+        <h2> The logout function doesn't work, but the refresh cookies should expire when you leave the browser</h2>
         { logoutUser() }
     </div>
   );

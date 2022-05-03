@@ -12,7 +12,8 @@ import {
   VideoCameraOutlined,
   MenuUnfoldOutlined,
   MenuFoldOutlined,
-  CommentOutlined
+  CommentOutlined,
+  UnorderedListOutlined
 } from '@ant-design/icons';
 import Router from './Router';
 import Test from './pages/Test';
@@ -47,6 +48,9 @@ export default function App() {
         mode="inline"
         theme="dark"
       >
+          <Menu.Item key="2" icon={<UnorderedListOutlined />}>
+            <a href="http://127.0.0.1:4000/newsfeed">Artifact Feed</a>
+          </Menu.Item>
           <Menu.Item key="7" icon={<ExperimentOutlined />}>
             <a href="http://127.0.0.1:4000/">Method Maker</a>
           </Menu.Item>
@@ -62,11 +66,11 @@ export default function App() {
           }
           { email.email ?
           <Menu.Item key="2" icon={<CommentOutlined />}>
-            <a href="http://127.0.0.1:4000/test">{ email.email }</a>
+            <a href="http://127.0.0.1:4000/my_account">{ email.email }</a>
           </Menu.Item>
           : <></>}
           { email.email ?
-          <Menu.Item key="2" icon={<LogoutOutlined />}>
+          <Menu.Item key="10" icon={<LogoutOutlined />}>
             <a href="http://127.0.0.1:4000/logout">Logout</a>
           </Menu.Item>
           : <></>}
