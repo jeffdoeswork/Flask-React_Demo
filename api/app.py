@@ -14,9 +14,9 @@ from db import db
 
 app = Flask(__name__)
 # SQLAlchemy config. Read more: https://flask-sqlalchemy.palletsprojects.com/en/2.x/
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:catdog123@localhost:5433/2postgres'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:catdog123@localhost:5433/2postgres'
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:catdog123@localhost:5432/postgres'
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:gelaw01@localhost/postgres'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:gelaw01@localhost/postgres'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 #CORS(app, withCredentials = True)
@@ -49,7 +49,7 @@ with app.app_context():
 
 @app.route('/datas', methods=['POST'])
 def make_datas():
-    email = request.json.get('email', None)
+    email = request.json.get('body_email', None)
     body = request.json.get('body', None)
 
     datas = Datas(datas=body, email_datas=email)
@@ -73,7 +73,8 @@ def make_datas():
 #get all datass
 @app.route("/datas", methods=["GET"])
 def get_datas():
-    datas = Datas.query.order_by(Datas.created_at.asc()).all()
+    #datas = Datas.query.order_by(Datas.created_at.asc()).all()
+    datas = Datas.query.order_by(Datas.id.asc()).all()
     datas_list = []
     for data in datas:
         datas_list.append(format_json(data))

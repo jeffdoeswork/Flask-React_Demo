@@ -7,10 +7,6 @@ import httpClient from '../httpClient';
 import "./TestSlider.css"
 import axios from 'axios';
 
-function onChange(a, b, c) {
-  console.log(a, b, c);
-}
-
 const contentStyle = {
   height: '160px',
   color: '#fff',
@@ -27,6 +23,7 @@ const TestSlider = () => {
     const data = await axios.get(`http://127.0.0.1:5000/datas`)
     const { datas } = data.data
     setDataList(datas);
+    console.log(dataList);
   }
   const [email, setEmail] = useState({
     email : ""
@@ -60,10 +57,12 @@ const TestSlider = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const body_email = Object.entries(email)
+    const body_email = email.email
     try {
       const data = await axios.post(`http://127.0.0.1:5000/datas`, {body, body_email})
-      setDataList([...dataList, data.data]);
+      // something is broken with the slider
+      //setDataList([...dataList, data.data]);
+      ///setDataList([data.data]);
       setBody('');
       fetchData();
   } catch (err) {
@@ -73,10 +72,6 @@ const TestSlider = () => {
 
   if (email.email) {
 
-
-
-
-  
   return (
   <div>
         <form onSubmit={handleSubmit}>
@@ -92,13 +87,13 @@ const TestSlider = () => {
           <button type="submit">Submit</button>
         </form>
       <div>
-          <Carousel ref={ref} afterChange={onChange} dots={false} slidesToShow={1}>
+          <Carousel ref={ref} dots={false} slidesToShow={1}>
               {dataList.map(image => {
                   return (
                       <div className="slider_section">
                           <div className="slider_border">
-                            <h3 className="email" key={image.id}>User: {image.email_datas}</h3>
-                              <h3 key={image.id}>{image.datas}</h3>
+                            <h3 className="email">User: {image.email_datas}</h3>
+                              <h3>{image.datas}</h3>
                               <Button type="primary" onClick={() => setStylechange(image.id)}> Borrow Artifact </Button>
                           </div>
                       </div>
@@ -113,10 +108,10 @@ const TestSlider = () => {
       alignItems: "center"
     }}
   >
-  {dataList.map(image => {
+  {dataList.map(datanumber => {
       return (
           <div>
-              <p className={`btnSelected ${image.id === stylechange ? "classname" : "btnNormal"}`} key={image.id} onClick={() => goTo(image.id -1 )}> {image.id}</p>
+              <p className={`btnSelected ${datanumber.id === stylechange ? "classname" : "btnNormal"}`} key={datanumber.id} onClick={() => goTo(datanumber.id  - 1)}> {datanumber.id }</p>
           </div>
           
       )

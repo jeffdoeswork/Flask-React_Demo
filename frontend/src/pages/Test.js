@@ -32,12 +32,14 @@ const Test = () => {
     return (
       <div>
       <h2> Hello { email.email }</h2>
-        {(userpost.datas)?.map(artifact => {
-          return (
+        {(userpost.datas)?.map((artifact) => {
+            if (email.email === artifact.email_datas) {
+            return (
             <h3 key={artifact.id}>
               {artifact.datas}
             </h3>
-          )
+            ) 
+          } 
         })}
       </div>
     )
