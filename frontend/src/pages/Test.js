@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
+import "./UserFeed.css"
 
 const Test = () => {
   const [userpost, setUserPost] = useState([]);
@@ -35,9 +36,16 @@ const Test = () => {
         {(userpost.datas)?.map((artifact) => {
             if (email.email === artifact.email_datas) {
             return (
-            <h3 key={artifact.id}>
-              {artifact.datas}
-            </h3>
+
+              <div className="user_slider_section">
+                <div className="user_slider_border">
+    <br></br>
+                  <h3 key={artifact.id}>
+                    {artifact.datas}  
+                  </h3>
+
+              </div>
+            </div>
             ) 
           } 
         })}

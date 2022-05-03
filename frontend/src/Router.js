@@ -5,6 +5,7 @@ import NotFound from './pages/NotFound';
 import LoginPage from './pages/LoginPage';
 import Test from './pages/Test';
 import RegisterPage from './pages/RegisterPage';
+import Logout from './pages/Logout';
 
 const Router = () => {
   return (
@@ -15,6 +16,7 @@ const Router = () => {
             <Route path="/register"  element={<RegisterPage />}/>
             <Route path="*"  element={<NotFound />} />
             <Route path="/test"  element={<Test />}/>
+            <Route path="/logout"  element={<Logout />}/>
           </Routes>
         </BrowserRouter>
   )

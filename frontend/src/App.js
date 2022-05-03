@@ -11,7 +11,8 @@ import {
   ExperimentOutlined,
   VideoCameraOutlined,
   MenuUnfoldOutlined,
-  MenuFoldOutlined
+  MenuFoldOutlined,
+  CommentOutlined
 } from '@ant-design/icons';
 import Router from './Router';
 import Test from './pages/Test';
@@ -28,7 +29,8 @@ export default function App() {
     console.log(data);
     setEmail(data.data);
   }
-  
+
+
   useEffect(() => {
     getUser(); 
   }, [])
@@ -46,17 +48,26 @@ export default function App() {
         theme="dark"
       >
           <Menu.Item key="7" icon={<ExperimentOutlined />}>
-            <a href="http://127.0.0.1:4000/">Home</a>
+            <a href="http://127.0.0.1:4000/">Method Maker</a>
           </Menu.Item>
+          { email.email ? <></> :
           <Menu.Item key="2" icon={<UserOutlined />}>
             <a href="http://127.0.0.1:4000/register">Register</a>
           </Menu.Item>
+          }
+          { email.email ? <></> :
           <Menu.Item key="3" icon={<LoginOutlined />}>
             <a href="http://127.0.0.1:4000/login"> Login</a>
           </Menu.Item>
+          }
           { email.email ?
-          <Menu.Item key="2" icon={<VideoCameraOutlined />}>
+          <Menu.Item key="2" icon={<CommentOutlined />}>
             <a href="http://127.0.0.1:4000/test">{ email.email }</a>
+          </Menu.Item>
+          : <></>}
+          { email.email ?
+          <Menu.Item key="2" icon={<LogoutOutlined />}>
+            <a href="http://127.0.0.1:4000/logout">Logout</a>
           </Menu.Item>
           : <></>}
       </Menu>

@@ -8,7 +8,7 @@ from sqlalchemy.exc import IntegrityError
 from datetime import datetime, timedelta, timezone
 from flask_cors import CORS, cross_origin
 #from flask_session import Session
-
+import redis
 from models import User, Datas, format_json
 from db import db
 
@@ -46,6 +46,10 @@ jwt = JWTManager(app)
 
 with app.app_context():
     db.create_all()
+
+jwt_redis_blocklist = redis.StrictRedis(
+    host="localhost", port=5000, db=0, decode_responses=True
+)
 
 @app.route('/datas', methods=['POST'])
 def make_datas():
@@ -202,10 +206,11 @@ def login():
         return 'Provide an Email and Password in JSON format in the request body', 400
 
 @app.route("/logout", methods=["POST"])
+@jwt_required()
 def logout():
-    response = jsonify({"msg": "logout successful"})
-    unset_jwt_cookies(response)
-    return response
+    resp = jsonify({'logout': True})
+    unset_jwt_cookies(resp)
+    return resp, 200
 
 # protected test route
 @app.route('/test', methods=['GET'])
