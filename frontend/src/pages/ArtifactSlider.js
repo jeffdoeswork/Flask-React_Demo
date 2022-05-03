@@ -20,6 +20,8 @@ const TestSlider = () => {
   const [dataList, setDataList] = useState([]);
   const [dataId, setDataId] = useState(null);
   const [toggle, setToggle] = useState(false);
+  const ref = useRef();
+
   const fetchData = async () => {
     const data = await axios.get(`http://127.0.0.1:5000/datas`)
     const { datas } = data.data
@@ -52,7 +54,7 @@ const TestSlider = () => {
   useEffect(() => {
     fetchData(); 
   }, [])
-  const ref = useRef();
+ 
 
   const goTo = (slide) => {
     ref.current.goTo(slide, false);
@@ -70,7 +72,8 @@ const TestSlider = () => {
       setBody('');
       fetchData();
       setStylechange(dataList.length + 1);
-      goTo(dataList.length);
+      ref.current.goTo(dataList.length, false);
+
       toggler();
       
       
@@ -78,7 +81,6 @@ const TestSlider = () => {
     console.error(err.message); 
     }
   }
-
 
   if (email.email) {
 
