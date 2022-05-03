@@ -38,7 +38,6 @@ const TestSlider = () => {
   const handleChange = (e, field) => {
     setBody(e.target.value);
   }
-
   function toggler() {
     if (toggle) {
       setToggle(false)
@@ -50,11 +49,9 @@ const TestSlider = () => {
   useEffect(() => {
     getUser(); 
   }, [])
-
   useEffect(() => {
     fetchData(); 
   }, [])
-
   const ref = useRef();
 
   const goTo = (slide) => {
@@ -72,7 +69,11 @@ const TestSlider = () => {
       ///setDataList([data.data]);
       setBody('');
       fetchData();
+      setStylechange(dataList.length + 1);
+      goTo(dataList.length);
       toggler();
+      
+      
   } catch (err) {
     console.error(err.message); 
     }
@@ -83,7 +84,9 @@ const TestSlider = () => {
 
   return (
   <div>
-    <h2>Make or Borrow a Data Artifact</h2>
+    <Button>Submit Method</Button>
+    <h5>react - get artifact key's element by id</h5>
+    <h2>Borrow or Make a Data Artifact</h2>
 
       <div>
           <Carousel ref={ref} dots={false} slidesToShow={1}>
