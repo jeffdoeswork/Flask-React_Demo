@@ -17,6 +17,16 @@ h2 {
   text-align: center;
 }
 
+.text-left-right {
+  float: right;
+  width: 45%;
+  text-align: right
+}
+.left-text {
+  float: left;
+   width: 40%
+}
+
 .entry_box {
   text-align: center;
 }
@@ -26,6 +36,11 @@ h2 {
   padding-left: 30px;
   text-align: left;
 }
+.artifact_id {
+  padding-top: 10px;
+  padding-left: 30px;
+  text-align: right;
+}
 
 .slider_section {
   margin: auto;
@@ -33,3 +48,7 @@ h2 {
   width: 600px;
   height: 185px;
 }
+
+.hidden { 
+  display:none;
+ }

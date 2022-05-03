@@ -206,11 +206,10 @@ def login():
         return 'Provide an Email and Password in JSON format in the request body', 400
 
 @app.route("/logout", methods=["POST"])
-@jwt_required()
-def logout():
-    resp = jsonify({'logout': True})
-    unset_jwt_cookies(resp)
-    return resp, 200
+def logout_with_cookies():
+    response = jsonify({"msg": "logout successful"})
+    unset_jwt_cookies(response)
+    return response
 
 # protected test route
 @app.route('/test', methods=['GET'])
