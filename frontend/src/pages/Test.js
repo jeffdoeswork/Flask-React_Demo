@@ -38,7 +38,7 @@ const Test = () => {
             return (
 
               <div className="user_slider_section">
-                <div className="user_slider_border">
+                <div className="data_slider_border">
     <br></br>
                   <h3 key={artifact.id}>
                     {artifact.datas}  

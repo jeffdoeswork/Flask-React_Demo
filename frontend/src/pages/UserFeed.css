@@ -1,5 +1,5 @@
 
-.user_slider_border {
+.data_slider_border {
   margin: auto;
   text-align: center;
   background-color: none;
@@ -9,6 +9,21 @@
   height: 110px;
   width: 600px;
   border: 3px solid #0c30fa;
+  border-radius: 20px;
+  font-size: 1.25em;
+}
+
+
+.hypo_slider_border {
+  margin: auto;
+  text-align: center;
+  background-color: none;
+  color: #cb0fb8;
+  /*padding: 15px 0;
+  padding-top: 25px;*/
+  height: 110px;
+  width: 600px;
+  border: 3px solid #cb0fb8;
   border-radius: 20px;
   font-size: 1.25em;
 }
