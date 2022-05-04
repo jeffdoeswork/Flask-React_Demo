@@ -94,7 +94,7 @@ const TestSlider = () => {
                   return (
                       <div className="slider_section">
 
-                              <div className="slider_border">
+                              <div className="data_testslider_border">
                                 { toggle ? 
                                   <div>
                                     <h2> Enter your new Data below: </h2>

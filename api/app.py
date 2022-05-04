@@ -98,16 +98,16 @@ def get_hypos():
 #get all artifacts
 @app.route("/artifacts", methods=["GET"])
 def get_artifacts():
-    hypos = Hypos.query.order_by(Hypos.created_at.asc()).all()
+    hypos = Hypos.query.order_by(Hypos.created_at.desc()).all()
     hypos_list = []
     for hypo in hypos:
         hypos_list.append(hypo_format_json(hypo))
-    datas = Datas.query.order_by(Datas.created_at.asc()).all()
+    datas = Datas.query.order_by(Datas.created_at.desc()).all()
     datas_list = []
     for data in datas:
         datas_list.append(format_json(data))
     artifacts_list = datas_list + hypos_list
-    sorted_list = sorted(artifacts_list, key=lambda x: datetime.strptime(str(x['created_at']), r'%Y-%m-%d %H:%M:%S.%f'))
+    sorted_list = sorted(artifacts_list, key=lambda x: datetime.strptime(str(x['created_at']), r'%Y-%m-%d %H:%M:%S.%f'), reverse=True)
     print(sorted_list)
 
     return {'artifacts': sorted_list}

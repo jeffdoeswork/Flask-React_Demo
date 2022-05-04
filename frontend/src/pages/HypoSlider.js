@@ -4,7 +4,7 @@ import 'antd/dist/antd.css';
 import { Button, Carousel } from "antd";
 import { Link } from 'react-router-dom';
 import httpClient from '../httpClient';
-import "./HypoSlider.css"
+import "./TestSlider.css"
 import axios from 'axios';
 
 const contentStyle = {
@@ -95,7 +95,7 @@ const HypoSlider = () => {
                   return (
                       <div className="slider_section">
 
-                              <div className="hypo_slider_border">
+                              <div className="hypo_testslider_border">
                                 { toggle ? 
                                   <div>
                                     <h2> Enter your new Hypothesis below: </h2>

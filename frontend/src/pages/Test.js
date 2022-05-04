@@ -13,7 +13,7 @@ const Test = () => {
   }
 
   const fetchData = async () => {
-    const data = await axios.get(`http://127.0.0.1:5000/datas`);
+    const data = await axios.get(`http://127.0.0.1:5000/artifacts`);
     //console.log(data);
     //const { posts } = data.data
     setUserPost(data.data);
@@ -33,22 +33,39 @@ const Test = () => {
     return (
       <div>
       <h2> Hello { email.email }</h2>
-        {(userpost.datas)?.map((artifact) => {
-            if (email.email === artifact.email_datas) {
-            return (
+        {(userpost.artifacts)?.map((artifact) => {
 
+
+              { if (email.email === artifact.email_datas) {
+                return (
               <div className="user_slider_section">
                 <div className="data_slider_border">
-    <br></br>
+                <h3 className="email">User: {artifact.email_datas}</h3>
+
                   <h3 key={artifact.id}>
                     {artifact.datas}  
                   </h3>
-
+                </div>
               </div>
-            </div>
-            ) 
-          } 
-        })}
+                )
+            } else if (email.email === artifact.email_hypos) {
+              return (
+              <div className="user_slider_section">
+                <div className="hypo_slider_border">
+                <h3 className="email">User: {artifact.email_hypos}</h3>
+
+                  <h3 key={artifact.id}>
+                    {artifact.hypos}  
+                  </h3>
+                </div>
+              </div>
+              )
+            }
+          }
+
+          }
+        ) 
+        }
       </div>
     )
   } else {
