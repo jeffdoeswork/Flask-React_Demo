@@ -21,6 +21,8 @@ const HypoSlider = () => {
   const [hypoId, setHypoId] = useState(null);
   const [toggle, setToggle] = useState(false);
   const ref = useRef();
+  const [hypomethodid, setHypomethodid] = useState(0);
+  window.$hypomethodid = hypomethodid //global variable
 
   const fetchData = async () => {
     const data = await axios.get(`http://127.0.0.1:5000/hypos`)
@@ -62,7 +64,7 @@ const HypoSlider = () => {
 
   const [stylechange, setStylechange] = useState("");
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (idlength) => {
     const body_email = email.email
     try {
       const data = await axios.post(`http://127.0.0.1:5000/hypos`, {body, body_email})
@@ -73,7 +75,7 @@ const HypoSlider = () => {
       fetchData();
       setStylechange(hypoList.length + 1);
       ref.current.goTo(hypoList.length, false);
-
+      setHypomethodid(idlength);
       toggler();
       
       
@@ -110,7 +112,7 @@ const HypoSlider = () => {
                                     />
                                     
                                     <br></br>
-                                    <Button type="primary" onClick={() => handleSubmit()}>Submit</Button> 
+                                    <Button type="primary" onClick={() => handleSubmit((hypoList.length + 1))}>Submit</Button> 
                                     <Button type="danger" onClick={() => toggler()} >Cancel</Button>
                                   </div>
                                 </form>
@@ -122,8 +124,8 @@ const HypoSlider = () => {
                                   <span className="text-left-righ">Artifact ID:{image.id}</span>
                                 </h3>
                                   <h3>{image.hypos}</h3>
-                                  <Button type="primary" style={{ background: "#e9d900", borderColor: "#e9d900" }} onClick={() => setStylechange(image.id)}> Borrow Artifact </Button>
-                                  <Button type="primary" style={{ background: "#cb0fb8", borderColor: "#cb0fb8" }}onClick={() => toggler()} >Make Artifact</Button>
+                                  <Button type="primary" style={{ background: "#e9d900", borderColor: "#e9d900" }} onClick={() => {setStylechange(image.id); setHypomethodid(image.id);}}> Borrow Artifact </Button>
+                                  <Button type="primary" style={{ background: "#cb0fb8", borderColor: "#cb0fb8" }}onClick={() => {setHypomethodid(image.id); toggler();}} >Make Artifact</Button>
                                   
                               </div>
                               }

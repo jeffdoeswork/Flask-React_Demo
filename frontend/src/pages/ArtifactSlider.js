@@ -21,6 +21,9 @@ const TestSlider = () => {
   const [dataId, setDataId] = useState(null);
   const [toggle, setToggle] = useState(false);
   const ref = useRef();
+  const [datamethodid, setDatamethodid] = useState(0);
+  window.$datamethodid = datamethodid //global variable
+
 
   const fetchData = async () => {
     const data = await axios.get(`http://127.0.0.1:5000/datas`)
@@ -62,7 +65,7 @@ const TestSlider = () => {
 
   const [stylechange, setStylechange] = useState("");
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (idlength) => {
     const body_email = email.email
     try {
       const data = await axios.post(`http://127.0.0.1:5000/datas`, {body, body_email})
@@ -73,7 +76,7 @@ const TestSlider = () => {
       fetchData();
       setStylechange(dataList.length + 1);
       ref.current.goTo(dataList.length, false);
-
+      setDatamethodid(idlength);
       toggler();
       
       
@@ -109,7 +112,7 @@ const TestSlider = () => {
                                     />
                                     
                                     <br></br>
-                                    <Button type="primary" onClick={() => handleSubmit()}>Submit</Button> 
+                                    <Button type="primary" onClick={() => handleSubmit((dataList.length + 1))}>Submit</Button> 
                                     <Button type="danger" onClick={() => toggler()} >Cancel</Button>
                                   </div>
                                 </form>
@@ -121,8 +124,12 @@ const TestSlider = () => {
                                   <span className="text-left-righ">Artifact ID:{image.id}</span>
                                 </h3>
                                   <h3>{image.datas}</h3>
-                                  <Button type="primary" style={{ background: "#e9d900", borderColor: "#e9d900" }} onClick={() => setStylechange(image.id)}> Borrow Artifact </Button>
-                                  <Button type="primary" onClick={() => toggler()} >Make Artifact</Button>
+                                  <Button type="primary" style={{ background: "#e9d900", borderColor: "#e9d900" }} 
+                                    onClick={() => {setStylechange(image.id);
+                                      setDatamethodid(image.id);}
+                                    }> 
+                                    Borrow Artifact </Button>
+                                  <Button type="primary" onClick={() => {setDatamethodid(image.id); toggler();}} >Make Artifact</Button>
                               </div>
                               }
                               
