@@ -7,7 +7,7 @@ import Test from './pages/Test';
 import RegisterPage from './pages/RegisterPage';
 import Logout from './pages/Logout';
 import ArtifactFeed from './pages/ArtifactFeed';
-
+//I do not use react-router-dom 'links' or 'switch' to handel routes. Only the style you see below
 const Router = () => {
   return (
         <BrowserRouter>

@@ -6,7 +6,9 @@ import { Link } from 'react-router-dom';
 import httpClient from '../httpClient';
 import "./TestSlider.css"
 import axios from 'axios';
+//This file is for the Data Artifact Slider, its twins with HypoSlider
 
+//idk what this does
 const contentStyle = {
   height: '160px',
   color: '#fff',
@@ -22,9 +24,9 @@ const TestSlider = () => {
   const [toggle, setToggle] = useState(false);
   const ref = useRef();
   const [datamethodid, setDatamethodid] = useState(0);
-  window.$datamethodid = datamethodid //global variable
+  window.$datamethodid = datamethodid //global variable for data artifact's ID
 
-
+  //get data artifacts api
   const fetchData = async () => {
     const data = await axios.get(`http://127.0.0.1:5000/datas`)
     const { datas } = data.data
@@ -34,7 +36,7 @@ const TestSlider = () => {
   const [email, setEmail] = useState({
     email : ""
   });
-  
+  //get current user's email
   const getUser = async () => {
     const data = await axios.get(`http://127.0.0.1:5000/test`, { withCredentials: true })
     console.log(data);
@@ -43,6 +45,7 @@ const TestSlider = () => {
   const handleChange = (e, field) => {
     setBody(e.target.value);
   }
+  //toggles view for borrow or make artifact
   function toggler() {
     if (toggle) {
       setToggle(false)
@@ -51,6 +54,7 @@ const TestSlider = () => {
     }
   }
 
+  //at the launch of webpage grabs the user and all the data artifacts
   useEffect(() => {
     getUser(); 
   }, [])
@@ -58,13 +62,13 @@ const TestSlider = () => {
     fetchData(); 
   }, [])
  
-
+  //this is an antD (css/react library i downloaded), it lets you make your custom pagination for Carousels
   const goTo = (slide) => {
     ref.current.goTo(slide, false);
   };
 
   const [stylechange, setStylechange] = useState("");
-
+  //The work horse of this DataSlider (named ArtifactSlider) components. Calls in a lot of help from other funcitons
   const handleSubmit = async (idlength) => {
     const body_email = email.email
     try {
@@ -147,6 +151,7 @@ const TestSlider = () => {
       alignItems: "center"
     }}
   >
+  
   {dataList.map(datanumber => {
       return (
           <div>

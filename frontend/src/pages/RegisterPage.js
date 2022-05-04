@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import httpClient from '../httpClient';
 
-
+//simple post api to create user with hased email, the backend api handles the hash part
 const RegisterPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

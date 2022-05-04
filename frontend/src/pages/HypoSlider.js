@@ -6,7 +6,8 @@ import { Link } from 'react-router-dom';
 import httpClient from '../httpClient';
 import "./TestSlider.css"
 import axios from 'axios';
-
+//This file is for the Hypothesis Artifact Slider, its twins with DataSlider ArtifactSlider is the file name
+//idk what this does
 const contentStyle = {
   height: '160px',
   color: '#fff',
@@ -23,7 +24,8 @@ const HypoSlider = () => {
   const ref = useRef();
   const [hypomethodid, setHypomethodid] = useState(0);
   window.$hypomethodid = hypomethodid //global variable
-
+  
+  //get data artifacts api
   const fetchData = async () => {
     const data = await axios.get(`http://127.0.0.1:5000/hypos`)
     const { hypos } = data.data
@@ -33,7 +35,7 @@ const HypoSlider = () => {
   const [email, setEmail] = useState({
     email : ""
   });
-  
+  //get current user's email
   const getUser = async () => {
     const data = await axios.get(`http://127.0.0.1:5000/test`, { withCredentials: true })
     console.log(data);
@@ -42,6 +44,7 @@ const HypoSlider = () => {
   const handleChange = (e, field) => {
     setBody(e.target.value);
   }
+//toggles view for borrow or make artifact
   function toggler() {
     if (toggle) {
       setToggle(false)
@@ -49,7 +52,7 @@ const HypoSlider = () => {
       setToggle(true)
     }
   }
-
+  //at the launch of webpage grabs the user and all the data artifacts
   useEffect(() => {
     getUser(); 
   }, [])
@@ -57,13 +60,13 @@ const HypoSlider = () => {
     fetchData(); 
   }, [])
  
-
+  //this is an antD  (css/react library i downloaded) , it lets you make your custom pagination for Carousels
   const goTo = (slide) => {
     ref.current.goTo(slide, false);
   };
 
   const [stylechange, setStylechange] = useState("");
-
+  //The work horse of this Hyposlider components. Calls in a lot of help from other funcitons
   const handleSubmit = async (idlength) => {
     const body_email = email.email
     try {

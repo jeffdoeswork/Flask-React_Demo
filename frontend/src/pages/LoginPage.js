@@ -8,7 +8,7 @@ const LoginPage = () => {
 
   const logInUser = async () => {
     console.log(email, password)
-
+    //this fancy post lets you login and it saves cookies to the browser, the refresh cookies should time out after an hour
     try {
       const resp = await httpClient.post(`http://127.0.0.1:5000/login`, {
         email,

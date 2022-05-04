@@ -3,7 +3,7 @@ import axios from 'axios';
 
 
 
-
+// This doen't work at all! Oh well
 const LandingPage = () => {
 
     const logoutUser = data => {

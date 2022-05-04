@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import "./UserFeed.css"
-
+// this is actually the user profile page, its static url so you can't look at other users. This will go through big changes hopeflly soon
+//it also shows all the artfiacts that user had made, a lot of the code is the same from the ArtifactFeed.js file
 const Test = () => {
   const [userpost, setUserPost] = useState([]);
   const [email, setEmail] = useState({
@@ -28,7 +29,7 @@ const Test = () => {
 
   
   console.log(userpost);
-
+  // copies with double if statmens from the ArtifactFeed.js file, this way it only shows the users' artifacts, blue for data and purple for hypo
   if (email.email) {
     return (
       <div>
