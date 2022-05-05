@@ -20,7 +20,7 @@ app = Flask(__name__)
 #virtual machone
 #SQLALCHEMY_DATABASE_URI = r"postgresql+psycopg2://postgres:gelaw01@localhost/postgres"
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:gelaw01@localhost/postgres'
-
+# mark watnts to code too
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 #CORS(app, withCredentials = True)
