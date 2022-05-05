@@ -1,15 +1,15 @@
 from flask import Flask, request, jsonify
 #import bcrypt
 from flask_bcrypt import Bcrypt
-from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity, set_access_cookies, unset_jwt_cookies, get_jwt
+from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity, set_access_cookies, unset_jwt_cookies, get_jwt, create_refresh_token, set_refresh_cookies
 # Expetions for sqlaclemy
 from sqlalchemy.exc import IntegrityError
 #from flask_jwt_extended import get_jwt
 from datetime import datetime, timedelta, timezone
 from flask_cors import CORS, cross_origin
 #from flask_session import Session
-
-from models import User
+import redis
+from models import User, Datas, Hypos, Methods, format_json, hypo_format_json
 from db import db
 
 app = Flask(__name__)
@@ -25,7 +25,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:gelaw01@
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 #CORS(app, withCredentials = True)
 app.config["CORS_SUPPORTS_CREDENTIALS"]=True
-CORS(app)
 
 
 flask_bcrypt = Bcrypt(app)
@@ -35,23 +34,150 @@ db.init_app(app)
 
 # If true this will only allow the cookies that contain your JWTs to be sent
 # over https. In production, this should always be set to True
-#app.config["JWT_COOKIE_SECURE"] = False
-#app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
-app.config["JWT_SECRET_KEY"] = "super-secret"  # Change this in your code!
-#app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
+app.config['JWT_TOKEN_LOCATION'] = ["headers", "cookies"]
+app.config['JWT_COOKIE_CSRF_PROTECT'] = True
+app.config['JWT_COOKIE_SECURE'] = True
+app.config['JWT_CSRF_CHECK_FORM'] = True
+app.config['JWT_SECRET_KEY'] = "change this"
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
+#app.config['JWT_COOKIE_DOMAIN'] = ["localhost"]
+#app.config["JWT_COOKIE_SAMESITE"] = ["None"]
+#app.config['JWT_COOKIE_DOMAIN'] = ["localhost:5000"]
+
+
+CORS(app, supports_credentials=True)
 jwt = JWTManager(app)
 
 with app.app_context():
     db.create_all()
 
-'''@app.after_request
+jwt_redis_blocklist = redis.StrictRedis(
+    host="localhost", port=5000, db=0, decode_responses=True
+)
+
+#create and datas
+@app.route('/datas', methods=['POST'])
+def make_datas():
+    email = request.json.get('body_email', None)
+    body = request.json.get('body', None)
+
+    datas = Datas(datas=body, email_datas=email)
+    db.session.add(datas)
+    db.session.commit()
+
+    return "You've created a Data", 200
+
+#get all datass
+@app.route("/datas", methods=["GET"])
+def get_datas():
+    #datas = Datas.query.order_by(Datas.created_at.asc()).all()
+    datas = Datas.query.order_by(Datas.id.asc()).all()
+    datas_list = []
+    for data in datas:
+        datas_list.append(format_json(data))
+    return {'datas': datas_list}
+
+#create and hypos
+@app.route('/hypos', methods=['POST'])
+def make_hypo():
+    email = request.json.get('body_email', None)
+    body = request.json.get('body', None)
+
+    hypos = Hypos(hypos=body, email_hypos=email)
+    db.session.add(hypos)
+    db.session.commit()
+
+    return "You've created a Hypo", 200
+
+#get all hypos
+@app.route("/hypos", methods=["GET"])
+def get_hypos():
+    #datas = Datas.query.order_by(Datas.created_at.asc()).all()
+    hypos = Hypos.query.order_by(Hypos.id.asc()).all()
+    hypos_list = []
+    for hypo in hypos:
+        hypos_list.append(hypo_format_json(hypo))
+    return {'hypos': hypos_list}
+
+#get all artifacts
+@app.route("/artifacts", methods=["GET"])
+def get_artifacts():
+    hypos = Hypos.query.order_by(Hypos.created_at.desc()).all()
+    hypos_list = []
+    for hypo in hypos:
+        hypos_list.append(hypo_format_json(hypo))
+    datas = Datas.query.order_by(Datas.created_at.desc()).all()
+    datas_list = []
+    for data in datas:
+        datas_list.append(format_json(data))
+    artifacts_list = datas_list + hypos_list
+    sorted_list = sorted(artifacts_list, key=lambda x: datetime.strptime(str(x['created_at']), r'%Y-%m-%d %H:%M:%S.%f'), reverse=True)
+    print(sorted_list)
+
+    return {'artifacts': sorted_list}
+
+#get stingle datas
+@app.route("/datas/<id>", methods=["GET"])
+def get_data(id):
+    data = Datas.query.filter_by(id=id).one()
+    formated_data = format_json(data)
+    return {'data' : formated_data}
+
+#get stingle hypothesis
+@app.route("/hypo/<id>", methods=["GET"])
+def get_hypo(id):
+    hypo = Hypos.query.filter_by(id=id).one()
+    formated_hypo = hypo_format_json(hypo)
+    return {'hypo' : formated_hypo}
+
+#create method
+@app.route('/methods', methods=['POST'])
+def make_methods():
+    email = request.json.get('email_method', None)
+    title = request.json.get('title', None)
+    data = request.json.get('data', None)
+    hypo = request.json.get('hypo', None)
+
+    method = Methods(title=title, email_method=email, hypo=hypo, data=data)
+    db.session.add(method)
+    db.session.commit()
+
+    return "You've created a Method", 200
+
+#delete and event
+#@app.route("/events/<id>", methods=["DELETE"])
+#def delete_event(id):
+#    event = Event.query.filter_by(id=id).one()
+#    db.session.delete(event)
+#    db.session.commit()
+#    return f'Event (id: {id} deleted!'
+
+#edit an event
+#@app.route("/events/<id>", methods=["PUT"])
+#def update_event(id):
+#    event = Event.query.filter_by(id=id)
+#    description = request.json['description']
+#    event.update(dict(description = description, created_at = datetime.utcnow()))
+#    db.session.commit()
+#    return {'event' : format_event(event.one())}
+
+
+
+
+
+
+
+
+
+
+@app.after_request
 def refresh_expiring_jwts(response):
     try:
         exp_timestamp = get_jwt()["exp"]
         now = datetime.now(timezone.utc)
         target_timestamp = datetime.timestamp(now + timedelta(minutes=1))
 
-        response.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')
+        response.headers.add('Access-Control-Allow-Origin', 'http://127.0.0.1:4000')
         response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
         response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
         response.headers.add('Access-Control-Allow-Credentials', 'true')
@@ -62,7 +188,7 @@ def refresh_expiring_jwts(response):
         return response
     except (RuntimeError, KeyError):
         # Case where there is not a valid JWT. Just return the original respone
-        return response'''
+        return response
 
 @app.route("/")
 def home():
@@ -86,8 +212,9 @@ def register():
         db.session.add(user)
         db.session.commit()
 
-        access_token = create_access_token(identity={"email": email})
-        return {"access_token": access_token}, 200
+        #access_token = create_access_token(identity={"email": email})
+        #return {"access_token": access_token}, 200
+        return "Thanks for making an account", 200
     except IntegrityError:
         # the rollback func reverts the changes made to the db ( so if an error happens after we commited changes they will be reverted )
         db.session.rollback()
@@ -115,17 +242,24 @@ def login():
         if flask_bcrypt.check_password_hash(user.hash, password):
         #if bcrypt.check_password_hash(password, user.hash):
             response = jsonify({"msg": "login successful"})
-            access_token = create_access_token(identity={"email": email})
+            #access_token = create_access_token(identity={"email": email})
             #set_access_cookies(response, access_token)
-            return {"access_token": access_token}, 200
+            #return {"access_token": access_token}, 200
             #return response
+
+            access_token = create_access_token(identity={"email": email})
+            refresh_token = create_refresh_token(identity={"email": email})
+
+            set_access_cookies(response, access_token)
+            set_refresh_cookies(response, refresh_token)
+            return response
         else:
             return 'Invalid Login Info!', 400
     except AttributeError:
         return 'Provide an Email and Password in JSON format in the request body', 400
 
 @app.route("/logout", methods=["POST"])
-def logout():
+def logout_with_cookies():
     response = jsonify({"msg": "logout successful"})
     unset_jwt_cookies(response)
     return response
@@ -149,3 +283,4 @@ def test():
 
 if __name__ == '__main__':
     app.run(debug=True)
+    #app.run(host="localhost", debug=True)

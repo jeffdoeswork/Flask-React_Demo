@@ -1,43 +1,42 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import "./UserFeed.css"
-// this is actually the user profile page, its static url so you can't look at other users. This will go through big changes hopeflly soon
-//it also shows all the artfiacts that user had made, a lot of the code is the same from the ArtifactFeed.js file
-const Test = () => {
+//Grabs both the hypo's and datas artifacts from the artifacts API
+
+const ArtifactFeed = () => {
   const [userpost, setUserPost] = useState([]);
   const [email, setEmail] = useState({
     email : ""
   });
+  //gets current email from api
   const getUser = async () => {
     const data = await axios.get(`http://127.0.0.1:5000/test`, { withCredentials: true })
     setEmail(data.data);
   }
-
+  //gets all the artifacts from artifact api
   const fetchData = async () => {
     const data = await axios.get(`http://127.0.0.1:5000/artifacts`);
     //console.log(data);
     //const { posts } = data.data
     setUserPost(data.data);
-
-
   }
-
+  //sends data at launch of webpage
   useEffect(() => {
     getUser(); 
     fetchData(); 
   }, [])
-
-  
   console.log(userpost);
-  // copies with double if statmens from the ArtifactFeed.js file, this way it only shows the users' artifacts, blue for data and purple for hypo
+
+  //i have an if statment in and if statment
+    //the first if checks to see if you're logged in 
+    // the next if checks if its a data or hypo because data = blue and hypo = purple (very importaint)
   if (email.email) {
     return (
       <div>
-      <h2> Hello { email.email }</h2>
+      <h2> Artifact Feed</h2>
         {(userpost.artifacts)?.map((artifact) => {
 
-
-              { if (email.email === artifact.email_datas) {
+              { if (artifact.email_datas) {
                 return (
               <div className="user_slider_section">
                 <div className="data_slider_border">
@@ -49,7 +48,7 @@ const Test = () => {
                 </div>
               </div>
                 )
-            } else if (email.email === artifact.email_hypos) {
+            } else {
               return (
               <div className="user_slider_section">
                 <div className="hypo_slider_border">
@@ -63,10 +62,7 @@ const Test = () => {
               )
             }
           }
-
-          }
-        ) 
-        }
+        })}
       </div>
     )
   } else {
@@ -79,4 +75,4 @@ const Test = () => {
 
 };
 
-export default Test;
+export default ArtifactFeed

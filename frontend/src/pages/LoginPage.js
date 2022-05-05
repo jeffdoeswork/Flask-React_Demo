@@ -1,25 +1,34 @@
 import React, {useState} from 'react'
 import httpClient from '../httpClient';
 
+
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const logInUser = async () => {
     console.log(email, password)
-
+    //this fancy post lets you login and it saves cookies to the browser, the refresh cookies should time out after an hour
     try {
       const resp = await httpClient.post(`http://127.0.0.1:5000/login`, {
         email,
         password,
+      }, {withCredentials: true})
+      .then((response) => {
+        if (response.data.accessToken) {
+          localStorage.setItem("user", JSON.stringify(response.data));
+        }
+        return response.data;
       });
       fetch(resp, {
         credentials: 'include'
-        })
-      window.location.href = "/test";
+        });
+      window.location.href = "/my_account";
     } catch (error) {
-     if (error.response.status === 401) {
-      alert("Invalid credentials");
+     if (error.response.status === 400) {
+      alert("Invalid credentials, might be a bad password");
+    } else {
+      alert("Invalid credentials, probably not the right email");
     }
   }
   };

@@ -1,0 +1,54 @@
+
+.hypo_slider_border {
+  margin: auto;
+  text-align: center;
+  background-color: none;
+  color: #cb0fb8;
+  /*padding: 15px 0;
+  padding-top: 25px;*/
+  height: 160px;
+  width: 600px;
+  border: 3px solid #cb0fb8;
+  border-radius: 20px;
+  font-size: 1.25em;
+}
+
+h2 {
+  text-align: center;
+}
+
+.text-left-right {
+  float: right;
+  width: 45%;
+  text-align: right
+}
+.left-text {
+  float: left;
+   width: 40%
+}
+
+.entry_box {
+  text-align: center;
+}
+
+.email {
+  padding-top: 10px;
+  padding-left: 30px;
+  text-align: left;
+}
+.artifact_id {
+  padding-top: 10px;
+  padding-left: 30px;
+  text-align: right;
+}
+
+.slider_section {
+  margin: auto;
+  padding: 10px;
+  width: 600px;
+  height: 185px;
+}
+
+.hidden { 
+  display:none;
+ }
