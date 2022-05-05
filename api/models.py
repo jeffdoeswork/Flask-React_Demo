@@ -21,6 +21,15 @@ class Hypos(db.Model):
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     email_hypos = db.Column(db.Text, db.ForeignKey('User.email'))
 
+class Methods(db.Model):
+    __tablename__ = 'Methods'
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.Text, unique=True, nullable=False)
+    email_method = db.Column(db.Text, db.ForeignKey('User.email'))
+    hypo = db.Column(db.INT, db.ForeignKey('Hypos.id'))
+    data = db.Column(db.INT, db.ForeignKey('Datas.id'))
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
 def format_json(data):
     return {
         "datas" : data.datas,

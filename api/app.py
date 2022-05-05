@@ -9,7 +9,7 @@ from datetime import datetime, timedelta, timezone
 from flask_cors import CORS, cross_origin
 #from flask_session import Session
 import redis
-from models import User, Datas, Hypos, format_json, hypo_format_json
+from models import User, Datas, Hypos, Methods, format_json, hypo_format_json
 from db import db
 
 app = Flask(__name__)
@@ -112,13 +112,33 @@ def get_artifacts():
 
     return {'artifacts': sorted_list}
 
-
 #get stingle datas
-#@app.route("/datas/<id>", methods=["GET"])
-#def get_data(id):
-#    data = Datas.query.filter_by(id=id).one()
-#    formated_data = format_json(data)
-#    return {'data' : formated_data}
+@app.route("/datas/<id>", methods=["GET"])
+def get_data(id):
+    data = Datas.query.filter_by(id=id).one()
+    formated_data = format_json(data)
+    return {'data' : formated_data}
+
+#get stingle hypothesis
+@app.route("/hypo/<id>", methods=["GET"])
+def get_hypo(id):
+    hypo = Hypos.query.filter_by(id=id).one()
+    formated_hypo = hypo_format_json(hypo)
+    return {'hypo' : formated_hypo}
+
+#create method
+@app.route('/methods', methods=['POST'])
+def make_methods():
+    email = request.json.get('email_method', None)
+    title = request.json.get('title', None)
+    data = request.json.get('data', None)
+    hypo = request.json.get('hypo', None)
+
+    method = Methods(title=title, email_method=email, hypo=hypo, data=data)
+    db.session.add(method)
+    db.session.commit()
+
+    return "You've created a Method", 200
 
 #delete and event
 #@app.route("/events/<id>", methods=["DELETE"])
