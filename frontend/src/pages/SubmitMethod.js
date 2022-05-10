@@ -16,7 +16,15 @@ const SubmitMethod = () => {
     const [visible, setVisible] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
     const [modalText, setModalText] = useState('Content of the modal');
+    const [email, setEmail] = useState({
+        email : ""
+      });
 
+    const getUser = async () => {
+        const data = await axios.get(`http://127.0.0.1:5000/test`, { withCredentials: true })
+        console.log(data);
+        setEmail(data.data);
+      }
     const handleChange = (e, field) => {
         setMethodtitle(e.target.value);
       }
@@ -25,13 +33,23 @@ const SubmitMethod = () => {
 
       };
     
-    const handleOk = () => {
-        setModalText('Sending Method');
-        setConfirmLoading(true);
-        setTimeout(() => {
-            setVisible(false);
-            setConfirmLoading(false);
-        }, 500);
+    const handleOk = async () => {
+        const body_email = email.email
+        const title = methodtitle
+        const data = methoddata
+        const hypo = methodhypo
+        try {
+            const method = await axios.post(`http://127.0.0.1:5000/method`, {title, body_email, data, hypo})
+
+            setModalText('Sending Method');
+            setConfirmLoading(true);
+            setTimeout(() => {
+                setVisible(false);
+                setConfirmLoading(false);
+            }, 500);
+        } catch (err) {
+            console.error(err.message); 
+        }
     };
 
 
@@ -55,14 +73,18 @@ const SubmitMethod = () => {
     };
     function Borrowdata(props) {
         const dataid = window.$datamethodid
+        setMethoddata(dataid);
         console.log(dataid);
         return fetchData(dataid);
     }
     function Borrowhypo(props) {
         const hypoid = window.$hypomethodid
+        setMethoddhypo(hypoid);
         return fetchHypo(hypoid);
     }
-
+    useEffect(() => {
+        getUser(); 
+      }, [])
     return (
     <>
         <div className='entry_box'> 

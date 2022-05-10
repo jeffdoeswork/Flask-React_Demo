@@ -9,7 +9,7 @@ from datetime import datetime, timedelta, timezone
 from flask_cors import CORS, cross_origin
 #from flask_session import Session
 import redis
-from models import User, Datas, Hypos, Methods, format_json, hypo_format_json
+from models import User, Datas, Hypos, Methods, format_json, hypo_format_json, method_json
 from db import db
 
 app = Flask(__name__)
@@ -88,6 +88,30 @@ def make_hypo():
     db.session.commit()
 
     return "You've created a Hypo", 200
+
+#make method
+@app.route('/method', methods=['POST'])
+def make_method():
+    email = request.json.get('body_email', None)
+    title = request.json.get('title', None)
+    hypo = request.json.get('hypo', None)
+    data = request.json.get('data', None)
+
+    method = Methods(title=title, email_method=email, hypo=hypo, data=data)
+    db.session.add(method)
+    db.session.commit()
+
+    return "You've created a Method", 200
+
+#get all methods
+@app.route('/method', methods=["GET"])
+def get_methods():
+    methods = Methods.query.order_by(Methods.created_at.desc()).all()
+    method_list = []
+    for method in methods:
+        method_list.append(method_json(method))
+    return {'methods' : method_list}
+
 
 #get all hypos
 @app.route("/hypos", methods=["GET"])
