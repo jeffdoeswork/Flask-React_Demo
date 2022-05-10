@@ -50,7 +50,7 @@ export default function App() {
         theme="dark"
       >
           <Menu.Item key="2" icon={<UnorderedListOutlined />}>
-            <a href="http://127.0.0.1:4000/newsfeed">Artifact Feed</a>
+            <a href="http://127.0.0.1:4000/newsfeed">Newsfeed</a>
           </Menu.Item>
           <Menu.Item key="7" icon={<ExperimentOutlined />}>
             <a href="http://127.0.0.1:4000/">Method Maker</a>
