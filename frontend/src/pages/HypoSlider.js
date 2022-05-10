@@ -66,6 +66,13 @@ const HypoSlider = () => {
   };
 
   const [stylechange, setStylechange] = useState("");
+
+  //make function for GOTO
+  function sendHypo(props) {
+    const hypo_len = hypoList.length
+    ref.current.goTo(hypo_len, false);
+  };
+
   //The work horse of this Hyposlider components. Calls in a lot of help from other funcitons
   const handleSubmit = async (idlength) => {
     const body_email = email.email
@@ -77,9 +84,9 @@ const HypoSlider = () => {
       setBody('');
       fetchData();
       setStylechange(hypoList.length + 1);
-      ref.current.goTo(hypoList.length, false);
       setHypomethodid(idlength);
       window.$hypomethodid = hypomethodid //global variable
+      sendHypo();
       toggler();
       
       
