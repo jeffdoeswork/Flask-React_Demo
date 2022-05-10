@@ -81,6 +81,7 @@ const TestSlider = () => {
       setStylechange(dataList.length + 1);
       ref.current.goTo(dataList.length, false);
       setDatamethodid(idlength);
+      window.$datamethodid = datamethodid //global variable for data artifact's ID
       toggler();
       
       

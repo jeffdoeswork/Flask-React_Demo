@@ -117,7 +117,7 @@ def get_artifacts():
     return {'artifacts': sorted_list}
 
 #get stingle datas
-@app.route("/datas/<id>", methods=["GET"])
+@app.route("/data/<id>", methods=["GET"])
 def get_data(id):
     data = Datas.query.filter_by(id=id).one()
     formated_data = format_json(data)

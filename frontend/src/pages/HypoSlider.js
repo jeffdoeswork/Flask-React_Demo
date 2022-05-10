@@ -27,7 +27,7 @@ const HypoSlider = () => {
   
   //get data artifacts api
   const fetchData = async () => {
-    const data = await axios.get(`http://127.0.0.1:5000/hypos`)
+    const data = await axios.get('http://127.0.0.1:5000/hypos')
     const { hypos } = data.data
     setHypoList(hypos);
     console.log(hypoList);
@@ -79,6 +79,7 @@ const HypoSlider = () => {
       setStylechange(hypoList.length + 1);
       ref.current.goTo(hypoList.length, false);
       setHypomethodid(idlength);
+      window.$hypomethodid = hypomethodid //global variable
       toggler();
       
       
