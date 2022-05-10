@@ -158,7 +158,7 @@ const HypoSlider = () => {
   </div>
 </div>
   );} else {
-    return ( <h2>Register and Login with an account to use the Method Maker</h2>)
+    return ( <h2></h2>)
   }
 };
 export default HypoSlider;
