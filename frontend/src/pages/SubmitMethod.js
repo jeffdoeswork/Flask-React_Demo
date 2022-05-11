@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
-import { Modal, Button } from 'antd';
+import { Row, Col, Modal, Button } from 'antd';
 import axios from 'axios';
+import "./MethodFeed.css"
 
 const SubmitMethod = () => {
       //These 2 variables are actually global variables
@@ -87,19 +88,30 @@ const SubmitMethod = () => {
       }, [])
     return (
     <>
-        <div className='entry_box'> 
-        <Button onClick={() => {setMethoddata(window.$datamethodid); setMethoddhypo(window.$hypomethodid); showModal(); Borrowdata();Borrowhypo(); }}>Preview Method</Button>
-            <form>
-                <div className='entry_box'>
-                    <input
-                        onChange={(e) => handleChange(e, "methodtitle")}
-                        type="text"
-                        name="methodtitle"
-                        id="methodtitle"
-                        value={methodtitle}
-                    />
+        <div> 
+        <Row>
+            <Col span={8}> </Col>
+            <Col span={4}> <h2>Enter Title for your Method</h2> </Col>
+            <Col span={4}>
+                <form>
+                    <div>
+                        <input
+                            onChange={(e) => handleChange(e, "methodtitle")}
+                            type="text"
+                            name="methodtitle"
+                            id="methodtitle"
+                            value={methodtitle}
+                        />
+                    </div>
+                </form>
+            </Col>
+            <Col span={8}>
+                <div className='right_end'>
+                    <Button type="primary" onClick={() => {setMethoddata(window.$datamethodid); setMethoddhypo(window.$hypomethodid); showModal(); Borrowdata();Borrowhypo(); }}>Preview Method</Button>
                 </div>
-            </form>
+            </Col>
+
+        </Row>
         </div>
         <Modal
         title={methodtitle}
