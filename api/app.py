@@ -112,6 +112,14 @@ def get_methods():
         method_list.append(method_json(method))
     return {'methods' : method_list}
 
+#get user's methods
+@app.route('/method/<email>', methods=["GET"])
+def get_user_methods(email):
+    methods = Methods.query.filter_by(email_method=email).order_by(Methods.created_at.desc()).all()
+    method_list = []
+    for method in methods:
+        method_list.append(method_json(method))
+    return {'methods' : method_list}
 
 #get all hypos
 @app.route("/hypos", methods=["GET"])

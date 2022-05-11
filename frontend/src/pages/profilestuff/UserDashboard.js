@@ -39,7 +39,7 @@ const UserDashboard = () => {
                     { toggle ? 
                        <ProfileArtifacts user={email.email} />
                         :
-                        <ProfileMethods />
+                        <ProfileMethods method_user={email.email} />
                 }
                     
                 </div>

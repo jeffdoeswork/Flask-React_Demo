@@ -5,7 +5,7 @@ import "./MethodFeed.css"
 import DataArtifact from '..//artifacts/DataArtifact';
 import HypoArtifact from '..//artifacts/HypoArtifact';
 
-const ProfileMethods = () => {
+const ProfileMethods = (props) => {
 
     const { Meta } = Card;
     const gridStyle = {
@@ -15,7 +15,7 @@ const ProfileMethods = () => {
     const [methods, setMethods] = useState([]);
 
     const fetchMethods = async () => {
-        const response = await axios.get(`http://127.0.0.1:5000/method`);
+        const response = await axios.get(`http://127.0.0.1:5000/method/${props.method_user}`);
         //console.log(response.data.methods);
         //console.log("lookie here guy");
         //const { posts } = data.data

@@ -22,7 +22,6 @@ const ProfileFeed = (props) => {
   // copies with double if statmens from the ArtifactFeed.js file, this way it only shows the users' artifacts, blue for data and purple for hypo
     return (
       <div>
-      <h2> Hello { props.user }</h2>
         {(userpost.artifacts)?.map((artifact) => {
 
 
