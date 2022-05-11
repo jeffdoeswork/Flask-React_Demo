@@ -33,9 +33,9 @@ const NewsFeed = () => {
         <div>
             <div className='center'>
                 { toggle ?
-                    <Button size="large" type="primary" onClick={() => toggler()}>Method Feed</Button>
-                    :
                     <Button size="large" type="primary" onClick={() => toggler()}>Artifact Feed</Button>
+                    :
+                    <Button size="large" type="primary" onClick={() => toggler()}>Method Feed</Button>
                 }
             </div>
             <br></br>

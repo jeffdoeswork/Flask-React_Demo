@@ -140,6 +140,23 @@ def get_artifacts():
 
     return {'artifacts': sorted_list}
 
+#get user's artifacts
+@app.route("/artifacts/<email>", methods=["GET"])
+def get_user_artifacts(email):
+    hypos = Hypos.query.filter_by(email_hypos=email).order_by(Hypos.created_at.desc()).all()
+    hypos_list = []
+    for hypo in hypos:
+        hypos_list.append(hypo_format_json(hypo))
+    datas = Datas.query.filter_by(email_datas=email).order_by(Datas.created_at.desc()).all()
+    datas_list = []
+    for data in datas:
+        datas_list.append(format_json(data))
+    artifacts_list = datas_list + hypos_list
+    sorted_list = sorted(artifacts_list, key=lambda x: datetime.strptime(str(x['created_at']), r'%Y-%m-%d %H:%M:%S.%f'), reverse=True)
+    print(sorted_list)
+
+    return {'artifacts': sorted_list}
+
 #get stingle datas
 @app.route("/data/<id>", methods=["GET"])
 def get_data(id):

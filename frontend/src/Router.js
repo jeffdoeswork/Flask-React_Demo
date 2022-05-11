@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom"
 import LandingPage from './pages/methodmaker/LandingPage';
 import NotFound from './pages/NotFound';
 import LoginPage from './pages/userstuff/LoginPage';
-import ProfileFeed from './pages/profilestuff/ProfileFeed';
+import UserDashboard from './pages/profilestuff/UserDashboard';
 import RegisterPage from './pages/userstuff/RegisterPage';
 import Logout from './pages/userstuff/Logout';
 import NewsFeed from './pages/newsfeed/NewsFeed';
@@ -17,7 +17,7 @@ const Router = () => {
             <Route path="/login"  element={<LoginPage />}/>
             <Route path="/register"  element={<RegisterPage />}/>
             <Route path="*"  element={<NotFound />} />
-            <Route path="/my_account" element={<ProfileFeed />}/>
+            <Route path="/my_account" element={<UserDashboard />}/>
             <Route path="/logout"  element={<Logout />}/>
           </Routes>
         </BrowserRouter>
