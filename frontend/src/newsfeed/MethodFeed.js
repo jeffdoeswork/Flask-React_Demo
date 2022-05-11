@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import { Avatar, Card } from 'antd';
-import "./MethodFeed.css"
-import DataArtifact from './artifacts/DataArtifact';
-import HypoArtifact from './artifacts/HypoArtifact';
+import "../newsfeed/MethodFeed.css"
+import DataArtifact from '../pages/artifacts/DataArtifact';
+import HypoArtifact from '../pages/artifacts/HypoArtifact';
 
 const MethodFeed = () => {
     const { Meta } = Card;
@@ -26,8 +26,6 @@ const MethodFeed = () => {
         //console.log("lookie here guy");
         //const { posts } = data.data
         setMethods(response.data.methods);
-    
-
     }
     useEffect(() => {
         getUser(); 
