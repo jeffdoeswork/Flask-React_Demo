@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
-import TestSlider from './ArtifactSlider';
+import TestSlider from '../methodmaker/ArtifactSlider';
 import 'antd/dist/antd.css';
 import './landingpage.css';
-import HypoSlider from './HypoSlider';
+import HypoSlider from '../methodmaker/HypoSlider';
 import { Layout, Menu, Modal, Button } from 'antd';
 import SubmitMethod from './SubmitMethod'
 import axios from 'axios';

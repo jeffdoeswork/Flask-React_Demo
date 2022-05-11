@@ -16,7 +16,7 @@ import {
   UnorderedListOutlined
 } from '@ant-design/icons';
 import Router from './Router';
-import Test from './pages/Test';
+import ProfileFeed from './pages/profilestuff/ProfileFeed';
 import axios from 'axios';
 // i use the App.js file to handel the nav bar, the nav bar is from the AntD css & react library i downloaded, its pretty straigh foroward
 

@@ -3,7 +3,7 @@ import axios from 'axios';
 import "./UserFeed.css"
 // this is actually the user profile page, its static url so you can't look at other users. This will go through big changes hopeflly soon
 //it also shows all the artfiacts that user had made, a lot of the code is the same from the ArtifactFeed.js file
-const Test = () => {
+const ProfileFeed = () => {
   const [userpost, setUserPost] = useState([]);
   const [email, setEmail] = useState({
     email : ""
@@ -79,4 +79,4 @@ const Test = () => {
 
 };
 
-export default Test;
+export default ProfileFeed;

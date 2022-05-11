@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import ArtifactFeed from './newsfeed/ArtifactFeed';
-import MethodFeed from './newsfeed/MethodFeed';
+import ArtifactFeed from './ArtifactFeed';
+import MethodFeed from './MethodFeed';
 import axios from 'axios';
 import { Button } from "antd";
-import "./newsfeed/MethodFeed.css" 
+import "./MethodFeed.css" 
 
 const NewsFeed = () => {
     const [email, setEmail] = useState({

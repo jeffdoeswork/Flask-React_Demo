@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { Row, Col, Modal, Button } from 'antd';
 import axios from 'axios';
-import "../newsfeed/MethodFeed.css"
+import "./MethodFeed.css"
 
 const SubmitMethod = () => {
       //These 2 variables are actually global variables

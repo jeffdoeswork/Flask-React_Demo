@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import { Avatar, Card } from 'antd';
-import "../newsfeed/MethodFeed.css"
-import DataArtifact from '../pages/artifacts/DataArtifact';
-import HypoArtifact from '../pages/artifacts/HypoArtifact';
+import "./MethodFeed.css"
+import DataArtifact from '..//artifacts/DataArtifact';
+import HypoArtifact from '..//artifacts/HypoArtifact';
 
 const MethodFeed = () => {
     const { Meta } = Card;
