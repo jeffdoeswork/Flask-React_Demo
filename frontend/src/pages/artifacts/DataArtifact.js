@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
-import { Avatar, Card } from 'antd';
+import { Avatar, Card, Row, Col } from 'antd';
 import "./DataArtifact.css"
 
 function DataArtifact(props) {
@@ -27,11 +27,11 @@ function DataArtifact(props) {
             <Card bordered={false}>
             <Meta
                 avatar={<Avatar size={60}>{getdata.email_datas}</Avatar>}
+                title={getdata.created_at}
             />
-
-            <h3 key={getdata.id}>
-                {getdata.datas}  
-            </h3>
+                <h3 key={getdata.id}>
+                    {getdata.datas}  
+                </h3>
             </Card>
             </div>
         </div>

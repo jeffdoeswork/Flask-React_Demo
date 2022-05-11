@@ -1,0 +1,22 @@
+.hypo_artifact {
+    margin: auto;
+    text-align: center;
+    background-color: none;
+    color: #cb0fb8;
+    /*padding: 15px 0;
+    padding-top: 25px;*/
+    height: 160px;
+    width: 600px;
+    border: 3px solid #cb0fb8;
+    border-radius: 20px;
+    font-size: 1.25em;
+    padding: 5px;
+
+  }
+
+  .artifact_section {
+    margin: auto;
+    padding: 2px;
+    width: 700px;
+    height: 125px;
+  }
