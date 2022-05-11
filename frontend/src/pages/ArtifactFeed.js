@@ -30,7 +30,6 @@ const ArtifactFeed = () => {
   //i have an if statment in and if statment
     //the first if checks to see if you're logged in 
     // the next if checks if its a data or hypo because data = blue and hypo = purple (very importaint)
-  if (email.email) {
     return (
       <div>
       <h2> Artifact Feed</h2>
@@ -65,13 +64,6 @@ const ArtifactFeed = () => {
         })}
       </div>
     )
-  } else {
-    return (
-      <div>
-      <h2> You should Probably login</h2>
-      </div>
-    )
-  }
 
 };
 
