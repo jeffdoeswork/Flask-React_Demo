@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 import 'antd/dist/antd.css';
 import { Button, Carousel } from "antd";
 import { Link } from 'react-router-dom';
-import httpClient from '../httpClient';
 import "./TestSlider.css"
 import axios from 'axios';
 //This file is for the Hypothesis Artifact Slider, its twins with DataSlider ArtifactSlider is the file name
@@ -27,7 +26,7 @@ const HypoSlider = () => {
   
   //get data artifacts api
   const fetchData = async () => {
-    const data = await axios.get(`http://127.0.0.1:5000/hypos`)
+    const data = await axios.get('http://127.0.0.1:5000/hypos')
     const { hypos } = data.data
     setHypoList(hypos);
     console.log(hypoList);
@@ -66,6 +65,13 @@ const HypoSlider = () => {
   };
 
   const [stylechange, setStylechange] = useState("");
+
+  //make function for GOTO
+  function sendHypo(props) {
+    const hypo_len = hypoList.length
+    ref.current.goTo(hypo_len, false);
+  };
+
   //The work horse of this Hyposlider components. Calls in a lot of help from other funcitons
   const handleSubmit = async (idlength) => {
     const body_email = email.email
@@ -77,8 +83,9 @@ const HypoSlider = () => {
       setBody('');
       fetchData();
       setStylechange(hypoList.length + 1);
-      ref.current.goTo(hypoList.length, false);
       setHypomethodid(idlength);
+      window.$hypomethodid = hypomethodid //global variable
+      sendHypo();
       toggler();
       
       
@@ -158,7 +165,7 @@ const HypoSlider = () => {
   </div>
 </div>
   );} else {
-    return ( <h2>Register and Login with an account to use the Method Maker</h2>)
+    return ( <h2></h2>)
   }
 };
 export default HypoSlider;

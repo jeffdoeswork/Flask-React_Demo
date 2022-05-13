@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import httpClient from '../httpClient';
+import axios from 'axios';
 
 //simple post api to create user with hased email, the backend api handles the hash part
 const RegisterPage = () => {
@@ -11,7 +11,7 @@ const RegisterPage = () => {
     console.log(email, password)
 
     try {
-      const resp = await httpClient.post(`http://127.0.0.1:5000/register`, {
+      const resp = await axios.post(`http://127.0.0.1:5000/register`, {
         email,
         password,
       });

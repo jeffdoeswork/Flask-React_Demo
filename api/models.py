@@ -45,3 +45,13 @@ def hypo_format_json(data):
         "created_at" : data.created_at,
         "email_hypos" : data.email_hypos
     }
+
+def method_json(data):
+    return {
+        'title' : data.title,
+        'email_method' : data.email_method,
+        'hypo' : data.hypo,
+        'data' : data.data,
+        'created_at' : data.created_at
+
+    }

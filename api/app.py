@@ -9,7 +9,7 @@ from datetime import datetime, timedelta, timezone
 from flask_cors import CORS, cross_origin
 #from flask_session import Session
 import redis
-from models import User, Datas, Hypos, Methods, format_json, hypo_format_json
+from models import User, Datas, Hypos, Methods, format_json, hypo_format_json, method_json
 from db import db
 
 app = Flask(__name__)
@@ -89,6 +89,38 @@ def make_hypo():
 
     return "You've created a Hypo", 200
 
+#make method
+@app.route('/method', methods=['POST'])
+def make_method():
+    email = request.json.get('body_email', None)
+    title = request.json.get('title', None)
+    hypo = request.json.get('hypo', None)
+    data = request.json.get('data', None)
+
+    method = Methods(title=title, email_method=email, hypo=hypo, data=data)
+    db.session.add(method)
+    db.session.commit()
+
+    return "You've created a Method", 200
+
+#get all methods
+@app.route('/method', methods=["GET"])
+def get_methods():
+    methods = Methods.query.order_by(Methods.created_at.desc()).all()
+    method_list = []
+    for method in methods:
+        method_list.append(method_json(method))
+    return {'methods' : method_list}
+
+#get user's methods
+@app.route('/method/<email>', methods=["GET"])
+def get_user_methods(email):
+    methods = Methods.query.filter_by(email_method=email).order_by(Methods.created_at.desc()).all()
+    method_list = []
+    for method in methods:
+        method_list.append(method_json(method))
+    return {'methods' : method_list}
+
 #get all hypos
 @app.route("/hypos", methods=["GET"])
 def get_hypos():
@@ -116,8 +148,25 @@ def get_artifacts():
 
     return {'artifacts': sorted_list}
 
+#get user's artifacts
+@app.route("/artifacts/<email>", methods=["GET"])
+def get_user_artifacts(email):
+    hypos = Hypos.query.filter_by(email_hypos=email).order_by(Hypos.created_at.desc()).all()
+    hypos_list = []
+    for hypo in hypos:
+        hypos_list.append(hypo_format_json(hypo))
+    datas = Datas.query.filter_by(email_datas=email).order_by(Datas.created_at.desc()).all()
+    datas_list = []
+    for data in datas:
+        datas_list.append(format_json(data))
+    artifacts_list = datas_list + hypos_list
+    sorted_list = sorted(artifacts_list, key=lambda x: datetime.strptime(str(x['created_at']), r'%Y-%m-%d %H:%M:%S.%f'), reverse=True)
+    print(sorted_list)
+
+    return {'artifacts': sorted_list}
+
 #get stingle datas
-@app.route("/datas/<id>", methods=["GET"])
+@app.route("/data/<id>", methods=["GET"])
 def get_data(id):
     data = Datas.query.filter_by(id=id).one()
     formated_data = format_json(data)

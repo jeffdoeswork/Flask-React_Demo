@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 import 'antd/dist/antd.css';
 import { Button, Carousel } from "antd";
 import { Link } from 'react-router-dom';
-import httpClient from '../httpClient';
 import "./TestSlider.css"
 import axios from 'axios';
 //This file is for the Data Artifact Slider, its twins with HypoSlider
@@ -81,6 +80,7 @@ const TestSlider = () => {
       setStylechange(dataList.length + 1);
       ref.current.goTo(dataList.length, false);
       setDatamethodid(idlength);
+      window.$datamethodid = datamethodid //global variable for data artifact's ID
       toggler();
       
       

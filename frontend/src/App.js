@@ -16,7 +16,7 @@ import {
   UnorderedListOutlined
 } from '@ant-design/icons';
 import Router from './Router';
-import Test from './pages/Test';
+import ProfileFeed from './pages/profilestuff/ProfileFeed';
 import axios from 'axios';
 // i use the App.js file to handel the nav bar, the nav bar is from the AntD css & react library i downloaded, its pretty straigh foroward
 
@@ -50,7 +50,7 @@ export default function App() {
         theme="dark"
       >
           <Menu.Item key="2" icon={<UnorderedListOutlined />}>
-            <a href="http://127.0.0.1:4000/newsfeed">Artifact Feed</a>
+            <a href="http://127.0.0.1:4000/newsfeed">Newsfeed</a>
           </Menu.Item>
           <Menu.Item key="7" icon={<ExperimentOutlined />}>
             <a href="http://127.0.0.1:4000/">Method Maker</a>
