@@ -1,21 +1,22 @@
-import React, {useState, useEffect} from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from "react-router-dom";
 
 // This doen't work at all! Oh well
 const LandingPage = () => {
-  const navigate = useNavigate("/");
-
     const logoutUser = data => {
-      navigate();
       return axios.get(`http://127.0.0.1:5000/logout`, { withCredentials: true })
         
     }
-        
-    /*useEffect(() => {
-        logoutUser(); 
-        window.location.href = "/";
-        }, [])*/
+
+    useEffect(() => {
+      logoutUser(); 
+      logoutUser(); 
+
+        }, 1000)
+
+    useEffect(() => {
+      window.location.href = "/";
+      }, [])
 
   return (
     <div>
