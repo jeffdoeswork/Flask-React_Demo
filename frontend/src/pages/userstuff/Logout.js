@@ -1,25 +1,25 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
-
-
+import { useNavigate } from "react-router-dom";
 
 // This doen't work at all! Oh well
 const LandingPage = () => {
+  const navigate = useNavigate("/");
 
     const logoutUser = data => {
-        return axios.post(`http://127.0.0.1:5000/logout`)
-
-        window.location.href = "/";
+      navigate();
+      return axios.get(`http://127.0.0.1:5000/logout`, { withCredentials: true })
+        
     }
         
-    useEffect(() => {
+    /*useEffect(() => {
         logoutUser(); 
-        }, [])
+        window.location.href = "/";
+        }, [])*/
 
   return (
     <div>
-        <h2> The logout function doesn't work, but the refresh cookies should expire when you leave the browser</h2>
-        { logoutUser() }
+        <h2>Thank you for testing out Socialtific!</h2>
     </div>
   );
 };
