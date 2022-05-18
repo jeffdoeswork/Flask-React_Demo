@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import ReactDOM from "react-dom";
 import 'antd/dist/antd.css';
-import { Button, Carousel, Pagination, Avatar, Card } from "antd";
+import { Button, Carousel, Pagination, Avatar, Card, List } from "antd";
 import { Link } from 'react-router-dom';
 import "./TestSlider.css"
 import axios from 'axios';
@@ -73,6 +73,8 @@ const HypoSlider = () => {
     ref.current.goTo(hypo_len, false);
   };
 
+  const { Meta } = Card;
+
   //The work horse of this Hyposlider components. Calls in a lot of help from other funcitons
   const handleSubmit = async (idlength) => {
     const body_email = email.email
@@ -106,7 +108,6 @@ const HypoSlider = () => {
           <Carousel ref={ref} dots={false} slidesToShow={1}>
               {hypoList.map(image => {
                   return (
-                    <Card bordered={false}>
                       <div className="slider_section">
                               <div className="hypo_testslider_border">
                                 { toggle ? 
@@ -128,11 +129,15 @@ const HypoSlider = () => {
                                 </form>
                                 </div>
                                 :
-                                <div>
-                                <h3 class="">
-                                  <span className="left-text">User:{image.email_hypos}</span>
-                                  <span className="text-left-righ">Artifact ID:{image.id}</span>
-                                </h3>
+                                <div
+                                style={{
+                                  marginLeft: 25,
+                                  marginTop: 10,
+                                  }}>
+                                  <Meta
+                                      avatar={<Avatar size={60}>{image.email_hypos}</Avatar>}
+                                      title={"Artifact ID: " + image.id}
+                                    />
                                   <h3>{image.hypos}</h3>
                                   <Button type="primary" style={{ background: "#e9d900", borderColor: "#e9d900" }} onClick={() => {setStylechange(image.id); setHypomethodid(image.id);}}> Borrow Artifact </Button>
                                   <Button type="primary" style={{ background: "#cb0fb8", borderColor: "#cb0fb8" }}onClick={() => {setHypomethodid(image.id); toggler();}} >Make Artifact</Button>
@@ -140,7 +145,6 @@ const HypoSlider = () => {
                               }
                           </div>
                         </div>
-                      </Card>
                   )
               })}
       </Carousel>
@@ -162,6 +166,7 @@ const HypoSlider = () => {
       )
   })}
   </div>
+
 </div>
   );} else {
     return ( <h2></h2>)

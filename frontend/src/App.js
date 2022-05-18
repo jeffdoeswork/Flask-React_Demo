@@ -62,7 +62,7 @@ export default function App() {
       }}
     >
       <Menu
-        style={{ width: 300 }}
+        style={{ width: 200 }}
         mode="inline"
         theme="dark"
       >
@@ -84,7 +84,7 @@ export default function App() {
           }
           { email.email ?
           <Menu.Item key="5" icon={<CommentOutlined />}>
-            <Link to="/my_account">{ email.email }</Link>
+            <Link to={"/"+ email.email}>{ email.email }</Link>
           </Menu.Item>
           : <></>}
           { email.email ?
@@ -108,7 +108,7 @@ export default function App() {
             <Route path="/login"  element={<LoginPage />}/>
             <Route path="/register"  element={<RegisterPage />}/>
             <Route path="*"  element={<NotFound />} />
-            <Route path="/my_account" element={<UserDashboard />}/>
+            <Route path={"/"+ email.email} element={<UserDashboard />}/>
             <Route path="/logout"  element={<Logout />}/>
           </Routes>
         </Layout>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import ReactDOM from "react-dom";
 import 'antd/dist/antd.css';
-import { Button, Carousel } from "antd";
+import { Button, Carousel, Avatar, Card } from "antd";
 import { Link } from 'react-router-dom';
 import "./TestSlider.css"
 import axios from 'axios';
@@ -67,6 +67,8 @@ const TestSlider = () => {
   };
 
   const [stylechange, setStylechange] = useState("");
+  const { Meta } = Card;
+
   //The work horse of this DataSlider (named ArtifactSlider) components. Calls in a lot of help from other funcitons
   const handleSubmit = async (idlength) => {
     const body_email = email.email
@@ -122,11 +124,15 @@ const TestSlider = () => {
                                 </form>
                                 </div>
                                 :
-                                <div>
-                                <h3 class="">
-                                  <span className="left-text">User:{image.email_datas}</span>
-                                  <span className="text-left-righ">Artifact ID:{image.id}</span>
-                                </h3>
+                                <div                                
+                                  style={{
+                                    marginLeft: 25,
+                                    marginTop: 10,
+                                    }}>
+                                    <Meta
+                                        avatar={<Avatar size={60}>{image.email_datas}</Avatar>}
+                                        title={"Artifact ID: " + image.id}
+                                  />
                                   <h3>{image.datas}</h3>
                                   <Button type="primary" style={{ background: "#e9d900", borderColor: "#e9d900" }} 
                                     onClick={() => {setStylechange(image.id);
