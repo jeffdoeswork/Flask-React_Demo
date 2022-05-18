@@ -1,10 +1,13 @@
 import React, {useState, useEffect} from 'react';
-import { Row, Col, Modal, Button } from 'antd';
+import { Row, Col, Modal, Button, Card, Avatar } from 'antd';
 import axios from 'axios';
 import "./MethodFeed.css"
+import DataArtifact from '..//artifacts/DataArtifact';
+import HypoArtifact from '..//artifacts/HypoArtifact';
 
 const SubmitMethod = () => {
       //These 2 variables are actually global variables
+    const { Meta } = Card;
     const [methodtitle, setMethodtitle] = useState("");
     const [methoddata, setMethoddata] = useState(0);
     const [methodhypo, setMethoddhypo] = useState(0);
@@ -16,7 +19,6 @@ const SubmitMethod = () => {
     });
     const [visible, setVisible] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
-    const [modalText, setModalText] = useState('Content of the modal');
     const [email, setEmail] = useState({
         email : ""
       });
@@ -42,7 +44,6 @@ const SubmitMethod = () => {
         try {
             const method = await axios.post(`http://127.0.0.1:5000/method`, {title, body_email, data, hypo})
 
-            setModalText('Sending Method');
             setConfirmLoading(true);
             setTimeout(() => {
                 setVisible(false);
@@ -119,19 +120,41 @@ const SubmitMethod = () => {
         onOk={handleOk}
         confirmLoading={confirmLoading}
         onCancel={handleCancel}
+        width={850}
         >
-        <p>{modalText}</p>
-        <div>
-            <h3>Data ID: {methoddata} and Hypo ID: {methodhypo}</h3>
-            { gethypo.email_hypos }
-            { gethypo.created_at }
-            { gethypo.id }
-            { gethypo.hypos }
+        <div
+            style={{
+            marginBottom: 25,
+            }}>
+                <div className="artifact_section">
+                    <div className="data_artifact">
+                    <Card bordered={false}>
+                    <Meta
+                        avatar={<Avatar size={60}>{getdata.email_datas}</Avatar>}
+                        title={getdata.created_at}
+                    />
+                        <h3 key={getdata.id}>
+                            {getdata.datas}  
+                        </h3>
+                    </Card>
+                    </div>
+                </div>
             <br></br>
-            { getdata.email_datas }
-            { getdata.id }
-            { getdata.created_at }
-            { getdata.datas }
+            <br></br>
+                <div className="artifact_section">
+                    <div className="hypo_artifact">
+                    <Card bordered={false}>
+                    <Meta
+                        avatar={<Avatar size={60}>{gethypo.email_hypos}</Avatar>}
+                        title={gethypo.created_at}
+                    />
+                        <h3 key={gethypo.id}>
+                            {gethypo.hypos}  
+                        </h3>
+                    </Card>
+                    </div>
+                </div>
+
         </div>
         </Modal>
     </>

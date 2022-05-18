@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import ReactDOM from "react-dom";
 import 'antd/dist/antd.css';
-import { Button, Carousel } from "antd";
+import { Button, Carousel, Pagination } from "antd";
 import { Link } from 'react-router-dom';
 import "./TestSlider.css"
 import axios from 'axios';
@@ -154,6 +154,7 @@ const HypoSlider = () => {
       alignItems: "center"
     }}
   >
+
   {hypoList.map(datanumber => {
       return (
           <div>
