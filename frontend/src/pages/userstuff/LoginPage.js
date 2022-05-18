@@ -1,10 +1,17 @@
 import React, {useState} from 'react'
 import axios from 'axios';
+import { Form, Input, Button, Card, Row, Col } from 'antd';
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const onFinish = (values) => {
+    console.log('Success:', values);
+  };
 
+  const onFinishFailed = (errorInfo) => {
+    console.log('Failed:', errorInfo);
+  };
   const logInUser = async () => {
     console.log(email, password)
     //this fancy post lets you login and it saves cookies to the browser, the refresh cookies should time out after an hour
@@ -34,27 +41,75 @@ const LoginPage = () => {
 
   return (
     <div>
-      <h1>Login to Your Account</h1>
-      <form>
-        <div>
-          <lable>Email:</lable>
-          <input 
-            type="text" 
-            value={email} 
-            onChange={(e) => setEmail(e.target.value)} 
-            id="" />
-        </div>
-        <div>
-          <lable>Password:</lable>
-          <input 
-            type="password" 
-            value={password} 
-            onChange={(e) => setPassword(e.target.value)} 
-            id="" />
-        </div>
-        <button type="button" onClick={() => logInUser()}>Submit</button>
-      </form>
-    </div>
+    <Row>
+    <Col span={8}> </Col>
+    <Col span={8}>
+    <Card style={{ width: 450 }}>
+    <h1>Login</h1>
+      <Form
+      name="basic"
+      labelCol={{
+        span: 8,
+      }}
+      wrapperCol={{
+        span: 16,
+      }}
+      onFinish={onFinish}
+      onFinishFailed={onFinishFailed}
+      autoComplete="off"
+    >
+      <Form.Item
+        label="Username"
+        name="username"
+        rules={[
+          {
+            required: true,
+            message: 'Please input your username!',
+          },
+        ]}
+      >
+        <Input 
+          type="text" 
+          value={email} 
+          onChange={(e) => setEmail(e.target.value)} 
+          id=""
+        />
+      </Form.Item>
+
+      <Form.Item
+        label="Password"
+        name="password"
+        rules={[
+          {
+            required: true,
+            message: 'Please input your password!',
+          },
+        ]}
+      >
+        <Input.Password 
+          type="password" 
+          value={password} 
+          onChange={(e) => setPassword(e.target.value)} 
+          id=""
+        />
+      </Form.Item>
+
+      <Form.Item
+        wrapperCol={{
+          offset: 8,
+          span: 16,
+        }}
+      >
+        <Button type="primary" htmlType="submit" onClick={() => logInUser()}>
+          Submit
+        </Button>
+      </Form.Item>
+    </Form>
+  </Card>
+  </Col>
+  <Col span={8}> </Col>
+  </Row>
+  </div>
   )
 }
 

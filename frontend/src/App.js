@@ -25,6 +25,8 @@ import UserDashboard from './pages/profilestuff/UserDashboard';
 import RegisterPage from './pages/userstuff/RegisterPage';
 import Logout from './pages/userstuff/Logout';
 import NewsFeed from './pages/newsfeed/NewsFeed';
+import './app.css'
+
 // i use the App.js file to handel the nav bar, the nav bar is from the AntD css & react library i downloaded, its pretty straigh foroward
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -39,7 +41,6 @@ export default function App() {
     console.log(data);
     setEmail(data.data);
   }
-
 
   useEffect(() => {
     getUser(); 
@@ -96,27 +97,21 @@ export default function App() {
 
     </div>
   </Layout>
-  <Layout
-      style={{
-        marginLeft: 200,
-      }}
-    >
-    <Layout
-      style={{
-        marginTop: 25,
-      }}
-    >
-        <Routes>
-          <Route path="/" element={<LandingPage />}/>
-          <Route path="/newsfeed"  element={<NewsFeed />}/>
-          <Route path="/login"  element={<LoginPage />}/>
-          <Route path="/register"  element={<RegisterPage />}/>
-          <Route path="*"  element={<NotFound />} />
-          <Route path="/my_account" element={<UserDashboard />}/>
-          <Route path="/logout"  element={<Logout />}/>
-        </Routes>
-      </Layout>
-    </Layout>
+    <Layout className='no_background'
+        style={{
+          marginLeft: 200,
+          marginTop: 25,
+        }}>
+          <Routes>
+            <Route path="/" element={<LandingPage />}/>
+            <Route path="/newsfeed"  element={<NewsFeed />}/>
+            <Route path="/login"  element={<LoginPage />}/>
+            <Route path="/register"  element={<RegisterPage />}/>
+            <Route path="*"  element={<NotFound />} />
+            <Route path="/my_account" element={<UserDashboard />}/>
+            <Route path="/logout"  element={<Logout />}/>
+          </Routes>
+        </Layout>
   </BrowserRouter>
   )
 }

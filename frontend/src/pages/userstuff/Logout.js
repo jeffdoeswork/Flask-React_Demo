@@ -12,7 +12,9 @@ const LandingPage = () => {
       logoutUser(); 
       logoutUser(); 
 
-        }, 1000)
+      logoutUser(); 
+
+        }, 2500)
 
     useEffect(() => {
       window.location.href = "/";
