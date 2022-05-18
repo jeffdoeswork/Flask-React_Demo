@@ -67,7 +67,18 @@ const TestSlider = () => {
   };
 
   const [stylechange, setStylechange] = useState("");
+  const [stylechangelist, setStylechangelist] = useState([]);
+
   const { Meta } = Card;
+
+  function borrowThree(data_id) {
+    if (stylechangelist.length < 3) {
+      setStylechangelist(stylechangelist =>[...stylechangelist, data_id]);
+    } else {
+      stylechangelist.splice(0 , 1);
+      setStylechangelist(stylechangelist =>[...stylechangelist, data_id]);
+    }
+  }
 
   //The work horse of this DataSlider (named ArtifactSlider) components. Calls in a lot of help from other funcitons
   const handleSubmit = async (idlength) => {
@@ -80,6 +91,7 @@ const TestSlider = () => {
       setBody('');
       fetchData();
       setStylechange(dataList.length + 1);
+      borrowThree(dataList.length + 1);
       ref.current.goTo(dataList.length, false);
       setDatamethodid(idlength);
       window.$datamethodid = datamethodid //global variable for data artifact's ID
@@ -95,7 +107,7 @@ const TestSlider = () => {
 
   return (
   <div>
-    <h2>Borrow or Make a Data Artifact</h2>
+    <h2>Borrow or Make up to 3 Data Artifacts</h2>
 
       <div>
           <Carousel ref={ref} dots={false} slidesToShow={1}>
@@ -135,8 +147,11 @@ const TestSlider = () => {
                                   />
                                   <h3>{image.datas}</h3>
                                   <Button type="primary" style={{ background: "#e9d900", borderColor: "#e9d900" }} 
-                                    onClick={() => {setStylechange(image.id);
-                                      setDatamethodid(image.id);}
+                                    onClick={() => {
+                                      setStylechange(image.id);
+                                      setDatamethodid(image.id);
+                                      borrowThree(image.id);
+                                      }
                                     }> 
                                     Borrow Artifact </Button>
                                   <Button type="primary" onClick={() => {setDatamethodid(image.id); toggler();}} >Make Artifact</Button>
@@ -161,7 +176,15 @@ const TestSlider = () => {
   {dataList.map(datanumber => {
       return (
           <div>
-              <p className={`btnSelected ${datanumber.id === stylechange ? "classname" : "btnNormal"}`} key={datanumber.id} onClick={() => goTo(datanumber.id  - 1)}> {datanumber.id }</p>
+            { stylechangelist.includes(datanumber.id) ?
+              <p className="btnSelected"  key={datanumber.id} onClick={() => goTo(datanumber.id  - 1)}> 
+                {datanumber.id }
+              </p>
+              :
+              <p className="btnNormal"  key={datanumber.id} onClick={() => goTo(datanumber.id  - 1)}> 
+              {datanumber.id }
+            </p>
+            }
           </div>
           
       )
