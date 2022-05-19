@@ -23,7 +23,9 @@ const TestSlider = () => {
   const [toggle, setToggle] = useState(false);
   const ref = useRef();
   const [datamethodid, setDatamethodid] = useState(0);
-  window.$datamethodid = datamethodid //global variable for data artifact's ID
+  const [stylechangelist, setStylechangelist] = useState([]);
+  window.$datamethodid = stylechangelist //global variable for data artifact's ID
+  const { Meta } = Card;
 
   //get data artifacts api
   const fetchData = async () => {
@@ -66,18 +68,28 @@ const TestSlider = () => {
     ref.current.goTo(slide, false);
   };
 
-  const [stylechange, setStylechange] = useState("");
-  const [stylechangelist, setStylechangelist] = useState([]);
-
-  const { Meta } = Card;
+  function updateDataList() {
+    window.$datamethodid = stylechangelist
+    console.log(stylechangelist, "good list");
+  }
 
   function borrowThree(data_id) {
     if (stylechangelist.length < 3) {
       setStylechangelist(stylechangelist =>[...stylechangelist, data_id]);
+      updateDataList();
     } else {
       stylechangelist.splice(0 , 1);
       setStylechangelist(stylechangelist =>[...stylechangelist, data_id]);
+      updateDataList();
     }
+  }
+
+  const removeItem = (index) => {
+    console.log(stylechangelist);
+    const newPeople = stylechangelist.filter((person) => person !== index);
+    setStylechangelist(newPeople);
+    console.log(newPeople);
+    window.$datamethodid = newPeople
   }
 
   //The work horse of this DataSlider (named ArtifactSlider) components. Calls in a lot of help from other funcitons
@@ -90,7 +102,6 @@ const TestSlider = () => {
       ///setDataList([data.data]);
       setBody('');
       fetchData();
-      setStylechange(dataList.length + 1);
       borrowThree(dataList.length + 1);
       ref.current.goTo(dataList.length, false);
       setDatamethodid(idlength);
@@ -113,56 +124,59 @@ const TestSlider = () => {
           <Carousel ref={ref} dots={false} slidesToShow={1}>
               {dataList.map(image => {
                   return (
-                      <div className="slider_section">
+                    <div className="slider_section">
 
-                              <div className="data_testslider_border">
-                                { toggle ? 
-                                  <div>
-                                    <h2> Enter your new Data below: </h2>
-                                    <form onSubmit={handleSubmit}>
-                                  <div className='entry_box'>
-                                    <input
-                                      onChange={(e) => handleChange(e, "body")}
-                                      type="text"
-                                      name="body"
-                                      id="body"
-                                      value={body}
-                                    />
-                                    
-                                    <br></br>
-                                    <Button type="primary" onClick={() => handleSubmit((dataList.length + 1))}>Submit</Button> 
-                                    <Button type="danger" onClick={() => toggler()} >Cancel</Button>
-                                  </div>
-                                </form>
-                                </div>
-                                :
-                                <div                                
-                                  style={{
-                                    marginLeft: 25,
-                                    marginTop: 10,
-                                    }}>
-                                    <Meta
-                                        avatar={<Avatar size={60}>{image.email_datas}</Avatar>}
-                                        title={"Artifact ID: " + image.id}
-                                  />
-                                  <h3>{image.datas}</h3>
-                                  <Button type="primary" style={{ background: "#e9d900", borderColor: "#e9d900" }} 
-                                    onClick={() => {
-                                      setStylechange(image.id);
-                                      setDatamethodid(image.id);
-                                      borrowThree(image.id);
-                                      }
-                                    }> 
-                                    Borrow Artifact </Button>
-                                  <Button type="primary" onClick={() => {setDatamethodid(image.id); toggler();}} >Make Artifact</Button>
-                              </div>
-                              }
-                              
+                      <div className="data_testslider_border">
+                        { toggle ? 
+                          <div>
+                            <h2> Enter your new Data below: </h2>
+                            <form onSubmit={handleSubmit}>
+                          <div className='entry_box'>
+                            <input
+                              onChange={(e) => handleChange(e, "body")}
+                              type="text"
+                              name="body"
+                              id="body"
+                              value={body}
+                            />
+                            
+                            <br></br>
+                            <Button type="primary" onClick={() => handleSubmit((dataList.length + 1))}>Submit</Button> 
+                            <Button type="danger" onClick={() => toggler()} >Cancel</Button>
                           </div>
+                        </form>
+                        </div>
+                        :
+                        <div                                
+                          style={{
+                            marginLeft: 25,
+                            marginTop: 10,
+                            }}>
+                            <Meta
+                                avatar={<Avatar size={60}>{image.email_datas}</Avatar>}
+                                title={"Artifact ID: " + image.id}
+                          />
+                          <h3>{image.datas}</h3>
 
+                          { stylechangelist.includes(image.id) ?
+                          <Button type="primary" onClick={ () => removeItem(image.id)}>Don't Borrow</Button>
+
+                          :
+                            <Button type="primary" style={{ background: "#e9d900", borderColor: "#e9d900" }} 
+                              onClick={() => {
+                                setDatamethodid(image.id);
+                                borrowThree(image.id);
+                                }
+                              }> 
+                              Borrow Artifact </Button>
+                          }
+                          <Button type="primary" onClick={() => {setDatamethodid(image.id); toggler();}} >Make Artifact</Button>
                       </div>
-                  )
-              })}
+                      }
+                  </div>
+              </div>
+            )
+        })}
       </Carousel>
     </div>
     <div

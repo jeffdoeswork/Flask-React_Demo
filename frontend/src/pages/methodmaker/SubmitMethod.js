@@ -9,12 +9,22 @@ const SubmitMethod = () => {
       //These 2 variables are actually global variables
     const { Meta } = Card;
     const [methodtitle, setMethodtitle] = useState("");
-    const [methoddata, setMethoddata] = useState(0);
+    const [methoddata, setMethoddata] = useState([]);
     const [methodhypo, setMethoddhypo] = useState(0);
     const [gethypo, setGethypo] = useState({
         "created_at" : "", "email_hypos" : "", "hypos" : "", "id" : ""
     });
+    const get_a_data = {};
     const [getdata, setGetdata] = useState({
+        "created_at" : "", "email_datas" : "", "datas" : "", "id" : ""
+    });
+    const [getdataone, setGetdataone] = useState({
+        "created_at" : "", "email_datas" : "", "datas" : "", "id" : ""
+    });
+    const [getdatatwo, setGetdatatwo] = useState({
+        "created_at" : "", "email_datas" : "", "datas" : "", "id" : ""
+    });
+    const [getdatathree, setGetdatathree] = useState({
         "created_at" : "", "email_datas" : "", "datas" : "", "id" : ""
     });
     const [visible, setVisible] = useState(false);
@@ -62,10 +72,18 @@ const SubmitMethod = () => {
 
     const fetchData = async (dataid) => { 
         const response = await axios.get(`http://127.0.0.1:5000/data/${dataid}`)
-        console.log(response);  
+        console.log(response, "api");  
         const datas = response.data
         setGetdata(datas.data);
+        /*if (i === 1) {
+            setGetdataone(datas.data);
+        } else if (i === 2 ) {
+            setGetdatatwo(datas.data);
+        } else if (i === 3 ) {
+            setGetdatathree(datas.data);
+        }*/
     };
+
     const fetchHypo = async (hypoid) => { 
         //console.log(hypoid);
         const data = await axios.get(`http://127.0.0.1:5000/hypo/${hypoid}`)
@@ -73,12 +91,23 @@ const SubmitMethod = () => {
         //console.log(hypo);
         setGethypo(hypo);
     };
+
     function Borrowdata(props) {
+        const prop = props
         const dataid = window.$datamethodid
-        setMethoddata(dataid);
-        console.log(dataid);
-        return fetchData(dataid);
+        console.log(prop, "this was michy");
+        setMethoddata(prop)
+        fetchData(prop[0]);
+        /*for(var i=0;i<dataid.length;i++){
+            fetchData(dataid[i], i);
+          }
+          prop.map(a_data => {
+            fetchData(a_data);
+            setMethoddata(methoddata =>[...methoddata, getdata]);
+        })*/
+        console.log(methoddata, "this should be a list of data atrifatacts")
     }
+
     function Borrowhypo(props) {
         const hypoid = window.$hypomethodid
         setMethoddhypo(hypoid);
@@ -108,7 +137,7 @@ const SubmitMethod = () => {
             </Col>
             <Col span={8}>
                 <div className='right_end'>
-                    <Button type="primary" onClick={() => {setMethoddata(window.$datamethodid); setMethoddhypo(window.$hypomethodid); showModal(); Borrowdata();Borrowhypo(); }}>Preview Method</Button>
+                    <Button type="primary" onClick={() => { setMethoddhypo(window.$hypomethodid); showModal(); Borrowdata(window.$datamethodid);Borrowhypo(); }}>Preview Method</Button>
                 </div>
             </Col>
 
@@ -120,8 +149,10 @@ const SubmitMethod = () => {
         onOk={handleOk}
         confirmLoading={confirmLoading}
         onCancel={handleCancel}
-        width={850}
+        width={1250}
         >
+        <h3>Datat IDs</h3>
+        { methoddata }
         <div
             style={{
             marginBottom: 25,
