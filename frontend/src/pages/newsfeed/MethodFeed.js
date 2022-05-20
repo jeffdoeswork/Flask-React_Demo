@@ -40,7 +40,12 @@ const MethodFeed = () => {
                 <Card style={{ height: 490 }}>
                 <Meta
                     avatar={<Avatar size={80}>{method.email_method}</Avatar>}
-                    title={<h2>{method.title}</h2>}
+                    title={
+                    <div>
+                        <h2>{method.title} </h2>
+                        <h3>{method.created_at}</h3>
+                    </div>
+                    }
                 />
                 <br></br>
                 <div className="center_artifacts">

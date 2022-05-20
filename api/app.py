@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, redirect, make_response
 #import bcrypt
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity, set_access_cookies, unset_jwt_cookies, get_jwt, create_refresh_token, set_refresh_cookies
@@ -34,7 +34,8 @@ db.init_app(app)
 
 # If true this will only allow the cookies that contain your JWTs to be sent
 # over https. In production, this should always be set to True
-app.config['JWT_TOKEN_LOCATION'] = ["headers", "cookies"]
+app.config['BASE_URL'] = 'http://127.0.0.1:5000'  #Running on localhost
+app.config['JWT_TOKEN_LOCATION'] = ["cookies"]
 app.config['JWT_COOKIE_CSRF_PROTECT'] = True
 app.config['JWT_COOKIE_SECURE'] = True
 app.config['JWT_CSRF_CHECK_FORM'] = True
@@ -307,11 +308,14 @@ def login():
     except AttributeError:
         return 'Provide an Email and Password in JSON format in the request body', 400
 
-@app.route("/logout", methods=["POST"])
+@app.route("/logout", methods=["GET"])
 def logout_with_cookies():
-    response = jsonify({"msg": "logout successful"})
-    unset_jwt_cookies(response)
-    return response
+    #response = jsonify({"msg": "logout successful"})
+    #unset_jwt_cookies(response)
+    #return response
+    resp = make_response(redirect(app.config['BASE_URL'] + '/', 302))
+    unset_jwt_cookies(resp)
+    return resp
 
 # protected test route
 @app.route('/test', methods=['GET'])

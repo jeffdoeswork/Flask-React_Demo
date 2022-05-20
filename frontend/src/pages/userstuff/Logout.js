@@ -1,25 +1,28 @@
-import React, {useState, useEffect} from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
-
-
 
 // This doen't work at all! Oh well
 const LandingPage = () => {
-
     const logoutUser = data => {
-        return axios.post(`http://127.0.0.1:5000/logout`)
-
-        window.location.href = "/";
-    }
+      return axios.get(`http://127.0.0.1:5000/logout`, { withCredentials: true })
         
+    }
+
     useEffect(() => {
-        logoutUser(); 
-        }, [])
+      logoutUser(); 
+      logoutUser(); 
+
+      logoutUser(); 
+
+        }, 2500)
+
+    useEffect(() => {
+      window.location.href = "/";
+      }, [])
 
   return (
     <div>
-        <h2> The logout function doesn't work, but the refresh cookies should expire when you leave the browser</h2>
-        { logoutUser() }
+        <h2>Thank you for testing out Socialtific!</h2>
     </div>
   );
 };

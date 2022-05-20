@@ -4,7 +4,7 @@ import TestSlider from '../methodmaker/ArtifactSlider';
 import 'antd/dist/antd.css';
 import './landingpage.css';
 import HypoSlider from '../methodmaker/HypoSlider';
-import { Layout, Menu, Modal, Button } from 'antd';
+import { Layout, Menu, Modal, Button, Card } from 'antd';
 import SubmitMethod from './SubmitMethod'
 import axios from 'axios';
 
