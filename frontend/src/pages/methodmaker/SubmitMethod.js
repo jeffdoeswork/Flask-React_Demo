@@ -70,18 +70,18 @@ const SubmitMethod = () => {
         setVisible(false);
     };
 
-    const fetchData = async (dataid) => { 
+    const fetchData = async (dataid, i) => { 
         const response = await axios.get(`http://127.0.0.1:5000/data/${dataid}`)
-        console.log(response, "api");  
+        console.log(response, "api", i);  
         const datas = response.data
-        setGetdata(datas.data);
-        /*if (i === 1) {
+        //setGetdata(datas.data);
+        if (i === 0) {
             setGetdataone(datas.data);
-        } else if (i === 2 ) {
+        } else if (i === 1 ) {
             setGetdatatwo(datas.data);
-        } else if (i === 3 ) {
+        } else if (i === 2 ) {
             setGetdatathree(datas.data);
-        }*/
+        }
     };
 
     const fetchHypo = async (hypoid) => { 
@@ -94,14 +94,16 @@ const SubmitMethod = () => {
 
     function Borrowdata(props) {
         const prop = props
-        const dataid = window.$datamethodid
         console.log(prop, "this was michy");
         setMethoddata(prop)
-        fetchData(prop[0]);
-        /*for(var i=0;i<dataid.length;i++){
-            fetchData(dataid[i], i);
+
+        //fetchData(prop[0]);
+        //fetchData(prop[1]);
+        //fetchData(prop[2]);
+        for(var i=0;i<prop.length;i++){
+            fetchData(prop[i], i);
           }
-          prop.map(a_data => {
+          /*prop.map(a_data => {
             fetchData(a_data);
             setMethoddata(methoddata =>[...methoddata, getdata]);
         })*/
@@ -161,11 +163,37 @@ const SubmitMethod = () => {
                     <div className="data_artifact">
                     <Card bordered={false}>
                     <Meta
-                        avatar={<Avatar size={60}>{getdata.email_datas}</Avatar>}
-                        title={getdata.created_at}
+                        avatar={<Avatar size={60}>{getdataone.email_datas}</Avatar>}
+                        title={getdataone.created_at}
                     />
-                        <h3 key={getdata.id}>
-                            {getdata.datas}  
+                        <h3 key={getdataone.id}>
+                            {getdataone.datas}  
+                        </h3>
+                    </Card>
+                    </div>
+                </div>
+                <div className="artifact_section">
+                    <div className="data_artifact">
+                    <Card bordered={false}>
+                    <Meta
+                        avatar={<Avatar size={60}>{getdatatwo.email_datas}</Avatar>}
+                        title={getdatatwo.created_at}
+                    />
+                        <h3 key={getdatatwo.id}>
+                            {getdatatwo.datas}  
+                        </h3>
+                    </Card>
+                    </div>
+                </div>
+                <div className="artifact_section">
+                    <div className="data_artifact">
+                    <Card bordered={false}>
+                    <Meta
+                        avatar={<Avatar size={60}>{getdatathree.email_datas}</Avatar>}
+                        title={getdatathree.created_at}
+                    />
+                        <h3 key={getdatathree.id}>
+                            {getdatathree.datas}  
                         </h3>
                     </Card>
                     </div>
