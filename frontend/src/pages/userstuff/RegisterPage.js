@@ -8,7 +8,9 @@ const RegisterPage = () => {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("")
   const onFinish = (values) => {
-    console.log('Success:', values);
+    //console.log('Success:', values);
+    console.log('Success:');
+    
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -18,7 +20,7 @@ const RegisterPage = () => {
     console.log(email, password)
 
     try {
-      const resp = await axios.post(`http://127.0.0.1:5000/register`, {
+      const resp = await axios.post(`http://18.189.1.180:5000/register`, {
         email,
         password,
       });

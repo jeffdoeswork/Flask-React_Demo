@@ -5,3 +5,6 @@
 vscode
 /vscode
 /.vscode
+
+**/frontend/"udo nginx -s quit"
+/frontend/"udo nginx -s quit"

@@ -30,6 +30,12 @@ class Methods(db.Model):
     data = db.Column(db.INT, db.ForeignKey('Datas.id'))
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
+def format_user(data):
+    return {
+        "user" : data.email,
+        "id" : data.id,
+    }
+
 def format_json(data):
     return {
         "datas" : data.datas,

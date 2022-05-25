@@ -9,7 +9,7 @@ from datetime import datetime, timedelta, timezone
 from flask_cors import CORS, cross_origin
 #from flask_session import Session
 import redis
-from models import User, Datas, Hypos, Methods, format_json, hypo_format_json, method_json
+from models import User, Datas, Hypos, Methods, format_json, hypo_format_json, method_json, format_user
 from db import db
 
 app = Flask(__name__)
@@ -19,7 +19,9 @@ app = Flask(__name__)
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:catdog123@localhost:5432/postgres'
 #virtual machone
 #SQLALCHEMY_DATABASE_URI = r"postgresql+psycopg2://postgres:gelaw01@localhost/postgres"
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:gelaw01@localhost/postgres'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:gelaw01@localhost/postgres'
+#server
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:catdog123@localhost:5432/postgres'
 
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -34,11 +36,11 @@ db.init_app(app)
 
 # If true this will only allow the cookies that contain your JWTs to be sent
 # over https. In production, this should always be set to True
-app.config['BASE_URL'] = 'http://127.0.0.1:5000'  #Running on localhost
+app.config['BASE_URL'] = 'http://18.189.1.180:5000'  #Running on localhost
 app.config['JWT_TOKEN_LOCATION'] = ["cookies"]
-app.config['JWT_COOKIE_CSRF_PROTECT'] = True
-app.config['JWT_COOKIE_SECURE'] = True
-app.config['JWT_CSRF_CHECK_FORM'] = True
+#app.config['JWT_COOKIE_CSRF_PROTECT'] = True
+app.config['JWT_COOKIE_SECURE'] = False
+#app.config['JWT_CSRF_CHECK_FORM'] = True
 app.config['JWT_SECRET_KEY'] = "change this"
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
 #app.config['JWT_COOKIE_DOMAIN'] = ["localhost"]
@@ -53,7 +55,7 @@ with app.app_context():
     db.create_all()
 
 jwt_redis_blocklist = redis.StrictRedis(
-    host="localhost", port=5000, db=0, decode_responses=True
+    host="18.189.1.180", port=5000, db=0, decode_responses=True
 )
 
 #create and datas
@@ -131,6 +133,16 @@ def get_hypos():
     for hypo in hypos:
         hypos_list.append(hypo_format_json(hypo))
     return {'hypos': hypos_list}
+
+#get all users
+@app.route("/users", methods=["GET"])
+def get_users():
+    #datas = Datas.query.order_by(Datas.created_at.asc()).all()
+    users = User.query.order_by(User.id.asc()).all()
+    users_list = []
+    for user in users:
+        users_list.append(format_user(user))
+    return {'users': users_list}
 
 #get all artifacts
 @app.route("/artifacts", methods=["GET"])
@@ -227,7 +239,7 @@ def refresh_expiring_jwts(response):
         now = datetime.now(timezone.utc)
         target_timestamp = datetime.timestamp(now + timedelta(minutes=1))
 
-        response.headers.add('Access-Control-Allow-Origin', 'http://127.0.0.1:4000')
+        response.headers.add('Access-Control-Allow-Origin', 'http://18.189.1.180')
         response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
         response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
         response.headers.add('Access-Control-Allow-Credentials', 'true')
@@ -335,5 +347,5 @@ def test():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
-    #app.run(host="localhost", debug=True)
+    #app.run(debug=True)
+    app.run(host="0.0.0.0", debug=True)

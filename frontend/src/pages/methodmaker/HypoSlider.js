@@ -27,7 +27,7 @@ const HypoSlider = () => {
   
   //get data artifacts api
   const fetchData = async () => {
-    const data = await axios.get('http://127.0.0.1:5000/hypos')
+    const data = await axios.get('http://18.189.1.180:5000/hypos')
     const { hypos } = data.data
     setHypoList(hypos);
     console.log(hypoList);
@@ -37,7 +37,7 @@ const HypoSlider = () => {
   });
   //get current user's email
   const getUser = async () => {
-    const data = await axios.get(`http://127.0.0.1:5000/test`, { withCredentials: true })
+    const data = await axios.get(`http://18.189.1.180:5000/test`, { withCredentials: true })
     console.log(data);
     setEmail(data.data);
   }
@@ -79,7 +79,7 @@ const HypoSlider = () => {
   const handleSubmit = async (idlength) => {
     const body_email = email.email
     try {
-      const data = await axios.post(`http://127.0.0.1:5000/hypos`, {body, body_email})
+      const data = await axios.post(`http://18.189.1.180:5000/hypos`, {body, body_email})
       // something is broken with the slider
       //setHypoList([...hypoList, data.data]);
       ///setHypoList([data.data]);

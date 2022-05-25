@@ -29,7 +29,7 @@ const TestSlider = () => {
 
   //get data artifacts api
   const fetchData = async () => {
-    const data = await axios.get(`http://127.0.0.1:5000/datas`)
+    const data = await axios.get(`http://18.189.1.180:5000/datas`)
     const { datas } = data.data
     setDataList(datas);
     console.log(dataList);
@@ -39,7 +39,7 @@ const TestSlider = () => {
   });
   //get current user's email
   const getUser = async () => {
-    const data = await axios.get(`http://127.0.0.1:5000/test`, { withCredentials: true })
+    const data = await axios.get(`http://18.189.1.180:5000/test`, { withCredentials: true })
     console.log(data);
     setEmail(data.data);
   }
@@ -96,7 +96,7 @@ const TestSlider = () => {
   const handleSubmit = async (idlength) => {
     const body_email = email.email
     try {
-      const data = await axios.post(`http://127.0.0.1:5000/datas`, {body, body_email})
+      const data = await axios.post(`http://18.189.1.180:5000/datas`, {body, body_email})
       // something is broken with the slider
       //setDataList([...dataList, data.data]);
       ///setDataList([data.data]);

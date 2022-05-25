@@ -34,7 +34,7 @@ const SubmitMethod = () => {
       });
 
     const getUser = async () => {
-        const data = await axios.get(`http://127.0.0.1:5000/test`, { withCredentials: true })
+        const data = await axios.get(`http://18.189.1.180:5000/test`, { withCredentials: true })
         console.log(data);
         setEmail(data.data);
       }
@@ -52,7 +52,7 @@ const SubmitMethod = () => {
         const data = methoddata
         const hypo = methodhypo
         try {
-            const method = await axios.post(`http://127.0.0.1:5000/method`, {title, body_email, data, hypo})
+            const method = await axios.post(`http://18.189.1.180:5000/method`, {title, body_email, data, hypo})
 
             setConfirmLoading(true);
             setTimeout(() => {
@@ -71,7 +71,7 @@ const SubmitMethod = () => {
     };
 
     const fetchData = async (dataid, i) => { 
-        const response = await axios.get(`http://127.0.0.1:5000/data/${dataid}`)
+        const response = await axios.get(`http://18.189.1.180:5000/data/${dataid}`)
         console.log(response, "api", i);  
         const datas = response.data
         //setGetdata(datas.data);
@@ -86,7 +86,7 @@ const SubmitMethod = () => {
 
     const fetchHypo = async (hypoid) => { 
         //console.log(hypoid);
-        const data = await axios.get(`http://127.0.0.1:5000/hypo/${hypoid}`)
+        const data = await axios.get(`http://18.189.1.180:5000/hypo/${hypoid}`)
         const { hypo } = data.data
         //console.log(hypo);
         setGethypo(hypo);

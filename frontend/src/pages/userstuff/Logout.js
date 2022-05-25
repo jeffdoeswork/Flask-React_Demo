@@ -4,7 +4,7 @@ import axios from 'axios';
 // This doen't work at all! Oh well
 const LandingPage = () => {
     const logoutUser = data => {
-      return axios.get(`http://127.0.0.1:5000/logout`, { withCredentials: true })
+      return axios.get(`http://18.189.1.180:5000/logout`, { withCredentials: true })
         
     }
 
