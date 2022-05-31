@@ -165,8 +165,8 @@ const SubmitMethod = () => {
                 <Row>
                     { getdataone.id ? 
                     <Col span={8}>
-                    <div className="artifact_section">
-                        <div className="data_artifact">
+                    <div className="artifact_section_smol">
+                        <div className="data_artifact_smol">
                         <Card bordered={false}>
                         <Meta
                             avatar={<Avatar size={50}>{getdataone.email_datas}</Avatar>}
@@ -181,8 +181,8 @@ const SubmitMethod = () => {
                     </Col> : <div></div> }
                     { getdatatwo.id ?
                     <Col span={8}>
-                    <div className="artifact_section">
-                        <div className="data_artifact">
+                    <div className="artifact_section_smol">
+                        <div className="data_artifact_smol">
                         <Card bordered={false}>
                         <Meta
                             avatar={<Avatar size={50}>{getdatatwo.email_datas}</Avatar>}
@@ -197,8 +197,8 @@ const SubmitMethod = () => {
                     </Col> : <div></div> }
                     { getdatathree.id ? 
                     <Col span={8}>
-                    <div className="artifact_section">
-                        <div className="data_artifact">
+                    <div className="artifact_section_smol">
+                        <div className="data_artifact_smol">
                         <Card bordered={false}>
                         <Meta
                             avatar={<Avatar size={50}>{getdatathree.email_datas}</Avatar>}

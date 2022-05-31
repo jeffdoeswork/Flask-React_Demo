@@ -19,3 +19,26 @@
     width: 700px;
     height: 125px;
   }
+
+  .data_artifact_smol {
+    margin: auto;
+    text-align: center;
+    color: #0c30fa;
+    background-color: none;
+    /*padding: 15px 0;
+    padding-top: 25px;*/
+    height: 160px;
+    width: 375px;
+    border: 3px solid #0c30fa;
+    border-radius: 20px;
+    font-size: 0.5em;
+    padding-top: 10px;
+    padding: 4px;
+  }
+
+  .artifact_section_smol {
+    margin: auto;
+    padding: 2px;
+    width: 384px;
+    height: 125px;
+  }
