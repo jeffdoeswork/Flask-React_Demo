@@ -116,14 +116,35 @@ const TestSlider = () => {
 
   if (email.email) {
 
+  if (dataList.length < 1) {
+    return(
+      <div>
+      <h2> Enter the first data: </h2>
+      <form onSubmit={handleSubmit}>
+    <div className='entry_box'>
+      <input
+        onChange={(e) => handleChange(e, "body")}
+        type="text"
+        name="body"
+        id="body"
+        value={body}
+      />
+      
+      <br></br>
+      <Button type="primary" onClick={() => handleSubmit((dataList.length + 1))}>Submit</Button> 
+    </div>
+  </form>
+  </div>
+    )
+  }
   return (
   <div>
     <h2>Borrow or Make up to 3 Data Artifacts</h2>
-
       <div>
           <Carousel ref={ref} dots={false} slidesToShow={1}>
               {dataList.map(image => {
                   return (
+
                     <div className="slider_section">
 
                       <div className="data_testslider_border">
@@ -175,7 +196,7 @@ const TestSlider = () => {
                       }
                   </div>
               </div>
-            )
+                    )
         })}
       </Carousel>
     </div>

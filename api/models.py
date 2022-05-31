@@ -27,7 +27,8 @@ class Methods(db.Model):
     title = db.Column(db.Text, unique=True, nullable=False)
     email_method = db.Column(db.Text, db.ForeignKey('User.email'))
     hypo = db.Column(db.INT, db.ForeignKey('Hypos.id'))
-    data = db.Column(db.INT, db.ForeignKey('Datas.id'))
+    #data = db.Column(db.INT, db.ForeignKey('Datas.id'))
+    data = db.Column(db.ARRAY(db.INT), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
 def format_user(data):

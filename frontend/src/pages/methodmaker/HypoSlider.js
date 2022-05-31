@@ -98,7 +98,26 @@ const HypoSlider = () => {
   }
 
   if (email.email) {
-
+    if (hypoList.length < 1) {
+      return (
+        <div>
+        <h2> Enter the first Hypothesis: </h2>
+        <form onSubmit={handleSubmit}>
+      <div className='entry_box'>
+        <input
+          onChange={(e) => handleChange(e, "body")}
+          type="text"
+          name="body"
+          id="body"
+          value={body}
+        />
+        <br></br>
+        <Button type="primary" onClick={() => handleSubmit((hypoList.length + 1))}>Submit</Button> 
+      </div>
+    </form>
+    </div>
+      )
+    }
   return (
   <div>
 
