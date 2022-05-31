@@ -9,7 +9,10 @@ import "./UserFeed.css"
 
 const ArtifactFeed = () => {
   const { Meta } = Card;
-  const [userpost, setUserPost] = useState([]);
+  const gridStyle = {
+      width: '100%',
+      textAlign: 'center',
+    };  const [userpost, setUserPost] = useState([]);
   const [email, setEmail] = useState({
     email : ""
   });
@@ -42,7 +45,7 @@ const ArtifactFeed = () => {
               { if (artifact.email_datas) {
                 return (
               <div>
-                <Card>
+                <Card style={{ width: 800 }}>
                   <DataArtifact dataid={artifact.id} />
                   <br></br>
                 </Card>
@@ -51,7 +54,7 @@ const ArtifactFeed = () => {
             } else {
               return (
               <div>
-                <Card>
+                <Card style={{ width: 800 }}>
                 <HypoArtifact hypoid={artifact.id} />
                 <br></br>
                 </Card>

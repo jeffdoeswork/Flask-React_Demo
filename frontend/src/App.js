@@ -99,7 +99,7 @@ export default function App() {
   </Layout>
     <Layout className='no_background'
         style={{
-          marginLeft: 200,
+          marginLeft: 250,
           marginTop: 25,
         }}>
           <Routes>
