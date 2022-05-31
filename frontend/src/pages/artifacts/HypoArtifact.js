@@ -11,7 +11,7 @@ function HypoArtifact(props) {
 
     const fetchHypo = async (hypoid) => { 
         //console.log(hypoid);
-        const data = await axios.get(`http://18.189.1.180:5000/hypo/${props.hypoid}`)
+        const data = await axios.get(`http://127.0.0.1:5000/hypo/${props.hypoid}`)
         const { hypo } = data.data
         //console.log(hypo);
         setGethypo(hypo);

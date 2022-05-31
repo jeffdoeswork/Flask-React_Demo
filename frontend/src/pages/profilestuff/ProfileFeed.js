@@ -13,7 +13,7 @@ const ProfileFeed = (props) => {
   const { Meta } = Card;
 
   const fetchArtifacts = async () => {
-    const data = await axios.get(`http://18.189.1.180:5000/artifacts/${props.user}`);
+    const data = await axios.get(`http://127.0.0.1:5000/artifacts/${props.user}`);
     //console.log(data);
     //const { posts } = data.data
     setUserPost(data.data);

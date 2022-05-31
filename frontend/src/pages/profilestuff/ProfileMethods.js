@@ -15,7 +15,7 @@ const ProfileMethods = (props) => {
     const [methods, setMethods] = useState([]);
 
     const fetchMethods = async () => {
-        const response = await axios.get(`http://18.189.1.180:5000/method/${props.method_user}`);
+        const response = await axios.get(`http://127.0.0.1:5000/method/${props.method_user}`);
         //console.log(response.data.methods);
         //console.log("lookie here guy");
         //const { posts } = data.data

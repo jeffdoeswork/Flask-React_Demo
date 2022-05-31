@@ -10,7 +10,7 @@ function DataArtifact(props) {
     });
 
     const fetchData = async () => { 
-        const response = await axios.get(`http://18.189.1.180:5000/data/${props.dataid}`)
+        const response = await axios.get(`http://127.0.0.1:5000/data/${props.dataid}`)
         const datas = response.data
         setGetdata(datas.data);
         console.log(datas.data);  
