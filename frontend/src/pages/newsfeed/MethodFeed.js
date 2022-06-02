@@ -37,9 +37,9 @@ const MethodFeed = () => {
             { (methods).map((method) => {
                 return (
                 <div>
-                <Card style={{ height: 520, width: 1200 }}>
+                <Card style={{ height: 505, width: 1300 }} bodyStyle={{ padding: "10px"}}    >
                 <Meta
-                    avatar={<Avatar size={80}>{method.email_method}</Avatar>}
+                    avatar={<Avatar size={69}  bodyStyle={{ padding: "10px"}}>{method.email_method}</Avatar>}
                     title={
                     <div>
                         <h2>{method.title} </h2>
@@ -47,10 +47,8 @@ const MethodFeed = () => {
                     </div>
                     }
                 />
-                <br></br>
                 <div className="center_artifacts">
                         <MethodData dataarray={method.data} />
-                        <br></br>
                         <br></br>
                         <HypoArtifact hypoid={method.hypo} />
                 </div>

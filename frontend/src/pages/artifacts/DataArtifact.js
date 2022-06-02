@@ -24,13 +24,17 @@ function DataArtifact(props) {
         
         <div className="artifact_section">
             <div className="data_artifact">
-            <Card bordered={false}>
+            <Card bordered={false} bodyStyle={{ padding: "5px"}}>
             <Meta
                 avatar={<Avatar size={60}>{getdata.email_datas}</Avatar>}
                 title={getdata.created_at}
             />
                 <h3 key={getdata.id}>
-                    {getdata.datas}  
+                    { (getdata.datas).length < 225?
+                    (getdata.datas)
+                    :
+                    ((getdata.datas).substring(0, 225) + '...')
+                    }
                 </h3>
             </Card>
             </div>

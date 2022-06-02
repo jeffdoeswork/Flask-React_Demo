@@ -40,13 +40,17 @@ function MethodData(props) {
             <Col span={8}>
             <div className="artifact_section_smol">
                 <div className="data_artifact_smol">
-                <Card bordered={false}>
+                <Card bordered={false} bodyStyle={{ padding: "5px"}}>
                 <Meta
                     avatar={<Avatar size={50}>{getdataone.email_datas}</Avatar>}
                     title={getdataone.created_at}
                 />
                     <h3 key={getdataone.id}>
-                        {getdataone.datas}  
+                    { (getdataone.datas).length < 125?
+                    (getdataone.datas)
+                    :
+                    ((getdataone.datas).substring(0, 125) + '...')
+                    } 
                     </h3>
                 </Card>
                 </div>
@@ -56,13 +60,17 @@ function MethodData(props) {
             <Col span={8}>
             <div className="artifact_section_smol">
                 <div className="data_artifact_smol">
-                <Card bordered={false}>
+                <Card bordered={false} bodyStyle={{ padding: "5px"}}>
                 <Meta
                     avatar={<Avatar size={50}>{getdatatwo.email_datas}</Avatar>}
                     title={getdatatwo.created_at}
                 />
                     <h3 key={getdatatwo.id}>
-                        {getdatatwo.datas}  
+                    { (getdatatwo.datas).length < 125?
+                    (getdatatwo.datas)
+                    :
+                    ((getdatatwo.datas).substring(0, 125) + '...')
+                    }                    
                     </h3>
                 </Card>
                 </div>
@@ -72,13 +80,17 @@ function MethodData(props) {
             <Col span={8}>
             <div className="artifact_section_smol">
                 <div className="data_artifact_smol">
-                <Card bordered={false}>
+                <Card bordered={false} bodyStyle={{ padding: "5px"}}>
                 <Meta
                     avatar={<Avatar size={50}>{getdatathree.email_datas}</Avatar>}
                     title={getdatathree.created_at}
                 />
                     <h3 key={getdatathree.id}>
-                        {getdatathree.datas}  
+                    { (getdatathree.datas).length < 125?
+                    (getdatathree.datas)
+                    :
+                    ((getdatathree.datas).substring(0, 125) + '...')
+                    } 
                     </h3>
                 </Card>
                 </div>

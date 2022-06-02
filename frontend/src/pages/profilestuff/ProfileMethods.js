@@ -27,20 +27,24 @@ const ProfileMethods = (props) => {
         fetchMethods(); 
       }, [])
     return (
-        <div className="center_method"> 
+        <div> 
 
             { (methods).map((method) => {
                 return (
                 <div>
-                <Card style={{ height: 490 }}>
+                <Card style={{ height: 505, width: 1300  }} bodyStyle={{ padding: "10px"}}>
                 <Meta
-                    avatar={<Avatar size={80}>{method.email_method}</Avatar>}
-                    title={<h2>{method.title}</h2>}
+                    avatar={<Avatar size={69}  bodyStyle={{ padding: "10px"}}>{method.email_method}</Avatar>}
+
+                    title={
+                        <div>
+                        <h2>{method.title}</h2>
+                        <h3>{method.created_at}</h3>
+                        </div>
+                    }
                 />
-                <br></br>
                 <div className="center_artifacts">
                         <MethodData dataarray={method.data} />
-                        <br></br>
                         <br></br>
                         <HypoArtifact hypoid={method.hypo} />
                 </div>
