@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import { Avatar, Card } from 'antd';
 import "./MethodFeed.css"
-import DataArtifact from '..//artifacts/DataArtifact';
+//import DataArtifact from '..//artifacts/DataArtifact';
+import MethodData from '../artifacts/MethodData';
 import HypoArtifact from '..//artifacts/HypoArtifact';
+
 
 const ProfileMethods = (props) => {
 
@@ -37,7 +39,7 @@ const ProfileMethods = (props) => {
                 />
                 <br></br>
                 <div className="center_artifacts">
-                        <DataArtifact dataid={method.data} />
+                        <MethodData dataarray={method.data} />
                         <br></br>
                         <br></br>
                         <HypoArtifact hypoid={method.hypo} />
