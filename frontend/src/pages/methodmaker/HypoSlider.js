@@ -150,14 +150,22 @@ const HypoSlider = () => {
                                 :
                                 <div
                                 style={{
-                                  marginLeft: 25,
-                                  marginTop: 10,
+                                  marginLeft: 15,
+                                  marginRight: 5,
+                                  marginTop: 4,
                                   }}>
                                   <Meta
+                                      bodyStyle={{ padding: "1px"}}
                                       avatar={<Avatar size={60}>{image.email_hypos}</Avatar>}
                                       title={"Artifact ID: " + image.id}
                                     />
-                                  <h3>{image.hypos}</h3>
+                                  <h4 key={image.id}>
+                                      { (image.hypos).length < 130?
+                                      (image.hypos)
+                                      :
+                                      ((image.hypos).substring(0, 130) + '...')
+                                      }
+                                  </h4>
                                   <Button type="primary" style={{ background: "#e9d900", borderColor: "#e9d900" }} onClick={() => {setStylechange(image.id); setHypomethodid(image.id);}}> Borrow Artifact </Button>
                                   <Button type="primary" style={{ background: "#cb0fb8", borderColor: "#cb0fb8" }}onClick={() => {setHypomethodid(image.id); toggler();}} >Make Artifact</Button>
                               </div>

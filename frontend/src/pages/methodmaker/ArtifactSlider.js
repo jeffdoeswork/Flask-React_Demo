@@ -170,14 +170,22 @@ const TestSlider = () => {
                         :
                         <div                                
                           style={{
-                            marginLeft: 25,
-                            marginTop: 10,
+                            marginLeft: 15,
+                            marginRight: 5,
+                            marginTop: 4,
                             }}>
                             <Meta
+                                bodyStyle={{ padding: "1px"}}
                                 avatar={<Avatar size={60}>{image.email_datas}</Avatar>}
                                 title={"Artifact ID: " + image.id}
                           />
-                          <h3>{image.datas}</h3>
+                          <h4 key={image.id}>
+                              { (image.datas).length < 130?
+                              (image.datas)
+                              :
+                              ((image.datas).substring(0, 130) + '...')
+                              }
+                          </h4>
 
                           { stylechangelist.includes(image.id) ?
                           <Button type="primary" onClick={ () => removeItem(image.id)}>Don't Borrow</Button>

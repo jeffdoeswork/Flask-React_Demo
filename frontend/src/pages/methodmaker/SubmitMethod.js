@@ -61,6 +61,7 @@ const SubmitMethod = () => {
             }, 500);
         } catch (err) {
             console.error(err.message); 
+            alert("Did you forget the title?");
         }
     };
 
@@ -132,7 +133,6 @@ const SubmitMethod = () => {
                     <div>
                         <input
                             onChange={(e) => handleChange(e, "methodtitle")}
-                            required
                             type="text"
                             name="methodtitle"
                             id="methodtitle"
