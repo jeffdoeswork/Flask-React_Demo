@@ -30,7 +30,7 @@ const ProfileFeed = (props) => {
                 { if (artifact.datas) {
                   return (
                     <div>
-                      <Card>
+                      <Card bordered={false} bodyStyle={{ padding: "5px"}}>
                         <DataArtifact dataid={artifact.id} />
                         <br></br>
                       </Card>
@@ -39,7 +39,7 @@ const ProfileFeed = (props) => {
               } else if (artifact.hypos) {
                 return (
                   <div>
-                    <Card>
+                    <Card bordered={false} bodyStyle={{ padding: "5px"}}>
                     <HypoArtifact hypoid={artifact.id} />
                     <br></br>
                     </Card>

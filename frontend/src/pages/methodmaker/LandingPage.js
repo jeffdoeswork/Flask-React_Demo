@@ -27,11 +27,13 @@ const LandingPage = () => {
 
   if (email.email) {
     return (
-      <div>
-        <SubmitMethod />
-        <br></br>
-        <TestSlider />
-        <HypoSlider />
+      <div className='box'>
+        <Card bordered={false} bodyStyle={{ padding: "5px"}}>
+          <SubmitMethod />
+          <br></br>
+          <TestSlider />
+          <HypoSlider />
+        </Card>
       </div>
     );
   } else {
