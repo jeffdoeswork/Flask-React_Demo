@@ -27,7 +27,7 @@ const HypoSlider = () => {
   
   //get data artifacts api
   const fetchData = async () => {
-    const data = await axios.get('http://18.189.1.180:5000/hypos')
+    const data = await axios.get('http://127.0.0.1:5000/hypos')
     const { hypos } = data.data
     setHypoList(hypos);
     console.log(hypoList);
@@ -37,7 +37,7 @@ const HypoSlider = () => {
   });
   //get current user's email
   const getUser = async () => {
-    const data = await axios.get(`http://18.189.1.180:5000/test`, { withCredentials: true })
+    const data = await axios.get(`http://127.0.0.1:5000/test`, { withCredentials: true })
     console.log(data);
     setEmail(data.data);
   }
@@ -79,7 +79,7 @@ const HypoSlider = () => {
   const handleSubmit = async (idlength) => {
     const body_email = email.email
     try {
-      const data = await axios.post(`http://18.189.1.180:5000/hypos`, {body, body_email})
+      const data = await axios.post(`http://127.0.0.1:5000/hypos`, {body, body_email})
       // something is broken with the slider
       //setHypoList([...hypoList, data.data]);
       ///setHypoList([data.data]);
@@ -98,7 +98,26 @@ const HypoSlider = () => {
   }
 
   if (email.email) {
-
+    if (hypoList.length < 1) {
+      return (
+        <div>
+        <h2> Enter the first Hypothesis: </h2>
+        <form onSubmit={handleSubmit}>
+      <div className='entry_box'>
+        <input
+          onChange={(e) => handleChange(e, "body")}
+          type="text"
+          name="body"
+          id="body"
+          value={body}
+        />
+        <br></br>
+        <Button type="primary" onClick={() => handleSubmit((hypoList.length + 1))}>Submit</Button> 
+      </div>
+    </form>
+    </div>
+      )
+    }
   return (
   <div>
 
@@ -131,14 +150,22 @@ const HypoSlider = () => {
                                 :
                                 <div
                                 style={{
-                                  marginLeft: 25,
-                                  marginTop: 10,
+                                  marginLeft: 15,
+                                  marginRight: 5,
+                                  marginTop: 4,
                                   }}>
                                   <Meta
+                                      bodyStyle={{ padding: "1px"}}
                                       avatar={<Avatar size={60}>{image.email_hypos}</Avatar>}
                                       title={"Artifact ID: " + image.id}
                                     />
-                                  <h3>{image.hypos}</h3>
+                                  <h4 key={image.id}>
+                                      { (image.hypos).length < 130?
+                                      (image.hypos)
+                                      :
+                                      ((image.hypos).substring(0, 130) + '...')
+                                      }
+                                  </h4>
                                   <Button type="primary" style={{ background: "#e9d900", borderColor: "#e9d900" }} onClick={() => {setStylechange(image.id); setHypomethodid(image.id);}}> Borrow Artifact </Button>
                                   <Button type="primary" style={{ background: "#cb0fb8", borderColor: "#cb0fb8" }}onClick={() => {setHypomethodid(image.id); toggler();}} >Make Artifact</Button>
                               </div>

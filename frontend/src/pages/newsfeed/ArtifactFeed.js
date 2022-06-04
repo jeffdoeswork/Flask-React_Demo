@@ -9,18 +9,21 @@ import "./UserFeed.css"
 
 const ArtifactFeed = () => {
   const { Meta } = Card;
-  const [userpost, setUserPost] = useState([]);
+  const gridStyle = {
+      width: '100%',
+      textAlign: 'center',
+    };  const [userpost, setUserPost] = useState([]);
   const [email, setEmail] = useState({
     email : ""
   });
   //gets current email from api
   const getUser = async () => {
-    const data = await axios.get(`http://18.189.1.180:5000/test`, { withCredentials: true })
+    const data = await axios.get(`http://127.0.0.1:5000/test`, { withCredentials: true })
     setEmail(data.data);
   }
   //gets all the artifacts from artifact api
   const fetchData = async () => {
-    const data = await axios.get(`http://18.189.1.180:5000/artifacts`);
+    const data = await axios.get(`http://127.0.0.1:5000/artifacts`);
     //console.log(data);
     //const { posts } = data.data
     setUserPost(data.data);
@@ -42,7 +45,7 @@ const ArtifactFeed = () => {
               { if (artifact.email_datas) {
                 return (
               <div>
-                <Card>
+                <Card style={{ width: 800 }}>
                   <DataArtifact dataid={artifact.id} />
                   <br></br>
                 </Card>
@@ -51,7 +54,7 @@ const ArtifactFeed = () => {
             } else {
               return (
               <div>
-                <Card>
+                <Card style={{ width: 800 }}>
                 <HypoArtifact hypoid={artifact.id} />
                 <br></br>
                 </Card>

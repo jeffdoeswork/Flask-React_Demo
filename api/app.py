@@ -19,9 +19,9 @@ app = Flask(__name__)
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:catdog123@localhost:5432/postgres'
 #virtual machone
 #SQLALCHEMY_DATABASE_URI = r"postgresql+psycopg2://postgres:gelaw01@localhost/postgres"
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:gelaw01@localhost/postgres'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:gelaw01@localhost/artifacts'
 #server
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:catdog123@localhost:5432/postgres'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:catdog123@localhost:5432/postgres'
 
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -36,7 +36,7 @@ db.init_app(app)
 
 # If true this will only allow the cookies that contain your JWTs to be sent
 # over https. In production, this should always be set to True
-app.config['BASE_URL'] = 'http://18.189.1.180:5000'  #Running on localhost
+app.config['BASE_URL'] = 'http://127.0.0.1:5000'  #Running on localhost
 app.config['JWT_TOKEN_LOCATION'] = ["cookies"]
 #app.config['JWT_COOKIE_CSRF_PROTECT'] = True
 app.config['JWT_COOKIE_SECURE'] = False
@@ -55,7 +55,7 @@ with app.app_context():
     db.create_all()
 
 jwt_redis_blocklist = redis.StrictRedis(
-    host="18.189.1.180", port=5000, db=0, decode_responses=True
+    host="127.0.0.1", port=5000, db=0, decode_responses=True
 )
 
 #create and datas
@@ -239,7 +239,7 @@ def refresh_expiring_jwts(response):
         now = datetime.now(timezone.utc)
         target_timestamp = datetime.timestamp(now + timedelta(minutes=1))
 
-        response.headers.add('Access-Control-Allow-Origin', 'http://18.189.1.180')
+        response.headers.add('Access-Control-Allow-Origin', 'http://127.0.0.1:3000')
         response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
         response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
         response.headers.add('Access-Control-Allow-Credentials', 'true')
@@ -347,5 +347,5 @@ def test():
 
 
 if __name__ == '__main__':
-    #app.run(debug=True)
-    app.run(host="0.0.0.0", debug=True)
+    app.run(debug=True)
+    #app.run(host="0.0.0.0", debug=True)

@@ -17,7 +17,7 @@ const LoginPage = () => {
     console.log(email, password)
     //this fancy post lets you login and it saves cookies to the browser, the refresh cookies should time out after an hour
     try {
-      const resp = await axios.post(`http://18.189.1.180:5000/login`, {
+      const resp = await axios.post(`http://127.0.0.1:5000/login`, {
         email,
         password,
       }, {withCredentials: true})

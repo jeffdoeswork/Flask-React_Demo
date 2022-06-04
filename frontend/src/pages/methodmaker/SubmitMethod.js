@@ -34,7 +34,7 @@ const SubmitMethod = () => {
       });
 
     const getUser = async () => {
-        const data = await axios.get(`http://18.189.1.180:5000/test`, { withCredentials: true })
+        const data = await axios.get(`http://127.0.0.1:5000/test`, { withCredentials: true })
         console.log(data);
         setEmail(data.data);
       }
@@ -52,7 +52,7 @@ const SubmitMethod = () => {
         const data = methoddata
         const hypo = methodhypo
         try {
-            const method = await axios.post(`http://18.189.1.180:5000/method`, {title, body_email, data, hypo})
+            const method = await axios.post(`http://127.0.0.1:5000/method`, {title, body_email, data, hypo})
 
             setConfirmLoading(true);
             setTimeout(() => {
@@ -61,6 +61,7 @@ const SubmitMethod = () => {
             }, 500);
         } catch (err) {
             console.error(err.message); 
+            alert("Did you forget the title?");
         }
     };
 
@@ -71,7 +72,7 @@ const SubmitMethod = () => {
     };
 
     const fetchData = async (dataid, i) => { 
-        const response = await axios.get(`http://18.189.1.180:5000/data/${dataid}`)
+        const response = await axios.get(`http://127.0.0.1:5000/data/${dataid}`)
         console.log(response, "api", i);  
         const datas = response.data
         //setGetdata(datas.data);
@@ -86,13 +87,16 @@ const SubmitMethod = () => {
 
     const fetchHypo = async (hypoid) => { 
         //console.log(hypoid);
-        const data = await axios.get(`http://18.189.1.180:5000/hypo/${hypoid}`)
+        const data = await axios.get(`http://127.0.0.1:5000/hypo/${hypoid}`)
         const { hypo } = data.data
         //console.log(hypo);
         setGethypo(hypo);
     };
 
     function Borrowdata(props) {
+        setGetdataone({"created_at" : "", "email_datas" : "", "datas" : "", "id" : "" });
+        setGetdatatwo({"created_at" : "", "email_datas" : "", "datas" : "", "id" : "" });
+        setGetdatathree({"created_at" : "", "email_datas" : "", "datas" : "", "id" : "" });
         const prop = props
         console.log(prop, "this was michy");
         setMethoddata(prop)
@@ -154,52 +158,77 @@ const SubmitMethod = () => {
         width={1250}
         >
         <h3>Datat IDs</h3>
-        { methoddata }
         <div
             style={{
             marginBottom: 25,
             }}>
-                <div className="artifact_section">
-                    <div className="data_artifact">
-                    <Card bordered={false}>
-                    <Meta
-                        avatar={<Avatar size={60}>{getdataone.email_datas}</Avatar>}
-                        title={getdataone.created_at}
-                    />
-                        <h3 key={getdataone.id}>
-                            {getdataone.datas}  
-                        </h3>
-                    </Card>
+            <Card bordered={false}>
+                <Row>
+                    { getdataone.id ? 
+                    <Col span={8}>
+                    <div className="artifact_section_smol">
+                        <div className="data_artifact_smol">
+                        <Card bordered={false} bodyStyle={{ padding: "5px"}}>
+                        <Meta
+                            avatar={<Avatar size={50}>{getdataone.email_datas}</Avatar>}
+                            title={getdataone.created_at}
+                        />
+                            <h3 key={getdataone.id}>
+                            { (getdataone.datas).length < 125?
+                            (getdataone.datas)
+                            :
+                            ((getdataone.datas).substring(0, 125) + '...')
+                            } 
+                            </h3>
+                        </Card>
+                        </div>
                     </div>
-                </div>
-                <div className="artifact_section">
-                    <div className="data_artifact">
-                    <Card bordered={false}>
-                    <Meta
-                        avatar={<Avatar size={60}>{getdatatwo.email_datas}</Avatar>}
-                        title={getdatatwo.created_at}
-                    />
-                        <h3 key={getdatatwo.id}>
-                            {getdatatwo.datas}  
-                        </h3>
-                    </Card>
+                    </Col> : <div></div> }
+                    { getdatatwo.id ?
+                    <Col span={8}>
+                    <div className="artifact_section_smol">
+                        <div className="data_artifact_smol">
+                        <Card bordered={false} bodyStyle={{ padding: "5px"}}>
+                        <Meta
+                            avatar={<Avatar size={50}>{getdatatwo.email_datas}</Avatar>}
+                            title={getdatatwo.created_at}
+                        />
+                            <h3 key={getdatatwo.id}>
+                            { (getdatatwo.datas).length < 125?
+                            (getdatatwo.datas)
+                            :
+                            ((getdatatwo.datas).substring(0, 125) + '...')
+                            }  
+                            </h3>
+                        </Card>
+                        </div>
                     </div>
-                </div>
-                <div className="artifact_section">
-                    <div className="data_artifact">
-                    <Card bordered={false}>
-                    <Meta
-                        avatar={<Avatar size={60}>{getdatathree.email_datas}</Avatar>}
-                        title={getdatathree.created_at}
-                    />
-                        <h3 key={getdatathree.id}>
-                            {getdatathree.datas}  
-                        </h3>
-                    </Card>
+                    </Col> : <div></div> }
+                    { getdatathree.id ? 
+                    <Col span={8}>
+                    <div className="artifact_section_smol">
+                        <div className="data_artifact_smol">
+                        <Card bordered={false} bodyStyle={{ padding: "5px"}}>
+                        <Meta
+                            avatar={<Avatar size={50}>{getdatathree.email_datas}</Avatar>}
+                            title={getdatathree.created_at}
+                        />
+                            <h3 key={getdatathree.id}>
+                            { (getdatathree.datas).length < 125?
+                            (getdatathree.datas)
+                            :
+                            ((getdatathree.datas).substring(0, 125) + '...')
+                            } 
+                            </h3>
+                        </Card>
+                        </div>
                     </div>
-                </div>
+                    </Col> : <div></div> }
+                </Row>
+            </Card>
             <br></br>
             <br></br>
+                { gethypo.id ? 
                 <div className="artifact_section">
                     <div className="hypo_artifact">
                     <Card bordered={false}>
@@ -213,7 +242,7 @@ const SubmitMethod = () => {
                     </Card>
                     </div>
                 </div>
-
+                : <div></div> }
         </div>
         </Modal>
     </>

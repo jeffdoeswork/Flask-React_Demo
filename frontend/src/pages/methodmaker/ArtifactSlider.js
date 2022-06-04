@@ -29,7 +29,7 @@ const TestSlider = () => {
 
   //get data artifacts api
   const fetchData = async () => {
-    const data = await axios.get(`http://18.189.1.180:5000/datas`)
+    const data = await axios.get(`http://127.0.0.1:5000/datas`)
     const { datas } = data.data
     setDataList(datas);
     console.log(dataList);
@@ -39,7 +39,7 @@ const TestSlider = () => {
   });
   //get current user's email
   const getUser = async () => {
-    const data = await axios.get(`http://18.189.1.180:5000/test`, { withCredentials: true })
+    const data = await axios.get(`http://127.0.0.1:5000/test`, { withCredentials: true })
     console.log(data);
     setEmail(data.data);
   }
@@ -88,7 +88,7 @@ const TestSlider = () => {
     console.log(stylechangelist);
     const newPeople = stylechangelist.filter((person) => person !== index);
     setStylechangelist(newPeople);
-    console.log(newPeople);
+    console.log(newPeople, "new people");
     window.$datamethodid = newPeople
   }
 
@@ -96,7 +96,7 @@ const TestSlider = () => {
   const handleSubmit = async (idlength) => {
     const body_email = email.email
     try {
-      const data = await axios.post(`http://18.189.1.180:5000/datas`, {body, body_email})
+      const data = await axios.post(`http://127.0.0.1:5000/datas`, {body, body_email})
       // something is broken with the slider
       //setDataList([...dataList, data.data]);
       ///setDataList([data.data]);
@@ -116,14 +116,35 @@ const TestSlider = () => {
 
   if (email.email) {
 
+  if (dataList.length < 1) {
+    return(
+      <div>
+      <h2> Enter the first data: </h2>
+      <form onSubmit={handleSubmit}>
+    <div className='entry_box'>
+      <input
+        onChange={(e) => handleChange(e, "body")}
+        type="text"
+        name="body"
+        id="body"
+        value={body}
+      />
+      
+      <br></br>
+      <Button type="primary" onClick={() => handleSubmit((dataList.length + 1))}>Submit</Button> 
+    </div>
+  </form>
+  </div>
+    )
+  }
   return (
   <div>
     <h2>Borrow or Make up to 3 Data Artifacts</h2>
-
       <div>
           <Carousel ref={ref} dots={false} slidesToShow={1}>
               {dataList.map(image => {
                   return (
+
                     <div className="slider_section">
 
                       <div className="data_testslider_border">
@@ -149,14 +170,22 @@ const TestSlider = () => {
                         :
                         <div                                
                           style={{
-                            marginLeft: 25,
-                            marginTop: 10,
+                            marginLeft: 15,
+                            marginRight: 5,
+                            marginTop: 4,
                             }}>
                             <Meta
+                                bodyStyle={{ padding: "1px"}}
                                 avatar={<Avatar size={60}>{image.email_datas}</Avatar>}
                                 title={"Artifact ID: " + image.id}
                           />
-                          <h3>{image.datas}</h3>
+                          <h4 key={image.id}>
+                              { (image.datas).length < 130?
+                              (image.datas)
+                              :
+                              ((image.datas).substring(0, 130) + '...')
+                              }
+                          </h4>
 
                           { stylechangelist.includes(image.id) ?
                           <Button type="primary" onClick={ () => removeItem(image.id)}>Don't Borrow</Button>
@@ -175,7 +204,7 @@ const TestSlider = () => {
                       }
                   </div>
               </div>
-            )
+                    )
         })}
       </Carousel>
     </div>

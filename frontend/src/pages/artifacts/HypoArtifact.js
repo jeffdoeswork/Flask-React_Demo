@@ -11,7 +11,7 @@ function HypoArtifact(props) {
 
     const fetchHypo = async (hypoid) => { 
         //console.log(hypoid);
-        const data = await axios.get(`http://18.189.1.180:5000/hypo/${props.hypoid}`)
+        const data = await axios.get(`http://127.0.0.1:5000/hypo/${props.hypoid}`)
         const { hypo } = data.data
         //console.log(hypo);
         setGethypo(hypo);
@@ -25,13 +25,17 @@ function HypoArtifact(props) {
         
         <div className="artifact_section">
             <div className="hypo_artifact">
-            <Card bordered={false}>
+            <Card bordered={false} bodyStyle={{ padding: "5px"}}>
             <Meta
                 avatar={<Avatar size={60}>{gethypo.email_hypos}</Avatar>}
                 title={gethypo.created_at}
             />
                 <h3 key={gethypo.id}>
-                    {gethypo.hypos}  
+                { (gethypo.hypos).length < 225?
+                    (gethypo.hypos)
+                    :
+                    ((gethypo.hypos).substring(0, 225) + '...')
+                    }
                 </h3>
             </Card>
             </div>

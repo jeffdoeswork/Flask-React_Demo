@@ -21,7 +21,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "homepage": "http://18.189.1.180/"
+    "homepage": "http://127.0.0.1/"
   },
   "eslintConfig": {
     "extends": [

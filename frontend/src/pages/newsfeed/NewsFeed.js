@@ -13,7 +13,7 @@ const NewsFeed = () => {
 
     //gets current email from api
     const getUser = async () => {
-    const data = await axios.get(`http://18.189.1.180:5000/test`, { withCredentials: true })
+    const data = await axios.get(`http://127.0.0.1:5000/test`, { withCredentials: true })
         setEmail(data.data);
         }
     function toggler() {

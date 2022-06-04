@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import { Avatar, Card } from 'antd';
 import "./MethodFeed.css"
-import DataArtifact from '..//artifacts/DataArtifact';
+import MethodData from '..//artifacts/MethodData';
 import HypoArtifact from '..//artifacts/HypoArtifact';
 
 const MethodFeed = () => {
@@ -17,11 +17,11 @@ const MethodFeed = () => {
     const [methods, setMethods] = useState([]);
 
     const getUser = async () => {
-        const data = await axios.get(`http://18.189.1.180:5000/test`, { withCredentials: true })
+        const data = await axios.get(`http://127.0.0.1:5000/test`, { withCredentials: true })
         setEmail(data.data);
     }
     const fetchMethods = async () => {
-        const response = await axios.get(`http://18.189.1.180:5000/method`);
+        const response = await axios.get(`http://127.0.0.1:5000/method`);
         //console.log(response.data.methods);
         //console.log("lookie here guy");
         //const { posts } = data.data
@@ -32,14 +32,14 @@ const MethodFeed = () => {
         fetchMethods(); 
       }, [])
     return (
-        <div className="center_method"> 
+        <div> 
 
             { (methods).map((method) => {
                 return (
                 <div>
-                <Card style={{ height: 490 }}>
+                <Card style={{ height: 505, width: 1300 }} bodyStyle={{ padding: "10px"}}    >
                 <Meta
-                    avatar={<Avatar size={80}>{method.email_method}</Avatar>}
+                    avatar={<Avatar size={69}  bodyStyle={{ padding: "10px"}}>{method.email_method}</Avatar>}
                     title={
                     <div>
                         <h2>{method.title} </h2>
@@ -47,10 +47,8 @@ const MethodFeed = () => {
                     </div>
                     }
                 />
-                <br></br>
                 <div className="center_artifacts">
-                        <DataArtifact dataid={method.data} />
-                        <br></br>
+                        <MethodData dataarray={method.data} />
                         <br></br>
                         <HypoArtifact hypoid={method.hypo} />
                 </div>

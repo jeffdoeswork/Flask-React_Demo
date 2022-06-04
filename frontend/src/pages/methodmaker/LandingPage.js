@@ -17,7 +17,7 @@ const LandingPage = () => {
     email : ""
   });
   const getUser = async () => {
-    const data = await axios.get(`http://18.189.1.180:5000/test`, { withCredentials: true })
+    const data = await axios.get(`http://127.0.0.1:5000/test`, { withCredentials: true })
     setEmail(data.data);
   }
   
@@ -27,11 +27,13 @@ const LandingPage = () => {
 
   if (email.email) {
     return (
-      <div>
-        <SubmitMethod />
-        <br></br>
-        <TestSlider />
-        <HypoSlider />
+      <div className='box'>
+        <Card bordered={false} bodyStyle={{ padding: "5px"}}>
+          <SubmitMethod />
+          <br></br>
+          <TestSlider />
+          <HypoSlider />
+        </Card>
       </div>
     );
   } else {
