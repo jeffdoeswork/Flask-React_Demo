@@ -25,6 +25,7 @@ import UserDashboard from './pages/profilestuff/UserDashboard';
 import RegisterPage from './pages/userstuff/RegisterPage';
 import Logout from './pages/userstuff/Logout';
 import NewsFeed from './pages/newsfeed/NewsFeed';
+import UsernameDashboard from './pages/profilestuff/UsernameDashboard';
 import './app.css'
 
 // i use the App.js file to handel the nav bar, the nav bar is from the AntD css & react library i downloaded, its pretty straigh foroward
@@ -110,6 +111,8 @@ export default function App() {
             <Route path="*"  element={<NotFound />} />
             <Route path={"/"+ email.email} element={<UserDashboard />}/>
             <Route path="/logout"  element={<Logout />}/>
+            <Route path="/users/:id"  element={<UsernameDashboard />}/>
+
           </Routes>
         </Layout>
   </BrowserRouter>
