@@ -4,6 +4,7 @@ import { Avatar, Card } from 'antd';
 import "./MethodFeed.css"
 import MethodData from '..//artifacts/MethodData';
 import HypoArtifact from '..//artifacts/HypoArtifact';
+import { Link } from "react-router-dom";
 
 const MethodFeed = () => {
     const { Meta } = Card;
@@ -39,7 +40,9 @@ const MethodFeed = () => {
                 <div>
                 <Card style={{ height: 505, width: 1300 }} bodyStyle={{ padding: "10px"}}    >
                 <Meta
-                    avatar={<Avatar size={69}  bodyStyle={{ padding: "10px"}}>{method.email_method}</Avatar>}
+                    avatar={<Link to={`/users/${method.email_method}`}>
+                    <Avatar size={69}  bodyStyle={{ padding: "10px"}}>{method.email_method}</Avatar>
+                       </Link>}
                     title={
                     <div>
                         <h2>{method.title} </h2>

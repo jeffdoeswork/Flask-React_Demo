@@ -5,6 +5,7 @@ import { Button, Carousel, Avatar, Card } from "antd";
 import { Link } from 'react-router-dom';
 import "./TestSlider.css"
 import axios from 'axios';
+
 //This file is for the Data Artifact Slider, its twins with HypoSlider
 
 //idk what this does
@@ -176,7 +177,10 @@ const TestSlider = () => {
                             }}>
                             <Meta
                                 bodyStyle={{ padding: "1px"}}
-                                avatar={<Avatar size={60}>{image.email_datas}</Avatar>}
+                                avatar={<Link to={`/users/${image.email_datas}`}>
+                                <Avatar size={60}>{image.email_datas}</Avatar>
+                                </Link>
+                              }
                                 title={"Artifact ID: " + image.id}
                           />
                           <h4 key={image.id}>

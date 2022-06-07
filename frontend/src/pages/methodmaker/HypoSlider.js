@@ -156,7 +156,9 @@ const HypoSlider = () => {
                                   }}>
                                   <Meta
                                       bodyStyle={{ padding: "1px"}}
-                                      avatar={<Avatar size={60}>{image.email_hypos}</Avatar>}
+                                      avatar={<Link to={`/users/${image.email_hypos}`}>
+                                      <Avatar size={60}>{image.email_hypos}</Avatar>
+                                      </Link>}
                                       title={"Artifact ID: " + image.id}
                                     />
                                   <h4 key={image.id}>

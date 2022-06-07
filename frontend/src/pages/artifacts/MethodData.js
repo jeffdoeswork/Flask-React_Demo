@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import { Avatar, Card, Row, Col } from 'antd';
 import "./DataArtifact.css"
+import { Link } from "react-router-dom";
 
 function MethodData(props) {
     const { Meta } = Card;
@@ -42,7 +43,11 @@ function MethodData(props) {
                 <div className="data_artifact_smol">
                 <Card bordered={false} bodyStyle={{ padding: "5px"}}>
                 <Meta
-                    avatar={<Avatar size={50}>{getdataone.email_datas}</Avatar>}
+                    avatar={
+                    <Link to={`/users/${getdataone.email_datas}`}>
+                    <Avatar size={50}>{getdataone.email_datas}</Avatar>
+                    </Link>
+                    }
                     title={getdataone.created_at}
                 />
                     <h3 key={getdataone.id}>
@@ -62,7 +67,10 @@ function MethodData(props) {
                 <div className="data_artifact_smol">
                 <Card bordered={false} bodyStyle={{ padding: "5px"}}>
                 <Meta
-                    avatar={<Avatar size={50}>{getdatatwo.email_datas}</Avatar>}
+                    avatar={
+                    <Link to={`/users/${getdatatwo.email_datas}`}>
+                    <Avatar size={50}>{getdatatwo.email_datas}</Avatar>
+                    </Link>}
                     title={getdatatwo.created_at}
                 />
                     <h3 key={getdatatwo.id}>
@@ -82,7 +90,9 @@ function MethodData(props) {
                 <div className="data_artifact_smol">
                 <Card bordered={false} bodyStyle={{ padding: "5px"}}>
                 <Meta
-                    avatar={<Avatar size={50}>{getdatathree.email_datas}</Avatar>}
+                    avatar={<Link to={`/users/${getdatathree.email_datas}`}>
+                    <Avatar size={50}>{getdatathree.email_datas}</Avatar>
+                    </Link>}
                     title={getdatathree.created_at}
                 />
                     <h3 key={getdatathree.id}>
