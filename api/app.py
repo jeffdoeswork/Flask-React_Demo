@@ -83,7 +83,7 @@ def get_datas():
 #get all observations
 @app.route("/observations", methods=["GET"])
 def get_observations():
-    observations = Observation.query.order_by(Observation.id.asc()).all()
+    observations = Observation.query.order_by(Observation.id.desc()).all()
     observation_list = []
     for observation in observations:
         observation_list.append(obs_format_json(observation))

@@ -47,7 +47,7 @@ def format_user(data):
 
 def obs_format_json(data):
     return {
-        "observation" : data.datas,
+        "observation" : data.observation,
         "id" : data.id,
         "created_at" : data.created_at,
         "email_obs" : data.email_obs

@@ -3,6 +3,7 @@ import axios from 'axios';
 import "./UserFeed.css"
 import DataArtifact from '..//artifacts/DataArtifact';
 import HypoArtifact from '..//artifacts/HypoArtifact';
+import ObsArtifact from '../artifacts/ObsArtifact';
 import { Card } from 'antd';
 
 
@@ -41,6 +42,15 @@ const ProfileFeed = (props) => {
                   <div>
                     <Card bordered={false} bodyStyle={{ padding: "5px"}}>
                     <HypoArtifact hypoid={artifact.id} />
+                    <br></br>
+                    </Card>
+                  </div>
+                )
+              } else if (artifact.observation) {
+                return (
+                  <div>
+                    <Card bordered={false} bodyStyle={{ padding: "5px"}}>
+                    <ObsArtifact obsid={artifact.id} />
                     <br></br>
                     </Card>
                   </div>

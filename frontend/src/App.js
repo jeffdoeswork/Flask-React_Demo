@@ -5,6 +5,7 @@ import { Layout, Menu } from 'antd';
 import {
   AppstoreOutlined,
   TeamOutlined,
+  SearchOutlined,
   UserOutlined,
   LogoutOutlined,
   LoginOutlined,
@@ -26,6 +27,7 @@ import RegisterPage from './pages/userstuff/RegisterPage';
 import Logout from './pages/userstuff/Logout';
 import NewsFeed from './pages/newsfeed/NewsFeed';
 import UsernameDashboard from './pages/profilestuff/UsernameDashboard';
+import ObsFeed from './pages/explore/ObsFeed';
 import './app.css'
 
 // i use the App.js file to handel the nav bar, the nav bar is from the AntD css & react library i downloaded, its pretty straigh foroward
@@ -70,26 +72,29 @@ export default function App() {
           <Menu.Item key="1" icon={<UnorderedListOutlined />}>
             <Link to="/newsfeed">Newsfeed</Link>
           </Menu.Item>
-          <Menu.Item key="2" icon={<ExperimentOutlined />}>
+          <Menu.Item key="2" icon={<SearchOutlined />}>
+            <Link to="/explore">Explore</Link>
+          </Menu.Item>
+          <Menu.Item key="3" icon={<ExperimentOutlined />}>
             <Link to="/">Method Maker</Link>
           </Menu.Item>
           { email.email ? <></> :
-          <Menu.Item key="3" icon={<UserOutlined />}>
+          <Menu.Item key="4" icon={<UserOutlined />}>
             <Link to="/register">Register</Link>
           </Menu.Item>
           }
           { email.email ? <></> :
-          <Menu.Item key="4" icon={<LoginOutlined />}>
+          <Menu.Item key="5" icon={<LoginOutlined />}>
             <Link to="/login">Login</Link>
           </Menu.Item>
           }
           { email.email ?
-          <Menu.Item key="5" icon={<CommentOutlined />}>
+          <Menu.Item key="6" icon={<CommentOutlined />}>
             <Link to={"/"+ email.email}>{ email.email }</Link>
           </Menu.Item>
           : <></>}
           { email.email ?
-          <Menu.Item key="6" icon={<LogoutOutlined />}>
+          <Menu.Item key="7" icon={<LogoutOutlined />}>
             <Link to="/logout">Logout</Link>
           </Menu.Item>
           : <></>}
@@ -106,6 +111,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<LandingPage />}/>
             <Route path="/newsfeed"  element={<NewsFeed />}/>
+            <Route path="/explore"  element={<ObsFeed />}/>
             <Route path="/login"  element={<LoginPage />}/>
             <Route path="/register"  element={<RegisterPage />}/>
             <Route path="*"  element={<NotFound />} />
