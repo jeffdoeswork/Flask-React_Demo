@@ -9,7 +9,7 @@ from datetime import datetime, timedelta, timezone
 from flask_cors import CORS, cross_origin
 #from flask_session import Session
 import redis
-from models import User, Datas, Hypos, Methods, format_json, hypo_format_json, method_json, format_user
+from models import User, Datas, Hypos, Methods, Observation, format_json, hypo_format_json, method_json, format_user, obs_format_json
 from db import db
 
 app = Flask(__name__)
@@ -80,7 +80,16 @@ def get_datas():
         datas_list.append(format_json(data))
     return {'datas': datas_list}
 
-#create and hypos
+#get all observations
+@app.route("/observations", methods=["GET"])
+def get_observations():
+    observations = Observation.query.order_by(Observation.id.asc()).all()
+    observation_list = []
+    for observation in observations:
+        observation_list.append(obs_format_json(observation))
+    return {'observations': observation_list}
+
+#create a hypos
 @app.route('/hypos', methods=['POST'])
 def make_hypo():
     email = request.json.get('body_email', None)
@@ -92,15 +101,28 @@ def make_hypo():
 
     return "You've created a Hypo", 200
 
+#create an observation
+@app.route('/observations', methods=['POST'])
+def make_observation():
+    email = request.json.get('body_email', None)
+    body = request.json.get('body', None)
+
+    observations = Observation(observation=body, email_obs=email)
+    db.session.add(observations)
+    db.session.commit()
+
+    return "You've created an observation", 200
+
 #make method
 @app.route('/method', methods=['POST'])
 def make_method():
     email = request.json.get('body_email', None)
     title = request.json.get('title', None)
+    observation = request.json.get('observation', None)
     hypo = request.json.get('hypo', None)
     data = request.json.get('data', None)
 
-    method = Methods(title=title, email_method=email, hypo=hypo, data=data)
+    method = Methods(title=title, email_method=email, observation=observation, hypo=hypo, data=data)
     db.session.add(method)
     db.session.commit()
 
@@ -147,6 +169,10 @@ def get_users():
 #get all artifacts
 @app.route("/artifacts", methods=["GET"])
 def get_artifacts():
+    observations = Observation.query.order_by(Observation.created_at.desc()).all()
+    observation_list = []
+    for observation in observations:
+        observation_list.append(obs_format_json(observation))
     hypos = Hypos.query.order_by(Hypos.created_at.desc()).all()
     hypos_list = []
     for hypo in hypos:
@@ -155,7 +181,7 @@ def get_artifacts():
     datas_list = []
     for data in datas:
         datas_list.append(format_json(data))
-    artifacts_list = datas_list + hypos_list
+    artifacts_list = observation_list + datas_list + hypos_list
     sorted_list = sorted(artifacts_list, key=lambda x: datetime.strptime(str(x['created_at']), r'%Y-%m-%d %H:%M:%S.%f'), reverse=True)
     print(sorted_list)
 
@@ -178,6 +204,13 @@ def get_user_artifacts(email):
 
     return {'artifacts': sorted_list}
 
+#get stingle observation
+@app.route("/observations/<id>", methods=["GET"])
+def get_obs(id):
+    observation = Observation.query.filter_by(id=id).one()
+    formated_obs = obs_format_json(observation)
+    return {'observation' : formated_obs}
+    
 #get stingle datas
 @app.route("/data/<id>", methods=["GET"])
 def get_data(id):
