@@ -190,6 +190,10 @@ def get_artifacts():
 #get user's artifacts
 @app.route("/artifacts/<email>", methods=["GET"])
 def get_user_artifacts(email):
+    observations = Observation.query.filter_by(email_obs=email).order_by(Observation.created_at.desc()).all()
+    observations_list = []
+    for observation in observations:
+        observations_list.append(obs_format_json(observation))
     hypos = Hypos.query.filter_by(email_hypos=email).order_by(Hypos.created_at.desc()).all()
     hypos_list = []
     for hypo in hypos:
@@ -198,7 +202,7 @@ def get_user_artifacts(email):
     datas_list = []
     for data in datas:
         datas_list.append(format_json(data))
-    artifacts_list = datas_list + hypos_list
+    artifacts_list = observations_list + datas_list + hypos_list
     sorted_list = sorted(artifacts_list, key=lambda x: datetime.strptime(str(x['created_at']), r'%Y-%m-%d %H:%M:%S.%f'), reverse=True)
     print(sorted_list)
 

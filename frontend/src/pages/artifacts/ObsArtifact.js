@@ -6,15 +6,17 @@ import "./ObsArtifact.css"
 
 function ObsArtifact(props) {
     const { Meta } = Card;
-    const [getdata, setGetdata] = useState({
+    const [getobs, setGetobs] = useState({
         "created_at" : "", "email_obs" : "", "observation" : "", "id" : ""
     });
 
     const fetchObs = async () => { 
         const response = await axios.get(`http://127.0.0.1:5000/observations/${props.obsid}`)
+        console.log(response, "this is resobs time");  
+
         const datas = response.data
-        setGetdata(datas.data);
-        console.log(datas.data);  
+        setGetobs(datas.observation);
+        console.log(datas.data.observations, "this is obs time");  
 
     };
     useEffect(() => {
@@ -27,19 +29,19 @@ function ObsArtifact(props) {
             <div className="obs_artifact">
             <Card bordered={false} bodyStyle={{ padding: "5px"}}>
             <Meta
-                avatar={<Link to={`/users/${getdata.email_obs}`}>
+                avatar={<Link to={`/users/${getobs.email_obs}`}>
                     <Avatar size={60}>
-                    {getdata.email_obs}
+                    {getobs.email_obs}
                     </Avatar>
                     </Link>}
 
-                title={getdata.created_at}
+                title={getobs.created_at}
             />
-                <h3 key={getdata.id}>
-                    { (getdata.observation).length < 225?
-                    (getdata.observation)
+                <h3 key={getobs.id}>
+                    { (getobs.observation).length < 225?
+                    (getobs.observation)
                     :
-                    ((getdata.observation).substring(0, 225) + '...')
+                    ((getobs.observation).substring(0, 225) + '...')
                     }
                 </h3>
             </Card>

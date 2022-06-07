@@ -22,6 +22,7 @@ const ProfileFeed = (props) => {
 
   useEffect(() => {
     fetchArtifacts(); 
+    console.log(userpost);
   }, [])
 
   // copies with double if statmens from the ArtifactFeed.js file, this way it only shows the users' artifacts, blue for data and purple for hypo

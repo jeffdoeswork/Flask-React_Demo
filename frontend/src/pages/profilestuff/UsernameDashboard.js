@@ -4,7 +4,7 @@ import ProfileMethods from './ProfileMethods'
 import axios from 'axios';
 import { Button } from "antd";
 import "./MethodFeed.css" 
-import { useHistory, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
 function UsernameDashboard() {
     const {id} = useParams();
