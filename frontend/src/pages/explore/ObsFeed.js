@@ -73,6 +73,7 @@ const ObsFeed = () => {
         return(
           <div style={{ padding:"5px"}}>
           <div className="obs_artifact">
+          <Link to={`/explore/${obs.id}`}>
             <Card bordered={false} bodyStyle={{ padding: "5px"}}>
             <Meta
                 avatar={<Link to={`/users/${obs.email_obs}`}>
@@ -92,10 +93,10 @@ const ObsFeed = () => {
                 </h3>
                 <br></br>
             </Card>
-
-            </div>
-        </div>
-        )
+          </Link>
+          </div>
+      </div>
+      )
     })}
 
 

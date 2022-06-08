@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import TestSlider from '../methodmaker/ArtifactSlider';
 import 'antd/dist/antd.css';
 import './landingpage.css';
@@ -13,6 +13,7 @@ import axios from 'axios';
 
 const { Header, Content, Footer } = Layout;
 const LandingPage = () => {
+  const {id} = useParams();
   const [email, setEmail] = useState({
     email : ""
   });
@@ -29,10 +30,10 @@ const LandingPage = () => {
     return (
       <div className='box'>
         <Card bordered={false} bodyStyle={{ padding: "5px"}}>
-          <SubmitMethod />
+          <SubmitMethod obsid={id}/>
           <br></br>
-          <TestSlider />
-          <HypoSlider />
+          <TestSlider obsid={id}/>
+          <HypoSlider obsid={id}/>
         </Card>
       </div>
     );

@@ -9,7 +9,7 @@ from datetime import datetime, timedelta, timezone
 from flask_cors import CORS, cross_origin
 #from flask_session import Session
 import redis
-from models import User, Datas, Hypos, Methods, Observation, format_json, hypo_format_json, method_json, format_user, obs_format_json
+from models import User, Datas, Hypos, Methods, Observation, format_json, hypo_format_json, method_json, format_user, obs_format_json, data_obs_format_json, hypo_obs_format_json
 from db import db
 
 app = Flask(__name__)
@@ -63,14 +63,15 @@ jwt_redis_blocklist = redis.StrictRedis(
 def make_datas():
     email = request.json.get('body_email', None)
     body = request.json.get('body', None)
+    observation = request.json.get('observation', None)
 
-    datas = Datas(datas=body, email_datas=email)
+    datas = Datas(datas=body, email_datas=email, observation=observation)
     db.session.add(datas)
     db.session.commit()
 
     return "You've created a Data", 200
 
-#get all datass
+#get all datas
 @app.route("/datas", methods=["GET"])
 def get_datas():
     #datas = Datas.query.order_by(Datas.created_at.asc()).all()
@@ -78,6 +79,17 @@ def get_datas():
     datas_list = []
     for data in datas:
         datas_list.append(format_json(data))
+    return {'datas': datas_list}
+
+#get all datas from observations
+@app.route("/datas/<obs>", methods=["GET"])
+def get_obs_datas(obs):
+    datas = Datas.query.filter_by(observation=obs).order_by(Datas.id.asc()).all()
+    swipe = 0
+    datas_list = []
+    for data in datas:
+        datas_list.append(data_obs_format_json(data, swipe))
+        swipe += 1
     return {'datas': datas_list}
 
 #get all observations
@@ -94,8 +106,9 @@ def get_observations():
 def make_hypo():
     email = request.json.get('body_email', None)
     body = request.json.get('body', None)
+    observation = request.json.get('observation', None)
 
-    hypos = Hypos(hypos=body, email_hypos=email)
+    hypos = Hypos(hypos=body, email_hypos=email, observation=observation)
     db.session.add(hypos)
     db.session.commit()
 
@@ -154,6 +167,17 @@ def get_hypos():
     hypos_list = []
     for hypo in hypos:
         hypos_list.append(hypo_format_json(hypo))
+    return {'hypos': hypos_list}
+
+#get all hypos observation
+@app.route("/hypos/<obs>", methods=["GET"])
+def get_obs_hypos(obs):
+    hypos = Hypos.query.filter_by(observation=obs).order_by(Hypos.id.asc()).all()
+    hypos_list = []
+    swipe = 0
+    for hypo in hypos:
+        hypos_list.append(hypo_obs_format_json(hypo, swipe))
+        swipe += 1
     return {'hypos': hypos_list}
 
 #get all users
@@ -236,8 +260,10 @@ def make_methods():
     title = request.json.get('title', None)
     data = request.json.get('data', None)
     hypo = request.json.get('hypo', None)
+    observation = request.json.get('observation', None)
 
-    method = Methods(title=title, email_method=email, hypo=hypo, data=data)
+
+    method = Methods(title=title, email_method=email, hypo=hypo, data=data, observation=observation)
     db.session.add(method)
     db.session.commit()
 
@@ -359,12 +385,12 @@ def login():
 
 @app.route("/logout", methods=["GET"])
 def logout_with_cookies():
-    #response = jsonify({"msg": "logout successful"})
+    response = jsonify({"msg": "logout successful"})
     #unset_jwt_cookies(response)
     #return response
-    resp = make_response(redirect(app.config['BASE_URL'] + '/', 302))
-    unset_jwt_cookies(resp)
-    return resp
+    #resp = make_response(redirect(app.config['BASE_URL'] + '/', 302))
+    unset_jwt_cookies(response)
+    return response
 
 # protected test route
 @app.route('/test', methods=['GET'])

@@ -20,6 +20,7 @@ class Datas(db.Model):
     datas = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     email_datas = db.Column(db.Text, db.ForeignKey('User.email'))
+    observation = db.Column(db.INT, db.ForeignKey('Observation.id'))
 
 class Hypos(db.Model):
     __tablename__ = 'Hypos'
@@ -27,6 +28,7 @@ class Hypos(db.Model):
     hypos = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     email_hypos = db.Column(db.Text, db.ForeignKey('User.email'))
+    observation = db.Column(db.INT, db.ForeignKey('Observation.id'))
 
 class Methods(db.Model):
     __tablename__ = 'Methods'
@@ -58,7 +60,18 @@ def format_json(data):
         "datas" : data.datas,
         "id" : data.id,
         "created_at" : data.created_at,
-        "email_datas" : data.email_datas
+        "email_datas" : data.email_datas,
+        "observation" : data.observation,
+    }
+
+def data_obs_format_json(data, swipe):
+    return {
+        "datas" : data.datas,
+        "id" : data.id,
+        "created_at" : data.created_at,
+        "email_datas" : data.email_datas,
+        "observation" : data.observation,
+        "swipe" : swipe
     }
 
 def hypo_format_json(data):
@@ -66,9 +79,19 @@ def hypo_format_json(data):
         "hypos" : data.hypos,
         "id" : data.id,
         "created_at" : data.created_at,
-        "email_hypos" : data.email_hypos
+        "email_hypos" : data.email_hypos,
+        "observation" : data.observation
     }
 
+def hypo_obs_format_json(data, swipe):
+    return {
+        "hypos" : data.hypos,
+        "id" : data.id,
+        "created_at" : data.created_at,
+        "email_hypos" : data.email_hypos,
+        "observation" : data.observation,
+        "swipe" : swipe
+    }
 def method_json(data):
     return {
         'title' : data.title,

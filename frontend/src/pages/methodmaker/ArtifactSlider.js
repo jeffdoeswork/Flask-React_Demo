@@ -17,7 +17,7 @@ const contentStyle = {
   background: '#364d79',
 };
 
-const TestSlider = () => {
+const TestSlider = (props) => {
   const [body, setBody] = useState("");
   const [dataList, setDataList] = useState([]);
   const [dataId, setDataId] = useState(null);
@@ -30,7 +30,7 @@ const TestSlider = () => {
 
   //get data artifacts api
   const fetchData = async () => {
-    const data = await axios.get(`http://127.0.0.1:5000/datas`)
+    const data = await axios.get(`http://127.0.0.1:5000/datas/${props.obsid}`)
     const { datas } = data.data
     setDataList(datas);
     console.log(dataList);
@@ -96,15 +96,16 @@ const TestSlider = () => {
   //The work horse of this DataSlider (named ArtifactSlider) components. Calls in a lot of help from other funcitons
   const handleSubmit = async (idlength) => {
     const body_email = email.email
+    const observation = props.obsid
     try {
-      const data = await axios.post(`http://127.0.0.1:5000/datas`, {body, body_email})
+      const data = await axios.post(`http://127.0.0.1:5000/datas`, {body, body_email, observation})
       // something is broken with the slider
       //setDataList([...dataList, data.data]);
       ///setDataList([data.data]);
       setBody('');
       fetchData();
       borrowThree(dataList.length + 1);
-      ref.current.goTo(dataList.length, false);
+      ref.current.goTo(dataList.length + 1, false);
       setDatamethodid(idlength);
       window.$datamethodid = datamethodid //global variable for data artifact's ID
       toggler();
@@ -132,7 +133,7 @@ const TestSlider = () => {
       />
       
       <br></br>
-      <Button type="primary" onClick={() => handleSubmit((dataList.length + 1))}>Submit</Button> 
+      <Button type="primary" onClick={() => handleSubmit((dataList.length - 1))}>Submit</Button> 
     </div>
   </form>
   </div>
@@ -163,7 +164,7 @@ const TestSlider = () => {
                             />
                             
                             <br></br>
-                            <Button type="primary" onClick={() => handleSubmit((dataList.length + 1))}>Submit</Button> 
+                            <Button type="primary" onClick={() => handleSubmit((dataList.length - 1))}>Submit</Button> 
                             <Button type="danger" onClick={() => toggler()} >Cancel</Button>
                           </div>
                         </form>
@@ -181,7 +182,7 @@ const TestSlider = () => {
                                 <Avatar size={60}>{image.email_datas}</Avatar>
                                 </Link>
                               }
-                                title={"Artifact ID: " + image.id}
+                                title={"Artifact ID: " + image.swipe}
                           />
                           <h4 key={image.id}>
                               { (image.datas).length < 130?
@@ -224,12 +225,12 @@ const TestSlider = () => {
       return (
           <div>
             { stylechangelist.includes(datanumber.id) ?
-              <p className="btnSelected"  key={datanumber.id} onClick={() => goTo(datanumber.id  - 1)}> 
-                {datanumber.id }
+              <p className="btnSelected"  key={datanumber.id} onClick={() => goTo(datanumber.swipe)}> 
+                {datanumber.swipe + 1 }
               </p>
               :
-              <p className="btnNormal"  key={datanumber.id} onClick={() => goTo(datanumber.id  - 1)}> 
-              {datanumber.id }
+              <p className="btnNormal"  key={datanumber.id} onClick={() => goTo(datanumber.swipe)}> 
+              {datanumber.swipe + 1 }
             </p>
             }
           </div>

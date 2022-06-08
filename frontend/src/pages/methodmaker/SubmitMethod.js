@@ -5,7 +5,7 @@ import "./MethodFeed.css"
 import DataArtifact from '..//artifacts/DataArtifact';
 import HypoArtifact from '..//artifacts/HypoArtifact';
 
-const SubmitMethod = () => {
+const SubmitMethod = (props) => {
       //These 2 variables are actually global variables
     const { Meta } = Card;
     const [methodtitle, setMethodtitle] = useState("");
@@ -51,8 +51,9 @@ const SubmitMethod = () => {
         const title = methodtitle
         const data = methoddata
         const hypo = methodhypo
+        const observation = props.obsid
         try {
-            const method = await axios.post(`http://127.0.0.1:5000/method`, {title, body_email, data, hypo})
+            const method = await axios.post(`http://127.0.0.1:5000/method`, {title, body_email, data, hypo, observation})
 
             setConfirmLoading(true);
             setTimeout(() => {
@@ -93,11 +94,11 @@ const SubmitMethod = () => {
         setGethypo(hypo);
     };
 
-    function Borrowdata(props) {
+    function Borrowdata(thing) {
         setGetdataone({"created_at" : "", "email_datas" : "", "datas" : "", "id" : "" });
         setGetdatatwo({"created_at" : "", "email_datas" : "", "datas" : "", "id" : "" });
         setGetdatathree({"created_at" : "", "email_datas" : "", "datas" : "", "id" : "" });
-        const prop = props
+        const prop = thing
         console.log(prop, "this was michy");
         setMethoddata(prop)
 
@@ -114,7 +115,7 @@ const SubmitMethod = () => {
         console.log(methoddata, "this should be a list of data atrifatacts")
     }
 
-    function Borrowhypo(props) {
+    function Borrowhypo() {
         const hypoid = window.$hypomethodid
         setMethoddhypo(hypoid);
         return fetchHypo(hypoid);

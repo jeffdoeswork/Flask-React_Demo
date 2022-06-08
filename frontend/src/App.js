@@ -70,31 +70,28 @@ export default function App() {
         theme="dark"
       >
           <Menu.Item key="1" icon={<UnorderedListOutlined />}>
-            <Link to="/newsfeed">Newsfeed</Link>
+            <Link to="/">Newsfeed</Link>
           </Menu.Item>
           <Menu.Item key="2" icon={<SearchOutlined />}>
             <Link to="/explore">Explore</Link>
           </Menu.Item>
-          <Menu.Item key="3" icon={<ExperimentOutlined />}>
-            <Link to="/">Method Maker</Link>
-          </Menu.Item>
           { email.email ? <></> :
-          <Menu.Item key="4" icon={<UserOutlined />}>
+          <Menu.Item key="3" icon={<UserOutlined />}>
             <Link to="/register">Register</Link>
           </Menu.Item>
           }
           { email.email ? <></> :
-          <Menu.Item key="5" icon={<LoginOutlined />}>
+          <Menu.Item key="4" icon={<LoginOutlined />}>
             <Link to="/login">Login</Link>
           </Menu.Item>
           }
           { email.email ?
-          <Menu.Item key="6" icon={<CommentOutlined />}>
+          <Menu.Item key="5" icon={<UserOutlined />}>
             <Link to={"/"+ email.email}>{ email.email }</Link>
           </Menu.Item>
           : <></>}
           { email.email ?
-          <Menu.Item key="7" icon={<LogoutOutlined />}>
+          <Menu.Item key="6" icon={<LogoutOutlined />}>
             <Link to="/logout">Logout</Link>
           </Menu.Item>
           : <></>}
@@ -109,9 +106,9 @@ export default function App() {
           marginTop: 25,
         }}>
           <Routes>
-            <Route path="/" element={<LandingPage />}/>
-            <Route path="/newsfeed"  element={<NewsFeed />}/>
+            <Route path="/"  element={<NewsFeed />}/>
             <Route path="/explore"  element={<ObsFeed />}/>
+            <Route path="/explore/:id"  element={<LandingPage />}/>
             <Route path="/login"  element={<LoginPage />}/>
             <Route path="/register"  element={<RegisterPage />}/>
             <Route path="*"  element={<NotFound />} />

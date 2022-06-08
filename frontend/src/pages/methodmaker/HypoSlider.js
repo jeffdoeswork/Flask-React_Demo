@@ -16,7 +16,7 @@ const contentStyle = {
   background: '#364d79',
 };
 
-const HypoSlider = () => {
+const HypoSlider = (props) => {
   const [body, setBody] = useState("");
   const [hypoList, setHypoList] = useState([]);
   const [hypoId, setHypoId] = useState(null);
@@ -27,10 +27,10 @@ const HypoSlider = () => {
   
   //get data artifacts api
   const fetchData = async () => {
-    const data = await axios.get('http://127.0.0.1:5000/hypos')
+    const data = await axios.get(`http://127.0.0.1:5000/hypos/${props.obsid}`)
+    console.log(data, "this is obs hypo");
     const { hypos } = data.data
     setHypoList(hypos);
-    console.log(hypoList);
   }
   const [email, setEmail] = useState({
     email : ""
@@ -68,7 +68,7 @@ const HypoSlider = () => {
   const [stylechange, setStylechange] = useState("");
 
   //make function for GOTO
-  function sendHypo(props) {
+  function sendHypo() {
     const hypo_len = hypoList.length
     ref.current.goTo(hypo_len, false);
   };
@@ -78,8 +78,9 @@ const HypoSlider = () => {
   //The work horse of this Hyposlider components. Calls in a lot of help from other funcitons
   const handleSubmit = async (idlength) => {
     const body_email = email.email
+    const observation = props.obsid
     try {
-      const data = await axios.post(`http://127.0.0.1:5000/hypos`, {body, body_email})
+      const data = await axios.post(`http://127.0.0.1:5000/hypos`, {body, body_email, observation})
       // something is broken with the slider
       //setHypoList([...hypoList, data.data]);
       ///setHypoList([data.data]);
