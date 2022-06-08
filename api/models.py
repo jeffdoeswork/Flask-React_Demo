@@ -38,8 +38,9 @@ class Methods(db.Model):
     email_method = db.Column(db.Text, db.ForeignKey('User.email'))
     hypo = db.Column(db.INT, db.ForeignKey('Hypos.id'))
     #data = db.Column(db.INT, db.ForeignKey('Datas.id'))
-    data = db.Column(db.ARRAY(db.INT), nullable=False)
+    data = db.Column(db.ARRAY(db.INT))
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    draft = db.Column(db.Boolean, default=True)
 
 def format_user(data):
     return {
@@ -99,5 +100,6 @@ def method_json(data):
         'observation' : data.observation,
         'hypo' : data.hypo,
         'data' : data.data,
-        'created_at' : data.created_at
+        'created_at' : data.created_at,
+        'draft' : data.draft
     }
