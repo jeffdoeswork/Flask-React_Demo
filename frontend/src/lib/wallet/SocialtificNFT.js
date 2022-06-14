@@ -2,58 +2,58 @@ import "./SocialtificNFT.css"
 import React, { useEffect, useState } from "react";
 import { Connection, clusterApiUrl, LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { getParsedNftAccountsByOwner,isValidSolanaAddress, createConnectionConfig,} from "@nfteyez/sol-rayz";
-
+const axios = require('axios');
 
 const SocialtificNFT = (props) => {
+
   const [nftData, setNftData] = useState([]);
   const [loading, setLoading] = useState(false);
+  
   const handleClick = () => {
-    this.props.toggle();
+    props.toggle();
   };
 
   const createConnection = () => {
     return new Connection(clusterApiUrl("devnet"));
   };
-
-  const getProvider = () => {
-    if ("solana" in window) {
-    const provider = window.solana;
-    if (provider.isPhantom) {
-      provider.connect({onlyIfTrusted: true});
-      return provider;
-      }
-    }
-  };
   
   const getAllNftData = async () => {
     try {
-      // if (connectData === true) {
-        debugger;
         const connect =  createConnectionConfig(clusterApiUrl("devnet"));
-        const provider = getProvider();
-        let ownerToken = provider.publicKey;
-        const result = isValidSolanaAddress(ownerToken);
-        console.log("result", result);
+        const result = isValidSolanaAddress(props.pubKey);
+        console.log("IsValidSolanaAddress: ", result);
+        if (result == false)
+          return [];
+
         const nfts = await getParsedNftAccountsByOwner({
-          publicAddress: ownerToken,
+          publicAddress: props.pubKey,
           connection: connect,
           serialization: true,
         });
-        return nfts;
-      // }
+        setNftData(await filterNFTs(nfts));
+        setLoading(true);  
     } catch (error) {
       console.log(error);
     }
   };
 
-  useEffect(() => {
-    async function data() {
-      let res = await getAllNftData();
-      setNftData(res);
-      setLoading(true);
+  const filterNFTs = async (nftData) => {
+    var data = Object.keys(nftData).map((key) => nftData[key]);
+    let arr = [];
+    let n = data.length;
+    for (let i = 0; i < n; i++) {
+      console.log(data[i].data.uri);
+      let val = await axios.get(data[i].data.uri);
+      arr.push(val);
     }
-    data();
+    console.log(JSON.stringify(arr));
+    return arr;
+  }
+
+  useEffect(() => {
+    getAllNftData();
   }, []);
+
 
   return (
     <div className="modal">
