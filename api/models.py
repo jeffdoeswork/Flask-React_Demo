@@ -40,7 +40,7 @@ class Methods(db.Model):
     #data = db.Column(db.INT, db.ForeignKey('Datas.id'))
     data = db.Column(db.ARRAY(db.INT))
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    draft = db.Column(db.Boolean, default=True)
+    draft = db.Column(db.Boolean, default=True, nullable=False)
 
 def format_user(data):
     return {

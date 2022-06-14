@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { Row, Col, Modal, Button, Card, Avatar } from 'antd';
+import { Row, Col, Modal, Button, Card, Avatar, Checkbox } from 'antd';
 import axios from 'axios';
 import "./MethodFeed.css"
 import DataArtifact from '..//artifacts/DataArtifact';
@@ -9,6 +9,7 @@ const SubmitMethod = (props) => {
       //These 2 variables are actually global variables
     const { Meta } = Card;
     const [methodtitle, setMethodtitle] = useState("");
+    const [methoddraft, setMethoddraft] = useState(false);
     const [methoddata, setMethoddata] = useState([]);
     const [methodhypo, setMethoddhypo] = useState(0);
     const [gethypo, setGethypo] = useState({
@@ -32,7 +33,9 @@ const SubmitMethod = (props) => {
     const [email, setEmail] = useState({
         email : ""
       });
-
+      const onChangedraft = (e) => {
+        setMethoddraft(true);
+      };
     const getUser = async () => {
         const data = await axios.get(`http://127.0.0.1:5000/test`, { withCredentials: true })
         console.log(data);
@@ -52,8 +55,9 @@ const SubmitMethod = (props) => {
         const data = methoddata
         const hypo = methodhypo
         const observation = props.obsid
+        const draft = methoddraft
         try {
-            const method = await axios.post(`http://127.0.0.1:5000/method`, {title, body_email, data, hypo, observation})
+            const method = await axios.post(`http://127.0.0.1:5000/method`, {title, body_email, data, hypo, observation, draft})
 
             setConfirmLoading(true);
             setTimeout(() => {
@@ -151,6 +155,7 @@ const SubmitMethod = (props) => {
         </Row>
         </div>
         <Modal
+        okText='Publish Method'
         title={methodtitle}
         visible={visible}
         onOk={handleOk}
@@ -158,7 +163,7 @@ const SubmitMethod = (props) => {
         onCancel={handleCancel}
         width={1250}
         >
-        <h3>Datat IDs</h3>
+        <Checkbox onChange={onChangedraft}>Check this box to save as draft</Checkbox>
         <div
             style={{
             marginBottom: 25,

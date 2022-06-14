@@ -4,7 +4,6 @@ from flask import Flask, g, request, jsonify
 from datetime import datetime
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity, set_access_cookies, unset_jwt_cookies, get_jwt, create_refresh_token, set_refresh_cookies
 
-
 #make method
 @app.route('/method', methods=['POST'])
 def make_method():
@@ -13,8 +12,9 @@ def make_method():
     observation = request.json.get('observation', None)
     hypo = request.json.get('hypo', None)
     data = request.json.get('data', None)
+    draft = request.json.get('draft', None)
 
-    method = Methods(title=title, email_method=email, observation=observation, hypo=hypo, data=data)
+    method = Methods(title=title, email_method=email, observation=observation, hypo=hypo, data=data, draft=draft)
     db.session.add(method)
     db.session.commit()
 
@@ -46,14 +46,6 @@ def update_method_draft(id):
     db.session.commit()
     return {'methods' : method_json(method.one())}
 
-
-
-
-
-
-
-
-
 #create method
 @app.route('/methods', methods=['POST'])
 def make_methods():
@@ -62,9 +54,9 @@ def make_methods():
     data = request.json.get('data', None)
     hypo = request.json.get('hypo', None)
     observation = request.json.get('observation', None)
+    draft = False
 
-
-    method = Methods(title=title, email_method=email, hypo=hypo, data=data, observation=observation)
+    method = Methods(title=title, email_method=email, hypo=hypo, data=data, observation=observation, draft=draft)
     db.session.add(method)
     db.session.commit()
 
