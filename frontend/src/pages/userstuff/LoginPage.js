@@ -7,14 +7,11 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const onFinish = (values) => {
     //console.log('Success:', values);
-    console.log('Success:');
   };
 
   const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
   };
   const logInUser = async () => {
-    console.log(email, password)
     //this fancy post lets you login and it saves cookies to the browser, the refresh cookies should time out after an hour
     try {
       const resp = await axios.post(`http://127.0.0.1:5000/login`, {

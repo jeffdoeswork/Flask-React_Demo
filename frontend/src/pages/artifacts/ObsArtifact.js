@@ -12,11 +12,9 @@ function ObsArtifact(props) {
 
     const fetchObs = async () => { 
         const response = await axios.get(`http://127.0.0.1:5000/observations/${props.obsid}`)
-        console.log(response, "this is resobs time");  
 
         const datas = response.data
         setGetobs(datas.observation);
-        console.log(datas.data.observations, "this is obs time");  
 
     };
     useEffect(() => {

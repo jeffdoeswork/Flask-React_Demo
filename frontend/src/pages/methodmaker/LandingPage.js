@@ -6,29 +6,21 @@ import './landingpage.css';
 import HypoSlider from '../methodmaker/HypoSlider';
 import { Layout, Menu, Modal, Button, Card } from 'antd';
 import SubmitMethod from './SubmitMethod'
+import DraftMethods from './DraftMethods'
 import axios from 'axios';
 
 //This landing page is acutally the Method Maker page, it relied on the DataSlider (TestSlider) and HypoSlider along with their global variables to submit methods
 // A mehtod is when a user borrows and/or makes artifcats, methods should have titles
 
 const { Header, Content, Footer } = Layout;
-const LandingPage = () => {
+const LandingPage = (props) => {
   const {id} = useParams();
-  const [email, setEmail] = useState({
-    email : ""
-  });
-  const getUser = async () => {
-    const data = await axios.get(`http://127.0.0.1:5000/test`, { withCredentials: true })
-    setEmail(data.data);
-  }
-  
-  useEffect(() => {
-    getUser(); 
-  }, [])
 
-  if (email.email) {
+
+  if (props.email) {
     return (
       <div className='box'>
+        <DraftMethods email={props.email} obsid={id}/>
         <Card bordered={false} bodyStyle={{ padding: "5px"}}>
           <SubmitMethod obsid={id}/>
           <br></br>

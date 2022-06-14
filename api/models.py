@@ -34,7 +34,7 @@ class Methods(db.Model):
     __tablename__ = 'Methods'
     id = db.Column(db.Integer, primary_key=True)
     observation = db.Column(db.INT, db.ForeignKey('Observation.id'))
-    title = db.Column(db.Text, unique=True, nullable=False)
+    title = db.Column(db.Text, unique=True, nullable=True)
     email_method = db.Column(db.Text, db.ForeignKey('User.email'))
     hypo = db.Column(db.INT, db.ForeignKey('Hypos.id'))
     #data = db.Column(db.INT, db.ForeignKey('Datas.id'))
@@ -95,6 +95,7 @@ def hypo_obs_format_json(data, swipe):
     }
 def method_json(data):
     return {
+        'id' : data.id,
         'title' : data.title,
         'email_method' : data.email_method,
         'observation' : data.observation,
@@ -102,4 +103,13 @@ def method_json(data):
         'data' : data.data,
         'created_at' : data.created_at,
         'draft' : data.draft
+    }
+def method_json_data(data):
+    return {
+        'data' : data.data,
+    }
+def method_json_title(data):
+    return {
+        'id' : data.id,
+        'title' : data.title,
     }

@@ -41,7 +41,6 @@ export default function App() {
 
   const getUser = async () => {
     const data = await axios.get(`http://127.0.0.1:5000/test`, { withCredentials: true })
-    console.log(data);
     setEmail(data.data);
   }
 
@@ -108,7 +107,7 @@ export default function App() {
           <Routes>
             <Route path="/"  element={<NewsFeed />}/>
             <Route path="/explore"  element={<ObsFeed />}/>
-            <Route path="/explore/:id"  element={<LandingPage />}/>
+            <Route path="/explore/:id"  element={<LandingPage email={email.email}/>}/>
             <Route path="/login"  element={<LoginPage />}/>
             <Route path="/register"  element={<RegisterPage />}/>
             <Route path="*"  element={<NotFound />} />

@@ -9,15 +9,15 @@ const RegisterPage = () => {
   const [message, setMessage] = useState("")
   const onFinish = (values) => {
     //console.log('Success:', values);
-    console.log('Success:');
+
     
   };
 
   const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
+
   };
   const registerUser = async () => {
-    console.log(email, password)
+
 
     try {
       const resp = await axios.post(`http://127.0.0.1:5000/register`, {

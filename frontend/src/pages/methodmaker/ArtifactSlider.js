@@ -35,7 +35,6 @@ const TestSlider = (props) => {
     const data = await axios.get(`http://127.0.0.1:5000/datas/${props.obsid}`)
     const { datas } = data.data
     setDataList(datas);
-    console.log(dataList);
   }
   const [email, setEmail] = useState({
     email : ""
@@ -43,7 +42,6 @@ const TestSlider = (props) => {
   //get current user's email
   const getUser = async () => {
     const data = await axios.get(`http://127.0.0.1:5000/test`, { withCredentials: true })
-    console.log(data);
     setEmail(data.data);
   }
   const handleChange = (e, field) => {
@@ -75,7 +73,6 @@ const TestSlider = (props) => {
 
   function updateDataList() {
     window.$datamethodid = stylechangelist
-    console.log(stylechangelist, "good list");
   }
 
   function borrowThree(data_id, swipe) {
@@ -93,12 +90,10 @@ const TestSlider = (props) => {
   }
 
   const removeItem = (index, swipe) => {
-    console.log(stylechangelist);
     const newPeople = stylechangelist.filter((person) => person !== index);
     const realnewPeople = realstylechangelist.filter((person) => person !== swipe);
     setStylechangelist(newPeople);
     setRealStylechangelist(realnewPeople);
-    console.log(newPeople, "new people");
     window.$datamethodid = newPeople
   }
 
@@ -124,6 +119,11 @@ const TestSlider = (props) => {
     console.error(err.message); 
     }
   }
+
+  /*const handelData = async (new_data) => {
+    const data = await axios.put(`http://127.0.0.1:5000//method/datas/${id}`, {new_data})
+
+  }*/
 
   if (email.email) {
 

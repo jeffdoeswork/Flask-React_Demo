@@ -38,7 +38,6 @@ const SubmitMethod = (props) => {
       };
     const getUser = async () => {
         const data = await axios.get(`http://127.0.0.1:5000/test`, { withCredentials: true })
-        console.log(data);
         setEmail(data.data);
       }
     const handleChange = (e, field) => {
@@ -72,7 +71,6 @@ const SubmitMethod = (props) => {
 
 
     const handleCancel = () => {
-        console.log('Clicked cancel button');
         setVisible(false);
     };
 
@@ -103,7 +101,6 @@ const SubmitMethod = (props) => {
         setGetdatatwo({"created_at" : "", "email_datas" : "", "datas" : "", "id" : "" });
         setGetdatathree({"created_at" : "", "email_datas" : "", "datas" : "", "id" : "" });
         const prop = thing
-        console.log(prop, "this was michy");
         setMethoddata(prop)
 
         //fetchData(prop[0]);
@@ -116,7 +113,6 @@ const SubmitMethod = (props) => {
             fetchData(a_data);
             setMethoddata(methoddata =>[...methoddata, getdata]);
         })*/
-        console.log(methoddata, "this should be a list of data atrifatacts")
     }
 
     function Borrowhypo() {

@@ -24,10 +24,8 @@ function MethodData(props) {
     };
 
     useEffect(() => {
-        console.log(props.dataarray, "hey look at me lala");
         const prop = props.dataarray
         for(var i=0;i<prop.length;i++){
-            console.log(prop[i], "lala method newfeed", i)
             fetchData(prop[i], i);
             }  
           

@@ -28,7 +28,6 @@ const HypoSlider = (props) => {
   //get data artifacts api
   const fetchData = async () => {
     const data = await axios.get(`http://127.0.0.1:5000/hypos/${props.obsid}`)
-    console.log(data, "this is obs hypo");
     const { hypos } = data.data
     setHypoList(hypos);
   }
@@ -38,7 +37,6 @@ const HypoSlider = (props) => {
   //get current user's email
   const getUser = async () => {
     const data = await axios.get(`http://127.0.0.1:5000/test`, { withCredentials: true })
-    console.log(data);
     setEmail(data.data);
   }
   const handleChange = (e, field) => {
