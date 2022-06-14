@@ -1,17 +1,32 @@
 import "./SocialtificNFT.css"
+import 'react-image-picker/dist/index.css'
 import React, { useEffect, useState } from "react";
 import { Connection, clusterApiUrl, LAMPORTS_PER_SOL } from "@solana/web3.js";
 import { getParsedNftAccountsByOwner,isValidSolanaAddress, createConnectionConfig,} from "@nfteyez/sol-rayz";
+import ImagePicker from 'react-image-picker';
+import { Form, Input, Button, Card, Row, Col } from 'antd';
+
 const axios = require('axios');
 
 const SocialtificNFT = (props) => {
 
   const [nftData, setNftData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [image, setImage] = useState(null);
   
+  const SocialtificNFTDescription = 'SocialiticsTest Test NFTs';
+
   const handleClick = () => {
-    props.toggle();
+    if (image == null)
+      props.onOK(null);
+    else {
+      props.onOK(nftData[image.value].data);
+    }
   };
+
+  const onPick = (selected) => {
+    setImage(selected);
+  }
 
   const createConnection = () => {
     return new Connection(clusterApiUrl("devnet"));
@@ -21,7 +36,7 @@ const SocialtificNFT = (props) => {
     try {
         const connect =  createConnectionConfig(clusterApiUrl("devnet"));
         const result = isValidSolanaAddress(props.pubKey);
-        console.log("IsValidSolanaAddress: ", result);
+        // console.log("IsValidSolanaAddress: ", result);
         if (result == false)
           return [];
 
@@ -42,11 +57,12 @@ const SocialtificNFT = (props) => {
     let arr = [];
     let n = data.length;
     for (let i = 0; i < n; i++) {
-      console.log(data[i].data.uri);
+      // console.log(data[i].data.uri);
       let val = await axios.get(data[i].data.uri);
+      if (val != null && val.data != null && val.data.description == SocialtificNFTDescription)
       arr.push(val);
     }
-    console.log(JSON.stringify(arr));
+    // console.log(JSON.stringify(arr));
     return arr;
   }
 
@@ -62,29 +78,17 @@ const SocialtificNFT = (props) => {
           <div className="container">
             <div className="row text-center">
               <div className="col-12">
-                <h4 className="title">NFT</h4>
+                <h3 className="title">SocialiticsTest Test NFTs</h3>
               </div>
             </div>
             <div className="row  d-flex justify-content-center">
               {loading ? (
                 <>
-                  {nftData &&
-                    nftData.length > 0 &&
-                    nftData.map((val, ind) => {
-                      return (
-                        <div className="col-4 mt-3" key={ind}>
-                          <div className="cart text-center">
-                            <div className="img mt-4 pt-3">
-                              <img src={val.data.image} alt="loading..." />
-                              <p className="mt-1">{val.data.name}</p>
-                              <h6 className=" mt-2">
-                                {val.data.description}
-                              </h6>
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })}
+                <ImagePicker
+                  images={nftData.map((val, ind) => ({src: val.data.image, value: ind}))}
+                  onPick={onPick}
+                />
+                <Button type="primary" onClick={handleClick}>OK</Button>
                 </>
               ) : (
                 <>

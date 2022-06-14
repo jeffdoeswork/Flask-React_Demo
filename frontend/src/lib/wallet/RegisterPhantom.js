@@ -38,6 +38,11 @@ const RegisterPhantom = (props) => {
     }
   };
 
+  const onOK = (info) => {
+    console.log(info);
+    setSeen(false);
+  }
+
   useEffect(()=> {
     if ("solana" in window) {
       if (window.solana.isPhantom) {
@@ -53,7 +58,7 @@ const RegisterPhantom = (props) => {
       <div className="btn" onClick={togglePop}>
         <Button type="primary">Register via Phantom Wallet</Button>
       </div>
-      {seen ? <SocialtificNFT toggle={togglePop} pubKey={pubKey} provider={provider} /> : null}
+      {seen ? <SocialtificNFT onOK={onOK} pubKey={pubKey} provider={provider} /> : null}
     </div>
   );
 }
