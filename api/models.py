@@ -110,6 +110,6 @@ def method_json_data(data):
     }
 def method_json_title(data):
     return {
-        'id' : data.id,
-        'title' : data.title,
+        'key' : data.id,
+        'label' : data.title,
     }

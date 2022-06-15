@@ -45,7 +45,6 @@ def get_user_methods_title(email, id):
     method_list = []
     for method in method_title:
         method_list.append(method_json_title(method))
-    print({'items' : method_list})
     return {'items' : method_list}
 
 #edit a method
@@ -72,12 +71,10 @@ def update_methods_data(id):
     method = Methods.query.add_column(Methods.data).filter_by(id=id).one()
     m = method_json_data(method)
     new_data_list.append(m['data'])
-    print(new_data_list)    
     new_data_list = m['data']   
     if len(new_data_list) >=3:
         new_data_list.pop(0)
     new_data_list.append(new_data)
-    print(new_data_list)
     method = Methods.query.filter_by(id=id).update({"data":new_data_list, "created_at" : datetime.utcnow()})
     db.session.commit()
 
@@ -99,8 +96,19 @@ def make_methods():
 
     return "You've created a Method", 200
 
+#create method
+@app.route('/methods/draft', methods=['POST'])
+def make_method_draft():
+    email = request.json.get('email_method', None)
+    title = request.json.get('title', None)
+    observation = request.json.get('observation', None)
+    draft = False
 
+    method = Methods(title=title, email_method=email, observation=observation, draft=draft)
+    db.session.add(method)
+    db.session.commit()
 
+    return "You've created a Method", 200
 
 
 
