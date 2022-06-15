@@ -1,5 +1,5 @@
 from app import app, db
-from models import User, Datas, Hypos, Methods, Observation, format_json, method_json, method_json_data, method_json_title
+from models import User, Datas, Hypos, Methods, Observation, format_json, method_json, method_json_data, method_json_title, method_json_yourtitle
 from flask import Flask, g, request, jsonify
 from datetime import datetime
 from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity, set_access_cookies, unset_jwt_cookies, get_jwt, create_refresh_token, set_refresh_cookies
@@ -46,6 +46,13 @@ def get_user_methods_title(email, id):
     for method in method_title:
         method_list.append(method_json_title(method))
     return {'items' : method_list}
+
+#get methods title
+@app.route('/method/title/<id>/', methods=["GET"])
+def get_methods_title(id):
+    method = Methods.query.add_columns(Methods.title).filter_by(id=id).one()
+    method_title = method_json_yourtitle(method)
+    return {'title' : method_title}
 
 #edit a method
 @app.route("/method/<id>", methods=["PUT"])

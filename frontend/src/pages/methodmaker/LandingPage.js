@@ -14,7 +14,9 @@ import axios from 'axios';
 const { Header, Content, Footer } = Layout;
 const LandingPage = (props) => {
   const {id} = useParams();
+  const {method} = useParams();
   const [options, setOptions] = useState([]);
+  const [methodtitle, setMethodtitle] = useState("");
 
   const getUserMethods = async () => {
     const data = await axios.get(`http://127.0.0.1:5000/method/${id}/title/${props.email}`)
@@ -32,19 +34,36 @@ const LandingPage = (props) => {
         setOptions(data.data.items);
     }
     setOptions(data.data.items);
-    console.log(data.data.items);
     }
+
     useEffect(() => {
       getUserMethods(); 
       }, [])
-    
-    const menu =  <Menu items = {(options)} />
 
+      const onClick = async ({ key }) => {
+        const data = await axios.get(`http://127.0.0.1:5000/method/title/${key}`)
+        setMethodtitle(data.data.title.title);
+        console.log("new title title", data.data.title.title);
+      };
+      
+    //const menu =  <Menu items = {(options)} />
+    const menu =  <Menu
+      onClick={onClick}
+      items={
+          options.map(opt => {
+              return(
+                  //{"key" : opt["key"], "label" : <Link to={`/explore/${id}/${opt["key"]}`}>{opt["label"]}</Link>}
+                  {"key" : opt["key"], "label" : opt["label"]}
+                  //opt["key"],
+                  //opt["label"]
+              )
+          })
+        } />
 
   if (props.email) {
     return (
       <div className='box'>
-        <DraftMethods email={props.email} obsid={id} menu={menu}/>
+        <DraftMethods email={props.email} obsid={id} menu={menu} method={method} methodtitle={methodtitle}/>
       </div>
     );
   } else {

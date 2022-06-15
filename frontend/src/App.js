@@ -108,6 +108,7 @@ export default function App() {
             <Route path="/"  element={<NewsFeed />}/>
             <Route path="/explore"  element={<ObsFeed />}/>
             <Route path="/explore/:id"  element={<LandingPage email={email.email}/>}/>
+            <Route path="/explore/:id/:method"  element={<LandingPage email={email.email}/>}/>
             <Route path="/login"  element={<LoginPage />}/>
             <Route path="/register"  element={<RegisterPage />}/>
             <Route path="*"  element={<NotFound />} />

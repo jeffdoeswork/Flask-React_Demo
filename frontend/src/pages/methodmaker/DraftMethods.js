@@ -1,20 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react'
 import axios from 'axios';
-import { Layout, Modal, Button, Card, Dropdown, Menu, Space } from 'antd';
+import { Layout, Modal, Button, Card, Dropdown, Menu, Space, message } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import SubmitMethod from './SubmitMethod'
 import TestSlider from '../methodmaker/ArtifactSlider';
 import HypoSlider from '../methodmaker/HypoSlider';
-import {  } from 'antd';
+import { Link } from "react-router-dom"
 
 const DraftMethods = (props) => {
     //const [value, setValue] = useState('');
     const [options, setOptions] = useState([]);
+    const [methodtitlez, setMethodtitlez] = useState("");
 
     const getUserMethods = async () => {
         const data = await axios.get(`http://127.0.0.1:5000/method/${props.obsid}/title/${props.email}`)
         if (data.data.items.length < 1) {
-            console.log('You have no method!')
             const email_method = props.email
             const date = new Date().getDate();
             const month = new Date().getMonth();
@@ -27,30 +27,46 @@ const DraftMethods = (props) => {
             setOptions(data.data.items);
         }
         setOptions(data.data.items);
-        console.log(data.data.items);
         }
-
-    const handleChange = (event) => {
-    //setValue(event.target.value);
-    };
 
     useEffect(() => {
     getUserMethods(); 
     }, [])
-    const menu =  <Menu items = {(options)} />
 
+    const onClick = async ({ key }) => {
+        const data = await axios.get(`http://127.0.0.1:5000/method/title/${key}`)
+        setMethodtitlez(data.data.title.title);
+        console.log("new title title", data.data.title.title);
+      };
+      
+    //const menu =  <Menu items = {(options)} />
+    const menu =  <Menu
+      onClick={onClick}
+      items={
+          options.map(opt => {
+              return(
+                  //{"key" : opt["key"], "label" : <Link to={`/explore/${id}/${opt["key"]}`}>{opt["label"]}</Link>}
+                  {"key" : opt["key"], "label" : opt["label"]}
+                  //opt["key"],
+                  //opt["label"]
+              )
+          })
+        } />
+
+    console.log("newnew, title, title, ", methodtitlez);
     return (
         <div>
-         <Card bordered={false} bodyStyle={{ padding: "5px"}}>
-         <Dropdown overlay={props.menu.length >= 1? props.menu : menu}>
+        <Card bordered={false} bodyStyle={{ padding: "5px"}}>
+
+        <Dropdown overlay={props.menu.length >= 1? props.menu : menu}>
             <a onClick={(e) => e.preventDefault()}>
             <Space>
-                Your Methods Are Here
+            Your Methods Are Here
                 <DownOutlined />
             </Space>
             </a>
         </Dropdown>
-
+        <h2>{props.email}'s' {methodtitlez}</h2>
           <SubmitMethod obsid={props.obsid}/>
           <br></br>
           <TestSlider obsid={props.obsid}/>
