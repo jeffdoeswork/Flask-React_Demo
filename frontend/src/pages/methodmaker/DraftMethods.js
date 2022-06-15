@@ -40,7 +40,7 @@ const DraftMethods = (props) => {
       };
       
     //const menu =  <Menu items = {(options)} />
-    const menu =  <Menu
+    const menuz =  <Menu
       onClick={onClick}
       items={
           options.map(opt => {
@@ -58,7 +58,7 @@ const DraftMethods = (props) => {
         <div>
         <Card bordered={false} bodyStyle={{ padding: "5px"}}>
 
-        <Dropdown overlay={props.menu.length >= 1? props.menu : menu}>
+        <Dropdown overlay={props.methodtitle > 0? props.menu : menuz}>
             <a onClick={(e) => e.preventDefault()}>
             <Space>
             Your Methods Are Here
@@ -66,8 +66,8 @@ const DraftMethods = (props) => {
             </Space>
             </a>
         </Dropdown>
-        <h2>{props.email}'s' {methodtitlez}</h2>
-          <SubmitMethod obsid={props.obsid}/>
+        <h2>{props.email}'s' {props.title?  props.title : methodtitlez}</h2>
+          <SubmitMethod obsid={props.obsid} />
           <br></br>
           <TestSlider obsid={props.obsid}/>
           <HypoSlider obsid={props.obsid}/>

@@ -109,7 +109,7 @@ def make_method_draft():
     email = request.json.get('email_method', None)
     title = request.json.get('title', None)
     observation = request.json.get('observation', None)
-    draft = False
+    draft = True
 
     method = Methods(title=title, email_method=email, observation=observation, draft=draft)
     db.session.add(method)
