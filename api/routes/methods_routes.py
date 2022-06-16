@@ -61,7 +61,12 @@ def update_method_draft(id):
     method.update(dict(draft=False, created_at = datetime.utcnow()))
     db.session.commit()
     return {'methods' : method_json(method.one())}
-
+    
+@app.route('/method/a/<id>', methods=["GET"])
+def get_a_methods(id):
+    method = Methods.query.filter_by(id=id).one()
+    method = method_json(method)
+    return {'method' : method}
 #get method's datas
 #@app.route("/method/datas/<id>", methods=["GET"])
 #def get_methods_data(id):

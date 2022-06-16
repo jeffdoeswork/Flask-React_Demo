@@ -16,6 +16,7 @@ const LandingPage = (props) => {
   const {id} = useParams();
   const {method} = useParams();
   const [options, setOptions] = useState([]);
+  const [amethod, setAmethod] = useState([]);
   const [methodtitle, setMethodtitle] = useState("");
 
   const getUserMethods = async () => {
@@ -42,7 +43,9 @@ const LandingPage = (props) => {
 
       const onClick = async ({ key }) => {
         const data = await axios.get(`http://127.0.0.1:5000/method/title/${key}`)
+        const dataz = await axios.get(`http://127.0.0.1:5000/method/a/${key}`)
         setMethodtitle(data.data.title);
+        setAmethod(dataz.data.method)
       };
       
     //const menu =  <Menu items = {(options)} />
@@ -62,7 +65,7 @@ const LandingPage = (props) => {
   if (props.email) {
     return (
       <div className='box'>
-        <DraftMethods email={props.email} obsid={id} menu={menu} method={method} title={methodtitle.title} methodtitle={options.length}/>
+        <DraftMethods email={props.email} obsid={id} menu={menu} method={amethod} title={methodtitle.title} methodtitle={options.length}/>
       </div>
     );
   } else {
