@@ -11,6 +11,8 @@ const DraftMethods = (props) => {
     //const [value, setValue] = useState('');
     const [options, setOptions] = useState([]);
     const [methodtitlez, setMethodtitlez] = useState("");
+    const [amethod, setAmethod] = useState([]);
+
 
     const getUserMethods = async () => {
         const data = await axios.get(`http://127.0.0.1:5000/method/${props.obsid}/title/${props.email}`)
@@ -35,8 +37,10 @@ const DraftMethods = (props) => {
 
     const onClick = async ({ key }) => {
         const data = await axios.get(`http://127.0.0.1:5000/method/title/${key}`)
+        const dataz = await axios.get(`http://127.0.0.1:5000/method/a/${key}`)
         setMethodtitlez(data.data.title.title);
-        console.log("new title title", data.data.title.title);
+        setAmethod(dataz.data.method)
+        //console.log("new title title", data.data.title.title);
       };
       
     //const menu =  <Menu items = {(options)} />
@@ -69,8 +73,8 @@ const DraftMethods = (props) => {
         <h2>{props.email}'s' {props.title?  props.title : methodtitlez}</h2>
           <SubmitMethod obsid={props.obsid} />
           <br></br>
-          <TestSlider obsid={props.obsid} method={props.method.data}/>
-          <HypoSlider obsid={props.obsid} method={props.method.hypo}/>
+          <TestSlider obsid={props.obsid} method={props.method.data? props.method.data : amethod.data}/>
+          <HypoSlider obsid={props.obsid} method={props.method.hypo? props.method.hypo : amethod.hypo}/>
         </Card>
         </div>
       );
