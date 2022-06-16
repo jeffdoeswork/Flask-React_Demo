@@ -121,6 +121,7 @@ const HypoSlider = (props) => {
   <div>
 
     <h2>Borrow or Make a Hypothesis Artifact</h2>
+    {props.method}
 
       <div>
           <Carousel ref={ref} dots={false} slidesToShow={1}>

@@ -58,7 +58,7 @@ const DraftMethods = (props) => {
         <div>
         <Card bordered={false} bodyStyle={{ padding: "5px"}}>
 
-        <Dropdown overlay={props.methodtitle > 0? props.menu : menuz}>
+        <Dropdown overlay={props.title > 0? props.menu : menuz}>
             <a onClick={(e) => e.preventDefault()}>
             <Space>
             Your Methods Are Here
@@ -66,7 +66,7 @@ const DraftMethods = (props) => {
             </Space>
             </a>
         </Dropdown>
-        <h2>{props.email}'s' {props.title?  props.title : methodtitlez}</h2>
+        <h2>{props.email}'s' {props.title }</h2>
           <SubmitMethod obsid={props.obsid} />
           <br></br>
           <TestSlider obsid={props.obsid}/>

@@ -151,6 +151,7 @@ const TestSlider = (props) => {
   return (
   <div>
     <h2>Borrow or Make up to 3 Data Artifacts</h2>
+    {props.method}
     <div className='entry_box'>
     <Button style={{ flex: "center" }} type="primary" onClick={() => {toggler();}} >Make a new Data Artifact</Button>
     </div>

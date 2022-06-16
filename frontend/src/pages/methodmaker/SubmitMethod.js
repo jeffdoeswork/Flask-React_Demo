@@ -160,6 +160,8 @@ const SubmitMethod = (props) => {
         width={1250}
         >
         <Checkbox onChange={onChangedraft}>Check this box to save as draft</Checkbox>
+        <br></br> 
+        <h3>{props.title}</h3>
         <div
             style={{
             marginBottom: 25,

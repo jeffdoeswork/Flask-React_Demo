@@ -38,6 +38,13 @@ def get_user_methods(email):
         method_list.append(method_json(method))
     return {'methods' : method_list}
 
+#get a methods
+@app.route('/method/a/<id>', methods=["GET"])
+def get_a_methods(id):
+    method = Methods.query.filter_by(id=id).one()
+    method = method_json(method)
+    return {'method' : method}
+
 #get user's methods title
 @app.route('/method/<id>/title/<email>', methods=["GET"])
 def get_user_methods_title(email, id):
@@ -50,7 +57,7 @@ def get_user_methods_title(email, id):
 #get methods title
 @app.route('/method/title/<id>/', methods=["GET"])
 def get_methods_title(id):
-    method = Methods.query.add_columns(Methods.title).filter_by(id=id).one()
+    method = Methods.query.add_columns(Methods.id, Methods.title).filter_by(id=id).one()
     method_title = method_json_yourtitle(method)
     return {'title' : method_title}
 
