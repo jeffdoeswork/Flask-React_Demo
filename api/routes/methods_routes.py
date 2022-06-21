@@ -62,9 +62,9 @@ def update_method_draft(id):
     db.session.commit()
     return {'methods' : method_json(method.one())}
 
-@app.route('/method/a/<id>', methods=["GET"])
-def get_a_methods(id):
-    method = Methods.query.filter_by(id=id).one()
+@app.route('/method/a/<title>', methods=["GET"])
+def get_a_methods(title):
+    method = Methods.query.filter_by(title=title).one()
     method = method_json(method)
     return {'method' : method}
 #get method's datas
