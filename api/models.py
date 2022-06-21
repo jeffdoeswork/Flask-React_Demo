@@ -1,5 +1,32 @@
 from db import db
 from datetime import datetime
+from sqlalchemy.ext.mutable import Mutable
+
+class MutableDict(Mutable, dict):
+    @classmethod
+    def coerce(cls, key, value):
+        "Convert plain dictionaries to MutableDict."
+
+        if not isinstance(value, MutableDict):
+            if isinstance(value, dict):
+                return MutableDict(value)
+
+            # this call will raise ValueError
+            return Mutable.coerce(key, value)
+        else:
+            return value
+
+    def __setitem__(self, key, value):
+        "Detect dictionary set events and emit change events."
+
+        dict.__setitem__(self, key, value)
+        self.changed()
+
+    def __delitem__(self, key):
+        "Detect dictionary del events and emit change events."
+
+        dict.__delitem__(self, key)
+        self.changed()
 
 class User(db.Model):
     __tablename__ = 'User'
@@ -37,10 +64,22 @@ class Methods(db.Model):
     title = db.Column(db.Text, unique=True, nullable=True)
     email_method = db.Column(db.Text, db.ForeignKey('User.email'))
     hypo = db.Column(db.INT, db.ForeignKey('Hypos.id'))
-    #data = db.Column(db.INT, db.ForeignKey('Datas.id'))
-    data = db.Column(db.ARRAY(db.INT))
+    data = db.Column(db.INT, db.ForeignKey('Datas.id'))
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     draft = db.Column(db.Boolean, default=True, nullable=False)
+
+class MethodDatas(db.Model):
+    __tablename__ = 'MethodDatas'
+    id = db.Column(db.Integer, primary_key=True)
+    data = db.Column(db.INT, db.ForeignKey('Datas.id'), nullable=False)
+    method = db.Column(db.INT, db.ForeignKey('Methods.id'), nullable=False)
+
+def method_datas(data):
+    return {
+        "id" : data.id,
+        "data" : data.data,
+        "method" : data.method,
+    }
 
 def format_user(data):
     return {

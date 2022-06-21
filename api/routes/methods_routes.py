@@ -50,7 +50,7 @@ def get_user_methods_title(email, id):
 #get methods title
 @app.route('/method/title/<id>/', methods=["GET"])
 def get_methods_title(id):
-    method = Methods.query.add_columns(Methods.title).filter_by(id=id).one()
+    method = Methods.query.add_columns(Methods.id, Methods.title).filter_by(id=id).one()
     method_title = method_json_yourtitle(method)
     return {'title' : method_title}
 
@@ -61,7 +61,7 @@ def update_method_draft(id):
     method.update(dict(draft=False, created_at = datetime.utcnow()))
     db.session.commit()
     return {'methods' : method_json(method.one())}
-    
+
 @app.route('/method/a/<id>', methods=["GET"])
 def get_a_methods(id):
     method = Methods.query.filter_by(id=id).one()
@@ -82,11 +82,17 @@ def update_methods_data(id):
     new_data_list = []  
     method = Methods.query.add_column(Methods.data).filter_by(id=id).one()
     m = method_json_data(method)
-    new_data_list.append(m['data'])
-    new_data_list = m['data']   
+    print(m)
+    if(m['data'] is not None):
+        new_data_list.append(m['data'])
+    print(new_data_list)
+    #new_data_list = m['data'] 
+    new_data_list.append(new_data)
     if len(new_data_list) >=3:
         new_data_list.pop(0)
-    new_data_list.append(new_data)
+
+    
+    print(new_data_list)
     method = Methods.query.filter_by(id=id).update({"data":new_data_list, "created_at" : datetime.utcnow()})
     db.session.commit()
 

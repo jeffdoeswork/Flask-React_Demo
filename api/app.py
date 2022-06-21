@@ -9,7 +9,7 @@ from datetime import datetime, timedelta, timezone
 from flask_cors import CORS, cross_origin
 #from flask_session import Session
 import redis
-from models import User, Datas, Hypos, Methods, Observation, format_json, hypo_format_json, method_json, format_user, obs_format_json, data_obs_format_json, hypo_obs_format_json
+from models import User, Datas, Hypos, Methods, Observation, MethodDatas, format_json, hypo_format_json, method_json, format_user, obs_format_json, data_obs_format_json, hypo_obs_format_json
 from db import db
 
 app = Flask(__name__)
@@ -175,7 +175,7 @@ from routes.hypo_routes import *
 from routes.methods_routes import *
 from routes.observation_routes import *
 from routes.artifact_routes import *
-
+from routes.data_method_routes import *
 
 if __name__ == '__main__':
     app.run(debug=True)

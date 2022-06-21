@@ -73,8 +73,16 @@ const DraftMethods = (props) => {
         <h2>{props.email}'s' {props.title?  props.title : methodtitlez}</h2>
           <SubmitMethod obsid={props.obsid} />
           <br></br>
-          <TestSlider obsid={props.obsid} method={props.method.data? props.method.data : amethod.data}/>
-          <HypoSlider obsid={props.obsid} method={props.method.hypo? props.method.hypo : amethod.hypo}/>
+          <TestSlider 
+            obsid={props.obsid} 
+            method_data={props.method.data? props.method.data : amethod.data}
+            method_id={props.method? props.method.id: amethod.id}
+            />
+          <HypoSlider 
+            obsid={props.obsid} 
+            method_hypo={props.method.hypo? props.method.hypo : amethod.hypo}
+            method_id={props.method.id? props.method.id : amethod.id}
+            />
         </Card>
         </div>
       );

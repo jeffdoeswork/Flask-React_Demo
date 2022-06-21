@@ -75,6 +75,10 @@ const TestSlider = (props) => {
     window.$datamethodid = stylechangelist
   }
 
+  function printmethodid() {
+    console.log("this should work and show the method id", props.method_id)
+  }
+
   function borrowThree(data_id, swipe) {
     if (stylechangelist.length < 3) {
       setStylechangelist(stylechangelist =>[...stylechangelist, data_id]);
@@ -97,6 +101,18 @@ const TestSlider = (props) => {
     window.$datamethodid = newPeople
   }
 
+  //Update data id in the database
+  const handleDataArtifact = async (data) => {
+    console.log("breakingeng", data, props.method_id)
+    const method = props.method_id
+    try {
+      const dataz = await axios.post(`http://127.0.0.1:5000/methoddatas`, {data, method})
+      
+  } catch (err) {
+    console.error(err.message); 
+    }
+  }
+
   //The work horse of this DataSlider (named ArtifactSlider) components. Calls in a lot of help from other funcitons
   const handleSubmit = async () => {
     const body_email = email.email
@@ -113,8 +129,6 @@ const TestSlider = (props) => {
       //setDatamethodid(idlength);
       window.$datamethodid = datamethodid //global variable for data artifact's ID
       toggler();
-      
-      
   } catch (err) {
     console.error(err.message); 
     }
@@ -124,6 +138,9 @@ const TestSlider = (props) => {
     const data = await axios.put(`http://127.0.0.1:5000//method/datas/${id}`, {new_data})
 
   }*/
+  useEffect(() =>{
+    printmethodid();
+  }, [])
 
   if (email.email) {
 
@@ -151,7 +168,7 @@ const TestSlider = (props) => {
   return (
   <div>
     <h2>Borrow or Make up to 3 Data Artifacts</h2>
-    {props.method}
+    {props.method_data}
     <div className='entry_box'>
     <Button style={{ flex: "center" }} type="primary" onClick={() => {toggler();}} >Make a new Data Artifact</Button>
     </div>
@@ -213,6 +230,7 @@ const TestSlider = (props) => {
                               onClick={() => {
                                 setDatamethodid(image.id);
                                 borrowThree(image.id, image.swipe);
+                                handleDataArtifact(image.id);
                                 }
                               }> 
                               Borrow Artifact </Button>
