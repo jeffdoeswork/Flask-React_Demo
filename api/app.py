@@ -176,6 +176,7 @@ from routes.methods_routes import *
 from routes.observation_routes import *
 from routes.artifact_routes import *
 from routes.data_method_routes import *
+from routes.hypo_method_routes import *
 
 if __name__ == '__main__':
     app.run(debug=True)

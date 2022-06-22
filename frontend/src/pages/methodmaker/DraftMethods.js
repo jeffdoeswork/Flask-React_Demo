@@ -17,10 +17,11 @@ const DraftMethods = (props) => {
           <br></br>
           <TestSlider 
             obsid={props.obsid} 
-            method ={props.method}
+            method={props.method}
             />
           <HypoSlider 
             obsid={props.obsid} 
+            method={props.method}
             />
         </Card>
         </div>

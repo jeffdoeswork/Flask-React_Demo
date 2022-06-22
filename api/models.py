@@ -74,6 +74,12 @@ class MethodDatas(db.Model):
     data = db.Column(db.INT, db.ForeignKey('Datas.id'), nullable=False)
     method = db.Column(db.INT, db.ForeignKey('Methods.id'), nullable=False)
 
+class MethodHypos(db.Model):
+    __tablename__ = 'MethodHypos'
+    id = db.Column(db.Integer, primary_key=True)
+    hypo = db.Column(db.INT, db.ForeignKey('Hypos.id'), nullable=False)
+    method = db.Column(db.INT, db.ForeignKey('Methods.id'), nullable=False)
+
 def method_datas(data):
     return {
         "id" : data.id,

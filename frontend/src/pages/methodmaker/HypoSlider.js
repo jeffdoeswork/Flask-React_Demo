@@ -73,6 +73,13 @@ const HypoSlider = (props) => {
 
   const { Meta } = Card;
 
+  const hypomethod = async (hypo) => {
+    const method = props.method.id
+    const hypoz = await axios.post(`http://127.0.0.1:5000/methodhypos`, {hypo, method})
+  }
+  const deletethat  = async () => {
+    const dataz = await axios.delete(`http://127.0.0.1:5000/methoddatas/delete/${props.method.id}`)
+  }
   //The work horse of this Hyposlider components. Calls in a lot of help from other funcitons
   const handleSubmit = async (idlength) => {
     const body_email = email.email
@@ -167,7 +174,7 @@ const HypoSlider = (props) => {
                                       ((image.hypos).substring(0, 130) + '...')
                                       }
                                   </h4>
-                                  <Button type="primary" style={{ background: "#e9d900", borderColor: "#e9d900" }} onClick={() => {setStylechange(image.id); setHypomethodid(image.id);}}> Borrow Artifact </Button>
+                                  <Button type="primary" style={{ background: "#e9d900", borderColor: "#e9d900" }} onClick={() => {setStylechange(image.id); setHypomethodid(image.id); deletethat(); hypomethod(image.id);}}> Borrow Artifact </Button>
                                   <Button type="primary" style={{ background: "#cb0fb8", borderColor: "#cb0fb8" }}onClick={() => {setHypomethodid(image.id); toggler();}} >Make Artifact</Button>
                               </div>
                               }
