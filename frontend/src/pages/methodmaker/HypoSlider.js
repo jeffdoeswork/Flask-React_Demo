@@ -23,6 +23,8 @@ const HypoSlider = (props) => {
   const [toggle, setToggle] = useState(false);
   const ref = useRef();
   const [hypomethodid, setHypomethodid] = useState(0);
+  const [stylechange, setStylechange] = useState("");
+
   window.$hypomethodid = hypomethodid //global variable
   
   //get data artifacts api
@@ -63,8 +65,6 @@ const HypoSlider = (props) => {
     ref.current.goTo(slide, false);
   };
 
-  const [stylechange, setStylechange] = useState("");
-
   //make function for GOTO
   function sendHypo() {
     const hypo_len = hypoList.length
@@ -73,13 +73,22 @@ const HypoSlider = (props) => {
 
   const { Meta } = Card;
 
+  const deletethat = async () => {
+    const dataz = await axios.delete(`http://127.0.0.1:5000/methoddatas/delete/${props.method.id}`)
+  }
+
   const hypomethod = async (hypo) => {
+    deletethat();
     const method = props.method.id
     const hypoz = await axios.post(`http://127.0.0.1:5000/methodhypos`, {hypo, method})
   }
-  const deletethat  = async () => {
-    const dataz = await axios.delete(`http://127.0.0.1:5000/methoddatas/delete/${props.method.id}`)
+  
+  const removeItem = () => {
+    deletethat();
+    setHypomethodid(0);
+    setStylechange("");
   }
+
   //The work horse of this Hyposlider components. Calls in a lot of help from other funcitons
   const handleSubmit = async (idlength) => {
     const body_email = email.email
@@ -95,9 +104,7 @@ const HypoSlider = (props) => {
       setHypomethodid(idlength);
       window.$hypomethodid = hypomethodid //global variable
       sendHypo();
-      toggler();
-      
-      
+      toggler(); 
   } catch (err) {
     console.error(err.message); 
     }
@@ -128,8 +135,10 @@ const HypoSlider = (props) => {
   <div>
 
     <h2>Borrow or Make a Hypothesis Artifact</h2>
-    {props.method_hypo}
-      <div>
+    <div className='entry_box'>
+      <Button type="primary" style={{ background: "#cb0fb8", borderColor: "#cb0fb8" }}onClick={() => { toggler();}} >Make a new Hypothesis Artifact</Button>      
+    </div>
+    <div>
           <Carousel ref={ref} dots={false} slidesToShow={1}>
               {hypoList.map(image => {
                   return (
@@ -165,7 +174,7 @@ const HypoSlider = (props) => {
                                       avatar={<Link to={`/users/${image.email_hypos}`}>
                                       <Avatar size={60}>{image.email_hypos}</Avatar>
                                       </Link>}
-                                      title={"Artifact ID: " + image.id}
+                                      title={"Artifact ID: " + (image.swipe + 1)}
                                     />
                                   <h4 key={image.id}>
                                       { (image.hypos).length < 130?
@@ -174,8 +183,24 @@ const HypoSlider = (props) => {
                                       ((image.hypos).substring(0, 130) + '...')
                                       }
                                   </h4>
-                                  <Button type="primary" style={{ background: "#e9d900", borderColor: "#e9d900" }} onClick={() => {setStylechange(image.id); setHypomethodid(image.id); deletethat(); hypomethod(image.id);}}> Borrow Artifact </Button>
-                                  <Button type="primary" style={{ background: "#cb0fb8", borderColor: "#cb0fb8" }}onClick={() => {setHypomethodid(image.id); toggler();}} >Make Artifact</Button>
+                                 { stylechange == image.id?
+                                 <Button type="primary" onClick={ () => removeItem()}>Don't Borrow</Button>
+                                 :
+                                  props.method.title? 
+                                  <Button 
+                                    type="primary" 
+                                    style={{ background: "#e9d900", borderColor: "#e9d900" }} 
+                                    onClick={() => { 
+                                      setStylechange(image.id); 
+                                      setHypomethodid(image.id); 
+                                      hypomethod(image.id);
+                                      }}> 
+                                      Borrow Artifact 
+                                  </Button>
+                                  :
+                                  console.log("you need a title")
+                                  }
+        
                               </div>
                               }
                           </div>
@@ -195,7 +220,7 @@ const HypoSlider = (props) => {
   {hypoList.map(datanumber => {
       return (
           <div>
-              <p className={`btnSelected ${datanumber.id === stylechange ? "classname" : "btnNormal"}`} key={datanumber.id} onClick={() => goTo(datanumber.id  - 1)}> {datanumber.id }</p>
+              <p className={`btnSelected ${datanumber.id === stylechange ? "classname" : "btnNormal"}`} key={datanumber.id} onClick={() => goTo(datanumber.swipe)}> {datanumber.swipe + 1}</p>
           </div>
           
       )

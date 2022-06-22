@@ -174,8 +174,6 @@ const TestSlider = (props) => {
   return (
   <div>
     <h2>Borrow or Make up to 3 Data Artifacts</h2>
-    title id: {props.method.id}
-    {props.method_data}
     <div className='entry_box'>
     <Button style={{ flex: "center" }} type="primary" onClick={() => {toggler();}} >Make a new Data Artifact</Button>
     </div>
@@ -219,7 +217,7 @@ const TestSlider = (props) => {
                                 <Avatar size={60}>{image.email_datas}</Avatar>
                                 </Link>
                               }
-                                title={"Artifact ID: " + image.swipe}
+                                title={"Artifact ID: " + (image.swipe + 1)}
                           />
                           <h4 key={image.id}>
                               { (image.datas).length < 130?

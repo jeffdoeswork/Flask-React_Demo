@@ -8,7 +8,6 @@ import HypoArtifact from '..//artifacts/HypoArtifact';
 const SubmitMethod = (props) => {
       //These 2 variables are actually global variables
     const { Meta } = Card;
-    const [methodtitle, setMethodtitle] = useState("");
     const [methoddraft, setMethoddraft] = useState(false);
     const [methoddata, setMethoddata] = useState([]);
     const [methodhypo, setMethoddhypo] = useState(0);
@@ -40,17 +39,14 @@ const SubmitMethod = (props) => {
         const data = await axios.get(`http://127.0.0.1:5000/test`, { withCredentials: true })
         setEmail(data.data);
       }
-    const handleChange = (e, field) => {
-        setMethodtitle(e.target.value);
-      }
+
     const showModal = () => {
         setVisible(true);
-
       };
     
     const handleOk = async () => {
         const body_email = email.email
-        const title = methodtitle
+        const title = props.method.title
         const data = methoddata
         const hypo = methodhypo
         const observation = props.obsid
@@ -68,7 +64,6 @@ const SubmitMethod = (props) => {
             alert("Did you forget the title?");
         }
     };
-
 
     const handleCancel = () => {
         setVisible(false);
@@ -127,22 +122,7 @@ const SubmitMethod = (props) => {
     <>
         <div> 
         <Row>
-            <Col span={8}> </Col>
-            <Col span={4}> <h2>Enter Title for your Method</h2> </Col>
-            <Col span={4}>
-                <form>
-                    <div>
-                        <input
-                            onChange={(e) => handleChange(e, "methodtitle")}
-                            type="text"
-                            name="methodtitle"
-                            id="methodtitle"
-                            value={methodtitle}
-                        />
-                    </div>
-                </form>
-            </Col>
-            <Col span={8}>
+            <Col span={5}>
                 <div className='right_end'>
                     <Button type="primary" onClick={() => { setMethoddhypo(window.$hypomethodid); showModal(); Borrowdata(window.$datamethodid);Borrowhypo(); }}>Preview Method</Button>
                 </div>
@@ -152,7 +132,7 @@ const SubmitMethod = (props) => {
         </div>
         <Modal
         okText='Publish Method'
-        title={methodtitle}
+        title={props.method.title}
         visible={visible}
         onOk={handleOk}
         confirmLoading={confirmLoading}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import axios from 'axios';
-import { Layout, Modal, Button, Card, Dropdown, Menu, Space, message } from 'antd';
+import { Row, Col, Layout, Modal, Button, Card, Dropdown, Menu, Space, message } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import SubmitMethod from './SubmitMethod'
 import TestSlider from '../methodmaker/ArtifactSlider';
@@ -11,9 +11,17 @@ const DraftMethods = (props) => {
 
     return (
         <div>
+        
         <Card bordered={false} bodyStyle={{ padding: "5px"}}>
-        <h3>Method title: {props.method.title} </h3>
-          <SubmitMethod obsid={props.obsid} />
+        <Row>
+            <Col span={2}></Col>
+            <Col span={8}><h1>Method title: {props.method.title} </h1></Col>
+        </Row>
+          <SubmitMethod 
+            obsid={props.obsid}
+            method={props.method}
+           />
+          <br></br>
           <br></br>
           <TestSlider 
             obsid={props.obsid} 

@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { Link, useParams } from 'react-router-dom';
 import 'antd/dist/antd.css';
 import './landingpage.css';
-import { Layout, Modal, Button, Card, message } from 'antd';
+import { Row, Col, Layout, Modal, Button, Card, message } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import DraftMethods from './DraftMethods'
 import axios from 'axios';
@@ -43,7 +43,12 @@ const LandingPage = (props) => {
   if (props.email) {
     return (
       <div className='box'>
-        <h3>Enter Title for your Method:</h3> 
+        <Row>
+        <Col span={1}> </Col>
+        <Col span={6}>
+          <h3>Enter a Title for your Method:</h3> 
+        </Col>
+        <Col span={4}> 
         <form onSubmit={handleSubmit}>
             <div>
                 <input
@@ -55,7 +60,12 @@ const LandingPage = (props) => {
                 />
             </div>
         </form>
-        <Button type="primary" onClick={() => handleSubmit()}>Submit</Button> 
+        </Col>
+        <Col span={4}>
+          <Button type="primary" onClick={() => handleSubmit()}>Submit</Button>
+        </Col> 
+        <Col span={8}></Col>
+        </Row>
       <br></br>
         <DraftMethods 
           email={props.email}
