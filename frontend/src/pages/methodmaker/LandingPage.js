@@ -60,7 +60,7 @@ const LandingPage = (props) => {
         <DraftMethods 
           email={props.email}
           obsid={id}
-          title={method.title}
+          method={method}
           />
       </div>
     );

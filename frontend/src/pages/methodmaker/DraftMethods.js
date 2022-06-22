@@ -12,11 +12,12 @@ const DraftMethods = (props) => {
     return (
         <div>
         <Card bordered={false} bodyStyle={{ padding: "5px"}}>
-        <h3>Method title: {props.title} </h3>
+        <h3>Method title: {props.method.title} </h3>
           <SubmitMethod obsid={props.obsid} />
           <br></br>
           <TestSlider 
             obsid={props.obsid} 
+            method ={props.method}
             />
           <HypoSlider 
             obsid={props.obsid} 

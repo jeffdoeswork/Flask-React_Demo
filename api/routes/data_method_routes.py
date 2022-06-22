@@ -14,3 +14,10 @@ def add_method_datas():
     db.session.add(add_method_datas)
     db.session.commit()
     return 'data added to method', 200
+
+@app.route('/methoddatas/<method>/delete/<data>', methods=["DELETE"])
+def delete_method_datas(method, data):
+    artifact = MethodDatas.query.filter_by(method=method, data=data).one()
+    db.session.delete(artifact)
+    db.session.commit()
+    return 'deleted', 200
