@@ -231,6 +231,7 @@ const TestSlider = (props) => {
                           <Button type="primary" onClick={ () => removeItem(image.id, image.swipe)}>Don't Borrow</Button>
 
                           :
+                          props.method.title? 
                             <Button type="primary" style={{ background: "#e9d900", borderColor: "#e9d900" }} 
                               onClick={() => {
                                 setDatamethodid(image.id);
@@ -239,6 +240,8 @@ const TestSlider = (props) => {
                                 }
                               }> 
                               Borrow Artifact </Button>
+                            :
+                            console.log("you need a title")
                           }
                       </div>
                       }

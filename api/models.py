@@ -86,7 +86,12 @@ def method_datas(data):
         "data" : data.data,
         "method" : data.method,
     }
-
+def method_hypo(data):
+    return {
+        "id" : data.id,
+        "hypo" : data.hypo,
+        "method" : data.method,
+    }
 def format_user(data):
     return {
         "user" : data.email,

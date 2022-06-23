@@ -1,5 +1,5 @@
 from app import app, db
-from models import MethodHypos, method_datas
+from models import MethodHypos, Hypos, method_hypo, hypo_format_json
 from flask import Flask, g, request, jsonify
 from datetime import datetime
 
@@ -20,3 +20,16 @@ def delete_method_hypos(method):
     db.session.execute(artifacts)
     db.session.commit()
     return 'deleted', 200
+
+#get methdo's hypo
+@app.route('/methodhypo/hypo/<method>', methods=["GET"])
+def get_a_method_hypo(method):
+    methodhypo = MethodHypos.query.filter_by(method=method).one()
+    hypo = (method_hypo(methodhypo))
+    a_hypo = Hypos.query.filter_by(id=methodhypo.hypo).one()
+    a_hypo = (hypo_format_json(a_hypo))
+    #for data in methoddatas_list:
+    #    a_data = Datas.query.filter_by(id=data).one()
+    #    datas_list.append(format_json(a_data))
+
+    return {"methodhypo" : a_hypo}

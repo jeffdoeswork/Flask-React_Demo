@@ -45,14 +45,8 @@ const SubmitMethod = (props) => {
       };
     
     const handleOk = async () => {
-        const body_email = email.email
-        const title = props.method.title
-        const data = methoddata
-        const hypo = methodhypo
-        const observation = props.obsid
-        const draft = methoddraft
         try {
-            const method = await axios.post(`http://127.0.0.1:5000/method`, {title, body_email, data, hypo, observation, draft})
+            const method = await axios.put(`http://127.0.0.1:5000/method/${props.method.id}`)
 
             setConfirmLoading(true);
             setTimeout(() => {
@@ -61,7 +55,7 @@ const SubmitMethod = (props) => {
             }, 500);
         } catch (err) {
             console.error(err.message); 
-            alert("Did you forget the title?");
+            alert("Something Broke?!?");
         }
     };
 
@@ -69,52 +63,24 @@ const SubmitMethod = (props) => {
         setVisible(false);
     };
 
-    const fetchData = async (dataid, i) => { 
-        const response = await axios.get(`http://127.0.0.1:5000/data/${dataid}`)
-        console.log(response, "api", i);  
-        const datas = response.data
+    const fetchData = async () => { 
+        const response = await axios.get(`http://127.0.0.1:5000//methoddatas/datas/${props.method.id}`)
+        const datas = response.data.datalist
         //setGetdata(datas.data);
-        if (i === 0) {
-            setGetdataone(datas.data);
-        } else if (i === 1 ) {
-            setGetdatatwo(datas.data);
-        } else if (i === 2 ) {
-            setGetdatathree(datas.data);
+        try { setGetdataone(datas[0]); } catch {}
+        try { setGetdatatwo(datas[1]); } catch {}
+        try { setGetdatathree(datas[2]); } catch {}
         }
-    };
 
-    const fetchHypo = async (hypoid) => { 
+    const fetchHypo = async () => { 
         //console.log(hypoid);
-        const data = await axios.get(`http://127.0.0.1:5000/hypo/${hypoid}`)
-        const { hypo } = data.data
-        //console.log(hypo);
-        setGethypo(hypo);
+        try {
+        const data = await axios.get(`http://127.0.0.1:5000/methodhypo/hypo/${props.method.id}`)
+        setGethypo(data.data.methodhypo);
+        } catch {setGethypo({
+            "created_at" : "", "email_hypos" : "", "hypos" : "", "id" : ""})}
     };
 
-    function Borrowdata(thing) {
-        setGetdataone({"created_at" : "", "email_datas" : "", "datas" : "", "id" : "" });
-        setGetdatatwo({"created_at" : "", "email_datas" : "", "datas" : "", "id" : "" });
-        setGetdatathree({"created_at" : "", "email_datas" : "", "datas" : "", "id" : "" });
-        const prop = thing
-        setMethoddata(prop)
-
-        //fetchData(prop[0]);
-        //fetchData(prop[1]);
-        //fetchData(prop[2]);
-        for(var i=0;i<prop.length;i++){
-            fetchData(prop[i], i);
-          }
-          /*prop.map(a_data => {
-            fetchData(a_data);
-            setMethoddata(methoddata =>[...methoddata, getdata]);
-        })*/
-    }
-
-    function Borrowhypo() {
-        const hypoid = window.$hypomethodid
-        setMethoddhypo(hypoid);
-        return fetchHypo(hypoid);
-    }
     useEffect(() => {
         getUser(); 
       }, [])
@@ -124,7 +90,7 @@ const SubmitMethod = (props) => {
         <Row>
             <Col span={5}>
                 <div className='right_end'>
-                    <Button type="primary" onClick={() => { setMethoddhypo(window.$hypomethodid); showModal(); Borrowdata(window.$datamethodid);Borrowhypo(); }}>Preview Method</Button>
+                    <Button type="primary" onClick={() => { fetchData(); fetchHypo(); showModal();}}>Preview Method</Button>
                 </div>
             </Col>
 
