@@ -23,7 +23,7 @@ def make_method():
 #get all methods
 @app.route('/method', methods=["GET"])
 def get_methods():
-    methods = Methods.query.order_by(Methods.created_at.desc()).all()
+    methods = Methods.query.filter_by(draft=True).order_by(Methods.created_at.desc()).all()
     method_list = []
     for method in methods:
         method_list.append(method_json(method))

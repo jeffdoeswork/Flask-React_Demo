@@ -25,7 +25,6 @@ def delete_method_hypos(method):
 @app.route('/methodhypo/hypo/<method>', methods=["GET"])
 def get_a_method_hypo(method):
     methodhypo = MethodHypos.query.filter_by(method=method).one()
-    hypo = (method_hypo(methodhypo))
     a_hypo = Hypos.query.filter_by(id=methodhypo.hypo).one()
     a_hypo = (hypo_format_json(a_hypo))
     #for data in methoddatas_list:

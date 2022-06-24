@@ -11,24 +11,19 @@ function MethodData(props) {
     const [getdatatwo, setGetdatatwo] = useState({"created_at" : "", "email_datas" : "", "datas" : "", "id" : ""});
     const [getdatathree, setGetdatathree] = useState({"created_at" : "", "email_datas" : "", "datas" : "", "id" : ""});
 
-    const fetchData = async (dataid, i) => { 
-        const response = await axios.get(`http://127.0.0.1:5000/data/${dataid}`)
-        const datas = response.data
-        if (i === 0) {
-            setGetdataone(datas.data);
-        } else if (i === 1 ) {
-            setGetdatatwo(datas.data);
-        } else if (i === 2 ) {
-            setGetdatathree(datas.data);
-        }
-    };
+    const fetchData = async () => { 
+        try {
+            const response = await axios.get(`http://127.0.0.1:5000//methoddatas/datas/${props.dataarray}`)
+            const datas = response.data.datalist
+            //setGetdata(datas.data);
+            try { setGetdataone(datas[0]); } catch {}
+            try { setGetdatatwo(datas[1]); } catch {}
+            try { setGetdatathree(datas[2]); } catch {}
+            }  catch { }
+        };
 
     useEffect(() => {
-        const prop = props.dataarray
-        for(var i=0;i<prop.length;i++){
-            fetchData(prop[i], i);
-            }  
-          
+        fetchData();
       }, [])
 
     return (

@@ -51,7 +51,7 @@ const MethodFeed = () => {
                     }
                 />
                 <div className="center_artifacts">
-                        <MethodData dataarray={method.data} />
+                        <MethodData dataarray={method.id} />
                         <br></br>
                         <HypoArtifact hypoid={method.hypo} />
                 </div>
