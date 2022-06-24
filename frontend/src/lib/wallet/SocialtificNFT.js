@@ -29,14 +29,14 @@ const SocialtificNFT = (props) => {
   }
 
   const createConnection = () => {
-    return new Connection(clusterApiUrl("devnet"));
+    return new Connection(clusterApiUrl("mainnet-beta"));
   };
   
   const getAllNftData = async () => {
     try {
-        const connect =  createConnectionConfig(clusterApiUrl("devnet"));
+        const connect =  createConnectionConfig(clusterApiUrl("mainnet-beta"));
         const result = isValidSolanaAddress(props.pubKey);
-        // console.log("IsValidSolanaAddress: ", result);
+        console.log("IsValidSolanaAddress: ", result);
         if (result == false)
           return [];
 
@@ -56,13 +56,14 @@ const SocialtificNFT = (props) => {
     var data = Object.keys(nftData).map((key) => nftData[key]);
     let arr = [];
     let n = data.length;
+    let socialtificnfts = ["4PnW7sbxxqMDKXxkamekfxAL4EEfEQqRxLSG1BVSFgW7"]
     for (let i = 0; i < n; i++) {
-      // console.log(data[i].data.uri);
+      console.log(data[i].data.uri);
       let val = await axios.get(data[i].data.uri);
-      if (val != null && val.data != null && val.data.description == SocialtificNFTDescription)
+      if (val != null && val.data != null && socialtificnfts.indexOf(val.data.address))
       arr.push(val);
     }
-    // console.log(JSON.stringify(arr));
+    console.log(JSON.stringify(arr));
     return arr;
   }
 
