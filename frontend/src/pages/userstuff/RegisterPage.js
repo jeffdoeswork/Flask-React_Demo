@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import axios from 'axios';
 import { Form, Input, Button, Card, Row, Col } from 'antd';
+import RegisterPhantom from '../../lib/wallet/RegisterPhantom';
 
 //simple post api to create user with hased email, the backend api handles the hash part
 const RegisterPage = () => {
@@ -29,7 +30,7 @@ const RegisterPage = () => {
     } catch (error) {
      if (error.response.status === 400) {
       alert("Maybe this email is already in use?");
-      setMessage("That Ussername is taken");
+      setMessage("That Username is taken");
     }
   }
   };
@@ -99,6 +100,8 @@ const RegisterPage = () => {
         <Button type="primary" htmlType="submit" onClick={() => registerUser()}>
           Submit
         </Button>
+        <hr/>
+        <RegisterPhantom></RegisterPhantom>
       </Form.Item>
     </Form>
   </Card>

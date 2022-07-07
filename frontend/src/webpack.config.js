@@ -4,7 +4,11 @@ const path = require('path');
 module.exports = {
     mode: 'development',
     resolve: {
-        extensions: ['.js', '.jsx']
+        extensions: ['.js', '.jsx'],
+        fallback: {
+            assert: require.resolve('assert'),
+            crypto: require.resolve('crypto-browserify')
+        }
     },
     module: {
         rules: [
