@@ -9,7 +9,6 @@ function HypoArtifact(props) {
     const [gethypo, setGethypo] = useState({
         "created_at" : "", "email_hypos" : "", "hypos" : "", "id" : ""
     });
-
     const fetchHypo = async (hypoid) => { 
         //console.log(hypoid);
         const data = await axios.get(`http://127.0.0.1:5000/hypo/${props.hypoid}`)
@@ -23,7 +22,6 @@ function HypoArtifact(props) {
       }, [])
 
     return (
-        
         <div className="artifact_section">
             <div className="hypo_artifact">
             <Card bordered={false} bodyStyle={{ padding: "5px"}}>
@@ -44,7 +42,6 @@ function HypoArtifact(props) {
             </Card>
             </div>
         </div>
-        
   )
 };
 

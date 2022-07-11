@@ -6,20 +6,26 @@ import { Link } from "react-router-dom";
 
 function MethodData(props) {
     const { Meta } = Card;
-    const [getdata, setGetdata] = useState({"created_at" : "", "email_datas" : "", "datas" : "", "id" : ""});
-    const [getdataone, setGetdataone] = useState({"created_at" : "", "email_datas" : "", "datas" : "", "id" : ""});
-    const [getdatatwo, setGetdatatwo] = useState({"created_at" : "", "email_datas" : "", "datas" : "", "id" : ""});
-    const [getdatathree, setGetdatathree] = useState({"created_at" : "", "email_datas" : "", "datas" : "", "id" : ""});
+    //const [getdata, setGetdata] = useState({"created_at" : "", "email_datas" : "", "datas" : "", "id" : ""});
+    const [getdataone, setGetdataone] = useState([]);
+    const [getdatatwo, setGetdatatwo] = useState([]);
+    const [getdatathree, setGetdatathree] = useState([]);
 
     const fetchData = async () => { 
-        try {
-            const response = await axios.get(`http://127.0.0.1:5000//methoddatas/datas/${props.dataarray}`)
-            const datas = response.data.datalist
-            //setGetdata(datas.data);
-            try { setGetdataone(datas[0]); } catch {}
-            try { setGetdatatwo(datas[1]); } catch {}
-            try { setGetdatathree(datas[2]); } catch {}
-            }  catch { }
+        const response = await axios.get(`http://127.0.0.1:5000/methoddatas/datas/${props.methodid}`)
+        const datas = response.data.datalist
+        console.log("these are the datas assoicated with the method", datas.data)
+        //setGetdata(datas.data);
+        if (datas.length == 1) {
+            setGetdataone(datas[0]);
+        } else if (datas.length == 2) {
+            setGetdataone(datas[0]);
+            setGetdatatwo(datas[1]); 
+        } else if (datas.length == 3) {
+            setGetdataone(datas[0]);
+            setGetdatatwo(datas[1]);   
+            setGetdatathree(datas[2]); 
+        }
         };
 
     useEffect(() => {
@@ -30,7 +36,7 @@ function MethodData(props) {
         
         <Card bordered={false}>
         <Row>
-            { getdataone.id ? 
+            { getdataone.id? 
             <Col span={8}>
             <div className="artifact_section_smol">
                 <div className="data_artifact_smol">

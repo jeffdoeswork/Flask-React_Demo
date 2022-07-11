@@ -63,8 +63,8 @@ class Methods(db.Model):
     observation = db.Column(db.INT, db.ForeignKey('Observation.id'))
     title = db.Column(db.Text, unique=True, nullable=True)
     email_method = db.Column(db.Text, db.ForeignKey('User.email'))
-    hypo = db.Column(db.INT, db.ForeignKey('Hypos.id'))
-    data = db.Column(db.INT, db.ForeignKey('Datas.id'))
+    #hypo = db.Column(db.INT, db.ForeignKey('Hypos.id'))
+    #data = db.Column(db.INT, db.ForeignKey('Datas.id'))
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     draft = db.Column(db.Boolean, default=True, nullable=False)
 
@@ -149,8 +149,8 @@ def method_json(data):
         'title' : data.title,
         'email_method' : data.email_method,
         'observation' : data.observation,
-        'hypo' : data.hypo,
-        'data' : data.data,
+        #'hypo' : data.hypo,
+        #'datas' : data.data,
         'created_at' : data.created_at,
         'draft' : data.draft
     }
