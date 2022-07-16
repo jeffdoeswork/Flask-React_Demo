@@ -16,21 +16,22 @@ const contentStyle = {
   background: '#364d79',
 };
 
-const HypoSlider = () => {
+const HypoSlider = (props) => {
   const [body, setBody] = useState("");
   const [hypoList, setHypoList] = useState([]);
   const [hypoId, setHypoId] = useState(null);
   const [toggle, setToggle] = useState(false);
   const ref = useRef();
   const [hypomethodid, setHypomethodid] = useState(0);
+  const [stylechange, setStylechange] = useState("");
+
   window.$hypomethodid = hypomethodid //global variable
   
   //get data artifacts api
   const fetchData = async () => {
-    const data = await axios.get('http://127.0.0.1:5000/hypos')
+    const data = await axios.get(`http://127.0.0.1:5000/hypos/${props.obsid}`)
     const { hypos } = data.data
     setHypoList(hypos);
-    console.log(hypoList);
   }
   const [email, setEmail] = useState({
     email : ""
@@ -38,7 +39,6 @@ const HypoSlider = () => {
   //get current user's email
   const getUser = async () => {
     const data = await axios.get(`http://127.0.0.1:5000/test`, { withCredentials: true })
-    console.log(data);
     setEmail(data.data);
   }
   const handleChange = (e, field) => {
@@ -65,21 +65,36 @@ const HypoSlider = () => {
     ref.current.goTo(slide, false);
   };
 
-  const [stylechange, setStylechange] = useState("");
-
   //make function for GOTO
-  function sendHypo(props) {
+  function sendHypo() {
     const hypo_len = hypoList.length
     ref.current.goTo(hypo_len, false);
   };
 
   const { Meta } = Card;
 
+  const deletethat = async () => {
+    const dataz = await axios.delete(`http://127.0.0.1:5000/methoddatas/delete/${props.method.id}`)
+  }
+
+  const hypomethod = async (hypo) => {
+    deletethat();
+    const method = props.method.id
+    const hypoz = await axios.post(`http://127.0.0.1:5000/methodhypos`, {hypo, method})
+  }
+  
+  const removeItem = () => {
+    deletethat();
+    setHypomethodid(0);
+    setStylechange("");
+  }
+
   //The work horse of this Hyposlider components. Calls in a lot of help from other funcitons
   const handleSubmit = async (idlength) => {
     const body_email = email.email
+    const observation = props.obsid
     try {
-      const data = await axios.post(`http://127.0.0.1:5000/hypos`, {body, body_email})
+      const data = await axios.post(`http://127.0.0.1:5000/hypos`, {body, body_email, observation})
       // something is broken with the slider
       //setHypoList([...hypoList, data.data]);
       ///setHypoList([data.data]);
@@ -89,9 +104,7 @@ const HypoSlider = () => {
       setHypomethodid(idlength);
       window.$hypomethodid = hypomethodid //global variable
       sendHypo();
-      toggler();
-      
-      
+      toggler(); 
   } catch (err) {
     console.error(err.message); 
     }
@@ -122,8 +135,10 @@ const HypoSlider = () => {
   <div>
 
     <h2>Borrow or Make a Hypothesis Artifact</h2>
-
-      <div>
+    <div className='entry_box'>
+      <Button type="primary" style={{ background: "#cb0fb8", borderColor: "#cb0fb8" }}onClick={() => { toggler();}} >Make a new Hypothesis Artifact</Button>      
+    </div>
+    <div>
           <Carousel ref={ref} dots={false} slidesToShow={1}>
               {hypoList.map(image => {
                   return (
@@ -156,8 +171,10 @@ const HypoSlider = () => {
                                   }}>
                                   <Meta
                                       bodyStyle={{ padding: "1px"}}
-                                      avatar={<Avatar size={60}>{image.email_hypos}</Avatar>}
-                                      title={"Artifact ID: " + image.id}
+                                      avatar={<Link to={`/users/${image.email_hypos}`}>
+                                      <Avatar size={60}>{image.email_hypos}</Avatar>
+                                      </Link>}
+                                      title={"Artifact ID: " + (image.swipe + 1)}
                                     />
                                   <h4 key={image.id}>
                                       { (image.hypos).length < 130?
@@ -166,8 +183,24 @@ const HypoSlider = () => {
                                       ((image.hypos).substring(0, 130) + '...')
                                       }
                                   </h4>
-                                  <Button type="primary" style={{ background: "#e9d900", borderColor: "#e9d900" }} onClick={() => {setStylechange(image.id); setHypomethodid(image.id);}}> Borrow Artifact </Button>
-                                  <Button type="primary" style={{ background: "#cb0fb8", borderColor: "#cb0fb8" }}onClick={() => {setHypomethodid(image.id); toggler();}} >Make Artifact</Button>
+                                 { stylechange == image.id?
+                                 <Button type="primary" onClick={ () => removeItem()}>Don't Borrow</Button>
+                                 :
+                                  props.method.title? 
+                                  <Button 
+                                    type="primary" 
+                                    style={{ background: "#e9d900", borderColor: "#e9d900" }} 
+                                    onClick={() => { 
+                                      setStylechange(image.id); 
+                                      setHypomethodid(image.id); 
+                                      hypomethod(image.id);
+                                      }}> 
+                                      Borrow Artifact 
+                                  </Button>
+                                  :
+                                  console.log("you need a title")
+                                  }
+        
                               </div>
                               }
                           </div>
@@ -187,7 +220,7 @@ const HypoSlider = () => {
   {hypoList.map(datanumber => {
       return (
           <div>
-              <p className={`btnSelected ${datanumber.id === stylechange ? "classname" : "btnNormal"}`} key={datanumber.id} onClick={() => goTo(datanumber.id  - 1)}> {datanumber.id }</p>
+              <p className={`btnSelected ${datanumber.id === stylechange ? "classname" : "btnNormal"}`} key={datanumber.id} onClick={() => goTo(datanumber.swipe)}> {datanumber.swipe + 1}</p>
           </div>
           
       )

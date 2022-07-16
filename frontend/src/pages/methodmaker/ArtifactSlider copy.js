@@ -75,21 +75,12 @@ const TestSlider = (props) => {
     window.$datamethodid = stylechangelist
   }
 
-  function printmethodid() {
-    console.log("this should work and show the method id", props.method_id)
-  }
-  const deletethat  = async (data) => {
-    const dataz = await axios.delete(`http://127.0.0.1:5000/methoddatas/${props.method.id}/delete/${data}`)
-  }
-
   function borrowThree(data_id, swipe) {
     if (stylechangelist.length < 3) {
       setStylechangelist(stylechangelist =>[...stylechangelist, data_id]);
       setRealStylechangelist(realstylechangelist =>[...realstylechangelist, swipe]);
       updateDataList();
     } else {  
-
-      deletethat(stylechangelist[0]);
       stylechangelist.splice(0 , 1);
       realstylechangelist.splice(0 , 1);
       setStylechangelist(stylechangelist =>[...stylechangelist, data_id]);
@@ -99,24 +90,11 @@ const TestSlider = (props) => {
   }
 
   const removeItem = (index, swipe) => {
-    deletethat(index);
     const newPeople = stylechangelist.filter((person) => person !== index);
     const realnewPeople = realstylechangelist.filter((person) => person !== swipe);
     setStylechangelist(newPeople);
     setRealStylechangelist(realnewPeople);
     window.$datamethodid = newPeople
-  }
-
-  //Update data id in the database
-  const handleDataArtifact = async (data) => {
-    console.log("breakingeng", data, props.method.id)
-    const method = props.method.id
-    try {
-      const dataz = await axios.post(`http://127.0.0.1:5000/methoddatas`, {data, method})
-      
-  } catch (err) {
-    console.error(err.message); 
-    }
   }
 
   //The work horse of this DataSlider (named ArtifactSlider) components. Calls in a lot of help from other funcitons
@@ -135,18 +113,12 @@ const TestSlider = (props) => {
       //setDatamethodid(idlength);
       window.$datamethodid = datamethodid //global variable for data artifact's ID
       toggler();
+      
+      
   } catch (err) {
     console.error(err.message); 
     }
   }
-
-  /*const handelData = async (new_data) => {
-    const data = await axios.put(`http://127.0.0.1:5000//method/datas/${id}`, {new_data})
-
-  }*/
-  useEffect(() =>{
-    printmethodid();
-  }, [])
 
   if (email.email) {
 
@@ -217,7 +189,7 @@ const TestSlider = (props) => {
                                 <Avatar size={60}>{image.email_datas}</Avatar>
                                 </Link>
                               }
-                                title={"Artifact ID: " + (image.swipe + 1)}
+                                title={"Artifact ID: " + image.swipe}
                           />
                           <h4 key={image.id}>
                               { (image.datas).length < 130?
@@ -231,17 +203,13 @@ const TestSlider = (props) => {
                           <Button type="primary" onClick={ () => removeItem(image.id, image.swipe)}>Don't Borrow</Button>
 
                           :
-                          props.method.title? 
                             <Button type="primary" style={{ background: "#e9d900", borderColor: "#e9d900" }} 
                               onClick={() => {
                                 setDatamethodid(image.id);
                                 borrowThree(image.id, image.swipe);
-                                handleDataArtifact(image.id);
                                 }
                               }> 
                               Borrow Artifact </Button>
-                            :
-                            console.log("you need a title")
                           }
                       </div>
                       }

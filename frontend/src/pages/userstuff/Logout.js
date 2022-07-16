@@ -10,14 +10,26 @@ const LandingPage = () => {
 
     useEffect(() => {
       logoutUser(); 
+      console.log("you've logged out")
+      logoutUser(); 
+      logoutUser(); 
+      logoutUser(); 
+      logoutUser();
+      logoutUser(); 
+      logoutUser(); 
+      console.log("you've logged out")
+      logoutUser(); 
+      console.log("you've logged out")
+      logoutUser(); 
+      logoutUser(); 
+      logoutUser();
       logoutUser(); 
 
-      logoutUser(); 
+      window.location.href = "/";
 
         }, 2500)
 
     useEffect(() => {
-      window.location.href = "/";
       }, [])
 
   return (

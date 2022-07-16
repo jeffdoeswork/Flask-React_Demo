@@ -9,7 +9,7 @@ from datetime import datetime, timedelta, timezone
 from flask_cors import CORS, cross_origin
 #from flask_session import Session
 import redis
-from models import User, Datas, Hypos, Methods, format_json, hypo_format_json, method_json, format_user
+from models import User, Datas, Hypos, Methods, Observation, MethodDatas, format_json, hypo_format_json, method_json, format_user, obs_format_json, data_obs_format_json, hypo_obs_format_json
 from db import db
 
 app = Flask(__name__)
@@ -57,181 +57,6 @@ with app.app_context():
 jwt_redis_blocklist = redis.StrictRedis(
     host="127.0.0.1", port=5000, db=0, decode_responses=True
 )
-
-#create and datas
-@app.route('/datas', methods=['POST'])
-def make_datas():
-    email = request.json.get('body_email', None)
-    body = request.json.get('body', None)
-
-    datas = Datas(datas=body, email_datas=email)
-    db.session.add(datas)
-    db.session.commit()
-
-    return "You've created a Data", 200
-
-#get all datass
-@app.route("/datas", methods=["GET"])
-def get_datas():
-    #datas = Datas.query.order_by(Datas.created_at.asc()).all()
-    datas = Datas.query.order_by(Datas.id.asc()).all()
-    datas_list = []
-    for data in datas:
-        datas_list.append(format_json(data))
-    return {'datas': datas_list}
-
-#create and hypos
-@app.route('/hypos', methods=['POST'])
-def make_hypo():
-    email = request.json.get('body_email', None)
-    body = request.json.get('body', None)
-
-    hypos = Hypos(hypos=body, email_hypos=email)
-    db.session.add(hypos)
-    db.session.commit()
-
-    return "You've created a Hypo", 200
-
-#make method
-@app.route('/method', methods=['POST'])
-def make_method():
-    email = request.json.get('body_email', None)
-    title = request.json.get('title', None)
-    hypo = request.json.get('hypo', None)
-    data = request.json.get('data', None)
-
-    method = Methods(title=title, email_method=email, hypo=hypo, data=data)
-    db.session.add(method)
-    db.session.commit()
-
-    return "You've created a Method", 200
-
-#get all methods
-@app.route('/method', methods=["GET"])
-def get_methods():
-    methods = Methods.query.order_by(Methods.created_at.desc()).all()
-    method_list = []
-    for method in methods:
-        method_list.append(method_json(method))
-    return {'methods' : method_list}
-
-#get user's methods
-@app.route('/method/<email>', methods=["GET"])
-def get_user_methods(email):
-    methods = Methods.query.filter_by(email_method=email).order_by(Methods.created_at.desc()).all()
-    method_list = []
-    for method in methods:
-        method_list.append(method_json(method))
-    return {'methods' : method_list}
-
-#get all hypos
-@app.route("/hypos", methods=["GET"])
-def get_hypos():
-    #datas = Datas.query.order_by(Datas.created_at.asc()).all()
-    hypos = Hypos.query.order_by(Hypos.id.asc()).all()
-    hypos_list = []
-    for hypo in hypos:
-        hypos_list.append(hypo_format_json(hypo))
-    return {'hypos': hypos_list}
-
-#get all users
-@app.route("/users", methods=["GET"])
-def get_users():
-    #datas = Datas.query.order_by(Datas.created_at.asc()).all()
-    users = User.query.order_by(User.id.asc()).all()
-    users_list = []
-    for user in users:
-        users_list.append(format_user(user))
-    return {'users': users_list}
-
-#get all artifacts
-@app.route("/artifacts", methods=["GET"])
-def get_artifacts():
-    hypos = Hypos.query.order_by(Hypos.created_at.desc()).all()
-    hypos_list = []
-    for hypo in hypos:
-        hypos_list.append(hypo_format_json(hypo))
-    datas = Datas.query.order_by(Datas.created_at.desc()).all()
-    datas_list = []
-    for data in datas:
-        datas_list.append(format_json(data))
-    artifacts_list = datas_list + hypos_list
-    sorted_list = sorted(artifacts_list, key=lambda x: datetime.strptime(str(x['created_at']), r'%Y-%m-%d %H:%M:%S.%f'), reverse=True)
-    print(sorted_list)
-
-    return {'artifacts': sorted_list}
-
-#get user's artifacts
-@app.route("/artifacts/<email>", methods=["GET"])
-def get_user_artifacts(email):
-    hypos = Hypos.query.filter_by(email_hypos=email).order_by(Hypos.created_at.desc()).all()
-    hypos_list = []
-    for hypo in hypos:
-        hypos_list.append(hypo_format_json(hypo))
-    datas = Datas.query.filter_by(email_datas=email).order_by(Datas.created_at.desc()).all()
-    datas_list = []
-    for data in datas:
-        datas_list.append(format_json(data))
-    artifacts_list = datas_list + hypos_list
-    sorted_list = sorted(artifacts_list, key=lambda x: datetime.strptime(str(x['created_at']), r'%Y-%m-%d %H:%M:%S.%f'), reverse=True)
-    print(sorted_list)
-
-    return {'artifacts': sorted_list}
-
-#get stingle datas
-@app.route("/data/<id>", methods=["GET"])
-def get_data(id):
-    data = Datas.query.filter_by(id=id).one()
-    formated_data = format_json(data)
-    return {'data' : formated_data}
-
-#get stingle hypothesis
-@app.route("/hypo/<id>", methods=["GET"])
-def get_hypo(id):
-    hypo = Hypos.query.filter_by(id=id).one()
-    formated_hypo = hypo_format_json(hypo)
-    return {'hypo' : formated_hypo}
-
-#create method
-@app.route('/methods', methods=['POST'])
-def make_methods():
-    email = request.json.get('email_method', None)
-    title = request.json.get('title', None)
-    data = request.json.get('data', None)
-    hypo = request.json.get('hypo', None)
-
-    method = Methods(title=title, email_method=email, hypo=hypo, data=data)
-    db.session.add(method)
-    db.session.commit()
-
-    return "You've created a Method", 200
-
-#delete and event
-#@app.route("/events/<id>", methods=["DELETE"])
-#def delete_event(id):
-#    event = Event.query.filter_by(id=id).one()
-#    db.session.delete(event)
-#    db.session.commit()
-#    return f'Event (id: {id} deleted!'
-
-#edit an event
-#@app.route("/events/<id>", methods=["PUT"])
-#def update_event(id):
-#    event = Event.query.filter_by(id=id)
-#    description = request.json['description']
-#    event.update(dict(description = description, created_at = datetime.utcnow()))
-#    db.session.commit()
-#    return {'event' : format_event(event.one())}
-
-
-
-
-
-
-
-
-
-
 @app.after_request
 def refresh_expiring_jwts(response):
     try:
@@ -322,12 +147,12 @@ def login():
 
 @app.route("/logout", methods=["GET"])
 def logout_with_cookies():
-    #response = jsonify({"msg": "logout successful"})
+    response = jsonify({"msg": "logout successful"})
     #unset_jwt_cookies(response)
     #return response
-    resp = make_response(redirect(app.config['BASE_URL'] + '/', 302))
-    unset_jwt_cookies(resp)
-    return resp
+    #resp = make_response(redirect(app.config['BASE_URL'] + '/', 302))
+    unset_jwt_cookies(response)
+    return response
 
 # protected test route
 @app.route('/test', methods=['GET'])
@@ -345,7 +170,16 @@ def test():
         "email": email,
     })
 
+from routes.data_routes import *
+from routes.hypo_routes import *
+from routes.methods_routes import *
+from routes.observation_routes import *
+from routes.artifact_routes import *
+from routes.data_method_routes import *
+from routes.hypo_method_routes import *
 
 if __name__ == '__main__':
     app.run(debug=True)
     #app.run(host="0.0.0.0", debug=True)
+
+

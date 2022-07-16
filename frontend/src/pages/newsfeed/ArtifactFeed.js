@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Avatar, Card } from 'antd';
 import DataArtifact from '..//artifacts/DataArtifact';
 import HypoArtifact from '..//artifacts/HypoArtifact';
+import ObsArtifact from '../artifacts/ObsArtifact';
 
 import "./UserFeed.css"
 //Grabs both the hypo's and datas artifacts from the artifacts API
@@ -51,7 +52,7 @@ const ArtifactFeed = () => {
                 </Card>
               </div>
                 )
-            } else {
+            } else if (artifact.email_hypos) {
               return (
               <div>
                 <Card style={{ width: 800 }}>
@@ -60,7 +61,16 @@ const ArtifactFeed = () => {
                 </Card>
               </div>
               )
-            }
+            } else if (artifact.email_obs) {
+              return (
+              <div>
+                <Card style={{ width: 800 }}>
+                <ObsArtifact obsid={artifact.id} />
+                <br></br>
+                </Card>
+              </div>
+              )
+            } 
           }
         })}
       </div>

@@ -5,6 +5,7 @@ import { Layout, Menu } from 'antd';
 import {
   AppstoreOutlined,
   TeamOutlined,
+  SearchOutlined,
   UserOutlined,
   LogoutOutlined,
   LoginOutlined,
@@ -25,6 +26,8 @@ import UserDashboard from './pages/profilestuff/UserDashboard';
 import RegisterPage from './pages/userstuff/RegisterPage';
 import Logout from './pages/userstuff/Logout';
 import NewsFeed from './pages/newsfeed/NewsFeed';
+import UsernameDashboard from './pages/profilestuff/UsernameDashboard';
+import ObsFeed from './pages/explore/ObsFeed';
 import './app.css'
 
 // i use the App.js file to handel the nav bar, the nav bar is from the AntD css & react library i downloaded, its pretty straigh foroward
@@ -38,7 +41,6 @@ export default function App() {
 
   const getUser = async () => {
     const data = await axios.get(`http://127.0.0.1:5000/test`, { withCredentials: true })
-    console.log(data);
     setEmail(data.data);
   }
 
@@ -67,10 +69,10 @@ export default function App() {
         theme="dark"
       >
           <Menu.Item key="1" icon={<UnorderedListOutlined />}>
-            <Link to="/newsfeed">Newsfeed</Link>
+            <Link to="/">Newsfeed</Link>
           </Menu.Item>
-          <Menu.Item key="2" icon={<ExperimentOutlined />}>
-            <Link to="/">Method Maker</Link>
+          <Menu.Item key="2" icon={<SearchOutlined />}>
+            <Link to="/explore">Explore</Link>
           </Menu.Item>
           { email.email ? <></> :
           <Menu.Item key="3" icon={<UserOutlined />}>
@@ -83,7 +85,7 @@ export default function App() {
           </Menu.Item>
           }
           { email.email ?
-          <Menu.Item key="5" icon={<CommentOutlined />}>
+          <Menu.Item key="5" icon={<UserOutlined />}>
             <Link to={"/"+ email.email}>{ email.email }</Link>
           </Menu.Item>
           : <></>}
@@ -103,13 +105,17 @@ export default function App() {
           marginTop: 25,
         }}>
           <Routes>
-            <Route path="/" element={<LandingPage />}/>
-            <Route path="/newsfeed"  element={<NewsFeed />}/>
+            <Route path="/"  element={<NewsFeed />}/>
+            <Route path="/explore"  element={<ObsFeed />}/>
+            <Route path="/explore/:id"  element={<LandingPage email={email.email}/>}/>
+            <Route path="/explore/:id/:method"  element={<LandingPage email={email.email}/>}/>
             <Route path="/login"  element={<LoginPage />}/>
             <Route path="/register"  element={<RegisterPage />}/>
             <Route path="*"  element={<NotFound />} />
             <Route path={"/"+ email.email} element={<UserDashboard />}/>
             <Route path="/logout"  element={<Logout />}/>
+            <Route path="/users/:id"  element={<UsernameDashboard />}/>
+
           </Routes>
         </Layout>
   </BrowserRouter>
