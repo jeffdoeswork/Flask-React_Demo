@@ -154,7 +154,7 @@ const TestSlider = (props) => {
     return(
       <div>
       <h2> Enter the first data: </h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={e => { e.preventDefault(); }}>
     <div className='entry_box'>
       <input
         onChange={(e) => handleChange(e, "body")}
@@ -188,7 +188,7 @@ const TestSlider = (props) => {
                         { toggle ? 
                           <div>
                             <h2> Enter your new Data below: </h2>
-                            <form onSubmit={handleSubmit}>
+                            <form onSubmit={e => { e.preventDefault(); }}>
                           <div className='entry_box'>
                             <input
                               onChange={(e) => handleChange(e, "body")}

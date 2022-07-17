@@ -125,8 +125,8 @@ const TestSlider = (props) => {
   if (dataList.length < 1) {
     return(
       <div>
-      <h2> Enter the first data: </h2>
-      <form onSubmit={handleSubmit}>
+      <h2> Enter the first da1ta: </h2>
+      <form onSubmit={false}>
     <div className='entry_box'>
       <input
         onChange={(e) => handleChange(e, "body")}

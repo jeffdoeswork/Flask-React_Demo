@@ -49,7 +49,7 @@ const LandingPage = (props) => {
           <h3>Enter a Title for your Method:</h3> 
         </Col>
         <Col span={4}> 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={e => { e.preventDefault(); }}>
             <div>
                 <input
                     onChange={(e) => handleChange(e, "methodtitle")}

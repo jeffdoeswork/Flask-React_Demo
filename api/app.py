@@ -16,10 +16,10 @@ app = Flask(__name__)
 # SQLAlchemy config. Read more: https://flask-sqlalchemy.palletsprojects.com/en/2.x/
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:catdog123@localhost:5433/postgres'
 #Desktop
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:catdog123@localhost:5432/postgres'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:catdog123@localhost:5432/postgres'
 #virtual machone
 #SQLALCHEMY_DATABASE_URI = r"postgresql+psycopg2://postgres:gelaw01@localhost/postgres"
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:gelaw01@localhost/artifacts'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:gelaw01@localhost/artifacts'
 #server
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://postgres:catdog123@localhost:5432/postgres'
 
