@@ -15,9 +15,7 @@ const SubmitMethod = (props) => {
         "created_at" : "", "email_hypos" : "", "hypos" : "", "id" : ""
     });
     const get_a_data = {};
-    const [getdata, setGetdata] = useState({
-        "created_at" : "", "email_datas" : "", "datas" : "", "id" : ""
-    });
+    const [datalen, setDatalen] = useState(0);
     const [getdataone, setGetdataone] = useState({
         "created_at" : "", "email_datas" : "", "datas" : "", "id" : ""
     });
@@ -32,7 +30,7 @@ const SubmitMethod = (props) => {
     const [email, setEmail] = useState({
         email : ""
       });
-      const onChangedraft = (e) => {
+    const onChangedraft = (e) => {
         setMethoddraft(true);
       };
     const getUser = async () => {
@@ -64,8 +62,9 @@ const SubmitMethod = (props) => {
     };
 
     const fetchData = async () => { 
-        const response = await axios.get(`http://127.0.0.1:5000//methoddatas/datas/${props.method.id}`)
+        const response = await axios.get(`http://127.0.0.1:5000/methoddatas/datas/${props.method.id}`)
         const datas = response.data.datalist
+        setDatalen(datas.length);
         //setGetdata(datas.data);
         try { setGetdataone(datas[0]); } catch {}
         try { setGetdatatwo(datas[1]); } catch {}
@@ -111,8 +110,79 @@ const SubmitMethod = (props) => {
             marginBottom: 25,
             }}>
             <Card bordered={false}>
-                <Row>
-                    { getdataone.id ? 
+                
+                    { datalen === 1?
+                    <Row>
+                    <Col span={24}>
+                    <div className="artifact_section_smol">
+                        <div className="data_artifact_large">
+                        <Card bordered={false} bodyStyle={{ padding: "5px"}}>
+                        <Meta
+                            avatar={<Avatar size={50}>{getdataone.email_datas}</Avatar>}
+                            title={getdataone.created_at}
+                        />
+                            <h3 key={getdataone.id}>
+                            { (getdataone.datas).length < 125?
+                            (getdataone.datas)
+                            :
+                            ((getdataone.datas).substring(0, 125) + '...')
+                            } 
+                            </h3>
+                        </Card>
+                        </div>
+                    </div>
+                    </Col>
+                    </Row> 
+                    : <div></div> }
+                
+                
+                    { datalen === 2?
+                    <Row>
+                    <Col span={12}>
+                    <div className="artifact_section_smol">
+                        <div className="data_artifact_med">
+                        <Card bordered={false} bodyStyle={{ padding: "5px"}}>
+                        <Meta
+                            avatar={<Avatar size={50}>{getdataone.email_datas}</Avatar>}
+                            title={getdataone.created_at}
+                        />
+                            <h3 key={getdataone.id}>
+                            { (getdataone.datas).length < 125?
+                            (getdataone.datas)
+                            :
+                            ((getdataone.datas).substring(0, 125) + '...')
+                            } 
+                            </h3>
+                        </Card>
+                        </div>
+                    </div>
+                    </Col>
+
+                    <Col span={12}>
+                    <div className="artifact_section_smol"> 
+                        <div className="data_artifact_med">
+                        <Card bordered={false} bodyStyle={{ padding: "5px"}}>
+                        <Meta
+                            avatar={<Avatar size={50}>{getdatatwo.email_datas}</Avatar>}
+                            title={getdatatwo.created_at}
+                        />
+                            <h3 key={getdatatwo.id}>
+                            { (getdatatwo.datas).length < 125?
+                            (getdatatwo.datas)
+                            :
+                            ((getdatatwo.datas).substring(0, 125) + '...')
+                            }  
+                            </h3>
+                        </Card>
+                        </div>
+                    </div>
+                    </Col> 
+                    </Row>
+                    : <div></div> }
+                    
+
+                    { datalen === 3? 
+                    <Row>
                     <Col span={8}>
                     <div className="artifact_section_smol">
                         <div className="data_artifact_smol">
@@ -131,8 +201,8 @@ const SubmitMethod = (props) => {
                         </Card>
                         </div>
                     </div>
-                    </Col> : <div></div> }
-                    { getdatatwo.id ?
+                    </Col>
+
                     <Col span={8}>
                     <div className="artifact_section_smol">
                         <div className="data_artifact_smol">
@@ -151,8 +221,8 @@ const SubmitMethod = (props) => {
                         </Card>
                         </div>
                     </div>
-                    </Col> : <div></div> }
-                    { getdatathree.id ? 
+                    </Col> 
+                                        
                     <Col span={8}>
                     <div className="artifact_section_smol">
                         <div className="data_artifact_smol">
@@ -171,8 +241,11 @@ const SubmitMethod = (props) => {
                         </Card>
                         </div>
                     </div>
-                    </Col> : <div></div> }
-                </Row>
+                    </Col> 
+                    </Row>
+                    : <div></div> }
+                
+
             </Card>
             <br></br>
             <br></br>
